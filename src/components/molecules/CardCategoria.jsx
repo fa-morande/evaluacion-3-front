@@ -1,5 +1,5 @@
 import React from "react";
-import CardBody from "../molecules/CardBody";
+import CardBody from "./CardBody";
 import Text from "../atoms/Text";
 
 function CardCategoria ({title, CardBody}){
