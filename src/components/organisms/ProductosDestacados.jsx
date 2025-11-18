@@ -1,0 +1,26 @@
+import React from "react";
+import ProductCard from "./ProductCard";
+import { products } from "../../data/productos"; //
+import "../../styles/organisms/ProductosDestacados.css";
+import Text from "../atoms/Text";
+
+const ProductosDestacados = ({ agregarAlCarrito }) => {
+  return (
+    <section className="productos-destacados">
+      <Text variant="h2" className="titulo-destacados">
+        Productos Destacados
+      </Text>
+      <div className="productos-grid">
+        {products.map((p) => (
+          <ProductCard 
+            key={p.id} 
+            product={p} 
+            agregarAlCarrito={agregarAlCarrito}  // ← Pasa la función
+          />
+        ))}
+      </div>
+    </section>
+  );
+};
+
+export default ProductosDestacados;

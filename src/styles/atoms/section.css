@@ -1,0 +1,31 @@
+.content-section {
+    margin: 2rem 0;
+}
+
+.section-title {
+    color: #005F99;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.section-text {
+    color: #333;
+    font-size: 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.content-section.centered .section-text {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .section-text {
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,126 @@
+.login-page {
+    min-height: calc(100vh - 120px);
+}
+
+.carta-presentacion {
+    display: flex;
+    justify-content: center;
+    margin: 30px 20px;
+}
+
+.carta {
+    background-color: white;
+    border-radius: 15px;
+    padding: 15px 20px;
+    max-width: 350px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.carta h1 {
+    font-size: 1.3rem;
+    color: #17252a;
+    margin-bottom: 10px;
+}
+
+.carta p {
+    font-size: 1rem;
+    color: #333;
+}
+
+.login-section {
+    display: flex;
+    justify-content: center;
+    margin: 10px 20px 10px 20px;
+}
+
+.login-card {
+    background-color: white;
+    padding: 30px 30px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-card label {
+    font-size: 1rem;
+    margin: 10px 1px;
+    font-weight: bolder;
+    color: #333;
+}
+
+.login-card input,
+.form-input {
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 1rem;
+}
+
+.login-card input:focus,
+.form-input:focus {
+    outline: none;
+    border-color: #3aafa9;
+    box-shadow: 0 0 5px rgba(58, 175, 169, 0.5);
+}
+
+.btn-login,
+.login-card button[type="submit"] {
+    background-color: #2b7a78;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 17px;
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-login:hover,
+.login-card button[type="submit"]:hover {
+    background-color: #3aafa9;
+    transform: translateY(-5px);
+    box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+.mensaje-error {
+    color: red;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 480px) {
+
+    .login-card,
+    .carta {
+        padding: 30px 20px;
+    }
+
+    .carta h1 {
+        font-size: 1.3rem;
+    }
+
+    .login-card h2 {
+        font-size: 1.4rem;
+    }
+}

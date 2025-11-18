@@ -1,0 +1,24 @@
+.productos-destacados {
+  margin-bottom: 40px;
+  text-align: center;
+  color: #17252a;
+}
+
+.titulo-destacados {
+  background-color: #efeb09;
+  color: red;
+  padding: 10px;
+  border-radius: 6px;
+  display: block;      
+  margin-bottom: 20px;
+  width: 100%;         
+  text-align: center;  
+}
+
+
+.productos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 20px;
+}

@@ -1,0 +1,56 @@
+
+
+.producto-card{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgb(0, 0, 0,0.15);
+    padding: 15px;
+    text-align: center;
+    transition: all 0.5s;
+}
+
+
+.producto-card:hover{
+    transform: translateY(-5px);
+    background-color: #42a3df;
+    transition: all 1s;
+    box-shadow: 0 0 10px #00eaff, 0 0 20px #00eaff, 0 0 35px #00eaff;
+    border-radius: 10px;
+}
+
+.producto-card img{
+    width: 100px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.producto-card h3{
+    margin-top: 5px;
+    color: #17252a;
+}
+
+.producto-card .precio{
+    font-weight: bold;
+    color: #fad42d;
+    margin-bottom: 10px;
+}
+
+
+.producto-card .btn-agregar{
+    background-color: #002f69;
+    color: white;
+    padding: 10px ;
+    text-align: center;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+
+}
+
+
+.producto-card .btn-agregar:hover {
+    background-color: aqua;
+    transform: translateY(-3px);
+
+}

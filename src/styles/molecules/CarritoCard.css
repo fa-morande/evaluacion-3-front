@@ -1,0 +1,11 @@
+
+.carrito-item{
+    text-align: center;
+    display: inline-table;
+    margin: 1%;
+}
+
+img{
+    width: 500px;
+    max-width: 60%;
+}
