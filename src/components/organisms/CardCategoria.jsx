@@ -2,12 +2,15 @@ import React from "react";
 import CardBody from "../molecules/CardBody";
 import Text from "../atoms/Text";
 
-function CardCategoria ({title, CardBody,}){
+function CardCategoria ({title, CardBody}){
     return (
         /* --> div Principal para el CSS*/
         <div className="main-cardCategoria">
-            <CardBody>
-                <Imagen ></Imagen>
+            <CardBody className="body-cardCategoria" >
+                /*falta asignar el src con la ruta*/
+                <Imagen /*src={}*/ className=""/>
+                /*falta asignar bien el titulo*/
+                <Text className="title-cardCategoria">{title}</Text>
             </CardBody>
         </div>
     );
