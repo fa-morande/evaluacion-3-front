@@ -35,14 +35,14 @@ function App() {
     // 1. Estado central del Carrito
     const [carrito, setCarrito] = useState([]);
 
-      const agregarAlCarrito = (producto) => {
-          // Lógica mejorada para evitar duplicar IDs, asumiendo que producto tiene un ID único
-          if (!carrito.some(item => item.id === producto.id)) {
-              setCarrito([...carrito, producto]);
-              alert(`${producto.nombre} agregado al carrito`);
-          } else {
-              alert(`${producto.nombre} ya está en el carrito.`);
-          }
+        const agregarAlCarrito = (producto) => {
+            // Lógica mejorada para evitar duplicar IDs, asumiendo que producto tiene un ID único
+            if (!carrito.some(item => item.id === producto.id)) {
+                setCarrito([...carrito, producto]);
+                alert(`${producto.nombre} agregado al carrito`);
+            } else {
+                alert(`${producto.nombre} ya está en el carrito.`);
+            }
     };
 
     const eliminarDelCarrito = (id) => {
