@@ -1,29 +1,41 @@
-import React from "react";
-import InfoCard from "../components/molecules/InfoCard";
-import Section from "../components/atoms/Section";
-
+import React from 'react';
+import NavBar from '../components/molecules/NavBar';
+import Footer from '../components/organisms/Footer';
+import Text from '../components/atoms/Text';
+import ListarValores from '../components/organisms/ListarValores'; // Organismo que mapea los Valores
+import ListarEquipo from '../components/organisms/ListarEquipo';   // Organismo que mapea el Equipo
+import { nosotrosData } from '../data/nosotros'; // Data estática
 
 function Nosotros() {
     return (
-        <main className="nosotros-page">
-            <InfoCard title="Sobre Nosotros">
-                <Section>
-                    En Morenoshop nos apasiona el bienestar de tus mascotas. Ofrecemos
-                    productos de calidad para perros y gatos, pensando siempre en su salud
-                    y felicidad.
-                </Section>
+        <div className="page-container nosotros-page">
+            <NavBar />
+            
+            <main className="main-content">
+                {/* 1. Sección de Presentación (Visión y Misión) */}
+                <section className="seccion-presentacion">
+                    <Text variant="h1" className="titulo-pagina">Quiénes Somos</Text>
+                    
+                    <div className="presentacion-grid">
+                        {nosotrosData.presentacion.map((item, index) => (
+                            <div key={index} className="card-presentacion-info">
+                                <Text variant="h3">{item.titulo}</Text>
+                                <Text variant="p">{item.texto}</Text>
+                            </div>
+                        ))}
+                    </div>
+                </section>
 
-                <Section title="Nuestra Misión">
-                    Brindar productos premium y un servicio confiable para que tu mascota
-                    tenga lo mejor.
-                </Section>
+                {/* 2. Sección de Valores (Organismo) */}
+                <ListarValores />
+                
+                {/* 3. Sección de Equipo (Organismo) */}
+                <ListarEquipo />
 
-                <Section title="Nuestro Equipo">
-                    Somos un grupo de amantes de los animales dedicados a hacer la vida de
-                    tus mascotas más feliz.
-                </Section>
-            </InfoCard>
-        </main>
+            </main>
+
+            <Footer />
+        </div>
     );
 }
 

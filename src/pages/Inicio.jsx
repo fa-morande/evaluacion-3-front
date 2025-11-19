@@ -3,6 +3,7 @@ import NavBar from "../components/molecules/NavBar";
 import CardPresentacion from "../components/organisms/CardPresentacion";
 import SeccionCategorias from "../components/organisms/SeccionCategorias";
 import SeccionDestacados from "../components/organisms/SeccionDestacados";
+import CardCrearCuenta from "../components/molecules/CardCrearCuenta"; // NUEVO
 import Footer from "../components/organisms/Footer";
 
 function Inicio() {
@@ -11,7 +12,7 @@ function Inicio() {
       <NavBar />
 
       <main className="main-content">
-        {/* --> Card Presentacion*/}
+        {/* 1. La Vitrina (Hero) */}
         <CardPresentacion 
             titulo="Bienvenido a PetShop"
             descripcion="Todo lo que tu mascota necesita, calidad y amor."
@@ -19,10 +20,16 @@ function Inicio() {
             onBotonSecundario={() => window.location.href='/registro'}
         />
 
-        {/* --> Categorias*/}
+        {/* 2. Las Categorías */}
         <SeccionCategorias />
+        
+        {/* 3. Llamada a la Acción (NUEVO) */}
+        <CardCrearCuenta 
+            titulo="¿Aún no tienes cuenta? Regístrate hoy"
+            descripcion="Obtén descuentos exclusivos en tu primera compra."
+        />
 
-        {/* --> Aqui muestra productos apenas conectemos a la api*/}
+        {/* 4. Destacados (Conectado a API) */}
         <SeccionDestacados />
       </main>
 
