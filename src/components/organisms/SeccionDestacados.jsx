@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 // ... (imports de CardBody y Text)
+import CardBody from "../molecules/CardBody";
+import Text from "../atoms/Text";
 import ProductoService from "../../services/ProductoService";
 
 function SeccionDestacados({ agregarAlCarrito }) { 

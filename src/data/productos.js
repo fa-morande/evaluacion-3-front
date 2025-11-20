@@ -1,6 +1,6 @@
 // src/data/producto.js
 
-const producto = {
+const productos = {
     categoria: {
         Perros: [
         {
@@ -109,4 +109,4 @@ const producto = {
     },
 };
 
-export default producto;
+export default productos;

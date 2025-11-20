@@ -1,5 +1,5 @@
 // Ya no necesitamos importar axios (incluso si lo dejas, no se usará)
-import { PRODUCTOS_MOCK } from '../data/productos.js'; // <-- Importamos la data mock
+import  productos from '../data/productos.js'; // <-- Importamos la data mock
 
 class ProductoService {
 
@@ -9,7 +9,7 @@ class ProductoService {
             // Simula 500ms de latencia (así ves el mensaje "Cargando...")
             setTimeout(() => {
                 // Resolvemos el objeto con la estructura que AXIOS da: { data: [...] }
-                resolve({ data: PRODUCTOS_MOCK }); 
+                resolve({ data: productos}); 
             }, 500); 
         });
     }

@@ -15,15 +15,13 @@ const Navbar = ({ carrito = [] }) => {
   </Link>
 </div>
 
-      <ul className="nav-links">
-        <li><Link to="/" className={location.pathname === "/" ? "active" : ""}>Home</Link></li>
-        <li><Link to="/productos" className={location.pathname === "/productos" ? "active" : ""}>Productos</Link></li>
-        <li><Link to="/registro" className={location.pathname === "/registro" ? "active" : ""}>Registro</Link></li>
-        <li><Link to="/login" className={location.pathname === "/login" ? "active" : ""}>Iniciar Sesión</Link></li>
-        <li><Link to="/nosotros" className={location.pathname === "/nosotros" ? "active" : ""}>Nosotros</Link></li>
-        <li><Link to="/blogs" className={location.pathname === "/blogs" ? "active" : ""}>Blogs</Link></li>
-        <li><Link to="/contacto" className={location.pathname === "/contacto" ? "active" : ""}>Contacto</Link></li>
-      </ul>
+<ul className="nav-links">
+  <li><Link to="/" className={location.pathname === "/" ? "active" : ""}>Home</Link></li>
+  <li><Link to="/productos" className={location.pathname === "/productos" ? "active" : ""}>Productos</Link></li>
+  <li><Link to="/nosotros" className={location.pathname === "/nosotros" ? "active" : ""}>Nosotros</Link></li>
+  <li><Link to="/contacto" className={location.pathname === "/contacto" ? "active" : ""}>Contacto</Link></li>
+  <li><Link to="/login" className={location.pathname === "/login" ? "active" : ""}>Iniciar Sesión</Link></li>
+</ul>
 
 <div className="carrito">
   <Link to="/carrito">

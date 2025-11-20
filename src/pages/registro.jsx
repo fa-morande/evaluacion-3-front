@@ -1,5 +1,5 @@
-// src/pages/Registro.jsx
-import React, { useState } from "react";
+import React from "react";
+import{ useState } from "react";
 import "../styles/pages/registro.css";
 import Button from "../components/atoms/Button";
 

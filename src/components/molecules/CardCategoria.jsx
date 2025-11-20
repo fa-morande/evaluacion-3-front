@@ -1,17 +1,28 @@
 import React from "react";
-import CardBody from "./CardBody";
 import Text from "../atoms/Text";
+// Asegúrate que tu átomo se llama 'Image.jsx' y lo importamos con 'Image' mayúscula
+import Image from "../atoms/Image"; 
 
-function CardCategoria ({title, CardBody}){
+// 1. Recibe las propiedades que definimos en la sección de Categorías
+function CardCategoria ({ imagen, titulo, descripcion }){ 
     return (
-        /* --> div Principal para el CSS*/
+        /* El div principal de la Molécula */
         <div className="main-cardCategoria">
-            <CardBody className="body-cardCategoria" >
-                /*falta asignar el src con la ruta*/
-                {<Imagen /*src={}*/ className=""/>}
-                /*falta asignar bien el titulo*/
-                <Text className="title-cardCategoria">{title}</Text>
-            </CardBody>
+            <div className="body-cardCategoria" >
+                
+                {/* 2. CORRECCIÓN CRÍTICA: Usamos el nombre correcto del componente: <Image> */}
+                <Image 
+                    src={imagen} 
+                    className="card-img-top" 
+                    // Usamos la prop 'titulo' directamente
+                    alt={titulo} 
+                /> 
+                
+                {/* 3. Título y Descripción */}
+                <Text variant="h5" className="title-cardCategoria">{titulo}</Text>
+                <Text variant="p" className="desc-cardCategoria">{descripcion}</Text>
+                
+            </div>
         </div>
     );
 }

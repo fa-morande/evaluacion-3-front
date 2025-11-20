@@ -1,4 +1,4 @@
-const nosotrosData = {
+const nosotros = {
     /* --> Seccion Presentacion*/
     presentacion: [
         { key: "vision", titulo: "Nuestra Visión", texto: "Ser la tienda de mascotas líder en Chile, ofreciendo productos de la más alta calidad y un servicio inigualable." },
@@ -22,4 +22,4 @@ const nosotrosData = {
     contactanos: "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto. Nuestro equipo de soporte está disponible 24/7."
 };
 
-export default nosotrosData;
+export default nosotros;

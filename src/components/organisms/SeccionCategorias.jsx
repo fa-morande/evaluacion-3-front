@@ -1,40 +1,50 @@
 import React from "react";
-import CardCategoria from "../molecules/CardCategoria"; // Tu componente existente
+import CardCategoria from "../molecules/CardCategoria";
 import Text from "../atoms/Text";
+import productosData from "../../data/productos.js"; // <-- Importamos tu data (uso default export)
 
-/* --> Diccionario para productos locales*/
-const IMG_LOCALES = {
-    "Gatos": "/img/gato-jugando.webp",
-    "Perros": "/img/perro-comiendo.webp",
-    "Accesorios": "/img/collar.webp",
-    "default": "/img/logo-mascotas.webp"
-    };
+// TRUCO: Aplanamos la data para obtener un solo array de productos
+const obtenerProductosAplanados = () => {
+    const data = productosData.categoria;
+    let productos = [];
+    
+    // Iteramos sobre las claves (Perros, Gatos, Accesorios)
+    for (const categoria in data) {
+        if (data.hasOwnProperty(categoria)) {
+            productos = productos.concat(data[categoria].map(producto => ({
+                // Mapeamos los nombres de tu data (name, image) a los props de CardCategoria (titulo, imagen)
+                id: producto.id,
+                titulo: producto.name,
+                imagen: producto.image,
+                descripcion: producto.description,
+                categoria: categoria // Agregamos la categoría si la necesitas
+            })));
+        }
+    }
+    return productos;
+};
 
-    /* --> Datos estaticos*/
-    const DATA_INICIAL = [
-    { id: 1, nombre: "Perros", desc: "Alimento y juguetes" },
-    { id: 2, nombre: "Gatos", desc: "Lo mejor para tu michi" },
-    { id: 3, nombre: "Accesorios", desc: "Correas y más" }
-    ];
+function SeccionCategorias() {
+  // Los datos a mostrar son todos los productos aplanados
+    const todosLosProductos = obtenerProductosAplanados(); 
 
-    function SeccionCategorias() {
-    /* --> Variable generica para items*/
-    const items = DATA_INICIAL; 
+    // Filtrar para mostrar solo 4 tarjetas de ejemplo, sin duplicados
+    const itemsAMostrar = todosLosProductos.slice(0, 4);
 
     return (
         <section className="seccion-contenedor">
         <div className="encabezado">
-            <Text variant="h2" className="titulo-seccion">Nuestras Categorías</Text>
+            <Text variant="h2" className="titulo-seccion">Productos del Catálogo</Text>
         </div>
 
-        <div className="grid-simple"> 
-            {items.map((item) => (
+        <div className="categorias-grid" style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {itemsAMostrar.map((item) => (
             <CardCategoria 
-                key={item.id}
-                /* --> Busca imagen y si no la encuentra muestra las default*/
-                imagen={IMG_LOCALES[item.nombre] || IMG_LOCALES["default"]}
-                titulo={item.nombre}
-                descripcion={item.desc}
+                key={item.id + item.titulo} // Clave única
+                // Pasamos los props que CardCategoria espera
+                imagen={item.imagen}
+                titulo={item.titulo}
+                descripcion={item.descripcion}
             />
             ))}
         </div>

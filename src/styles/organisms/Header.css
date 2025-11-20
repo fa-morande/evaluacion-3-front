@@ -10,3 +10,12 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 /* ... (Asegura que tu NavBar use 'height: 100%' para llenar el Header) ... */
+
+/* Si tu NavBar es el elemento dentro del Header, también es importante */
+.navbar-principal {
+    height: 100%; /* Ocupa el 100% de los 70px del Header */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+}

@@ -5,13 +5,10 @@ import SeccionCategorias from "../components/organisms/SeccionCategorias";
 import SeccionDestacados from "../components/organisms/SeccionDestacados";
 import CardCrearCuenta from "../components/molecules/CardCrearCuenta"; // Corregida la ruta a molecules
 
-// La función debe recibir 'agregarAlCarrito' como prop desde App.jsx
 function Inicio({ agregarAlCarrito }) { 
   return (
-    // Ya no necesitas el <div> principal con estilos de Layout aquí.
-    // El Layout (Header/Main/Footer) ya lo maneja App.jsx.
     <> 
-      {/* 1. La Vitrina (Hero) */}
+      {/* --> Seccion Card Presentacion*/}
       <CardPresentacion 
           titulo="Bienvenido a PetShop"
           descripcion="Todo lo que tu mascota necesita, calidad y amor."
@@ -19,10 +16,10 @@ function Inicio({ agregarAlCarrito }) {
           onBotonSecundario={() => window.location.href='/registro'}
       />
 
-      {/* 2. Las Categorías */}
+      {/* --> Seccion Categorias*/}
       <SeccionCategorias />
       
-      {/* 3. Llamada a la Acción */}
+      {/* --> Seccion Crear Cuenta*/}
       <CardCrearCuenta 
           titulo="¿Aún no tienes cuenta? Regístrate hoy"
           descripcion="Obtén descuentos exclusivos en tu primera compra."

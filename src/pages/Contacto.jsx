@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from '../components/molecules/NavBar';
 import Footer from '../components/organisms/Footer';
 import Text from '../components/atoms/Text';
-import { nosotrosData } from '../data/nosotros'; // Data para el texto de contacto
+import nosotros from '../data/nosotros'; // Data para el texto de contacto
 
 function Contacto() {
     return (
@@ -16,7 +16,7 @@ function Contacto() {
                     {/* 1. Texto Informativo (tomado de nosotros.js) */}
                     <div className="info-contacto">
                         <Text variant="p" className="texto-principal">
-                            {nosotrosData.contactanos}
+                            {nosotros.contactanos}
                         </Text>
                         
                         {/* 2. Aquí iría tu Formulario de Contacto (como un Organismo, ej: FormularioContacto) */}
