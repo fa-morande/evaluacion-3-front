@@ -1,23 +1,27 @@
-import axios from 'axios';
-
-// Usamos la ruta relativa gracias al proxy del Paso 1
-const BASE_URL = '/api/v1/productos'; 
+// Ya no necesitamos importar axios (incluso si lo dejas, no se usará)
+import { PRODUCTOS_MOCK } from '../data/productos.js'; // <-- Importamos la data mock
 
 class ProductoService {
 
-    /* --> Listar producto*/
+    // Simula una llamada de red devolviendo la data mock en una promesa
     getAllProductos() {
-        return axios.get(BASE_URL);
+        return new Promise((resolve) => {
+            // Simula 500ms de latencia (así ves el mensaje "Cargando...")
+            setTimeout(() => {
+                // Resolvemos el objeto con la estructura que AXIOS da: { data: [...] }
+                resolve({ data: PRODUCTOS_MOCK }); 
+            }, 500); 
+        });
     }
 
-    /* --> Crear producto*/
+    // Los demás métodos (create, update, etc.) también deben ser mockeados
     createProducto(producto) {
-        return axios.post(BASE_URL, producto);
-    }
-
-    /* --> Buscar producto*/
-    getProductoById(id) {
-        return axios.get(`${BASE_URL}/${id}`);
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log("Mock: Producto creado, pero no guardado realmente.");
+                    resolve({ data: { ...producto, id: Date.now() } }); 
+                }, 500);
+            });
     }
 }
 

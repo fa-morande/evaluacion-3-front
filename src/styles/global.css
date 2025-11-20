@@ -5,11 +5,6 @@
   box-sizing: border-box;
 }
 
-/* Hace que el body ocupe toda la altura visible */
-html, body {
-  height: 100%;
-}
-
 /* El body se comporta como un contenedor flexible vertical */
 body {
   display: flex;
@@ -19,12 +14,29 @@ body {
 }
 
 
-main {
-  flex: 1;
-  padding: 0; 
-  margin: 0;
+/* src/styles/global.css */
+
+/* 1. Base del Documento: Sin márgenes y altura completa */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh; /* CLAVE: Asegura que la página ocupe toda la altura */
+    background-color: white; /* Color de fondo general del sitio */
 }
 
+/* 2. El Contenedor Principal (MAIN): Corrige la posición y la altura */
+main {
+    /* Mueve el contenido hacia abajo, evitando que quede debajo del Header (asumiendo 70px de altura) */
+    padding-top: 70px; 
+    
+    /* El resto de estilos asegura que se extienda y cubra el fondo del body si aplica */
+    background-color: white; 
+    width: 100%;
+    
+    /* Esta línea es crucial para Layouts simples: asegura que el contenido empuje al footer */
+    min-height: calc(100vh - 70px - 50px); /* 100vh - (Altura Header) - (Altura Footer) */
+}
 
 #root {
   width: 100%;
