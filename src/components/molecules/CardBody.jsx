@@ -2,13 +2,17 @@ import React from "react";
 import Text from "../atoms/Text";
 import Image from "../atoms/Image";
 
-function CardBody({ imagen, title, onClick}) {
+function CardBody({ imagen, title, price, onClick, onAddToCart }) {
     return (
-        /* --> div Principal para el CSS*/
-        <div className="card" onClick={onClick}>
-            <Image src={imagen} className="card-imagen" alt={title}></Image>
+        /* ... div Principal ... */
+        <div className="card">
+            {/* ... */}
             <div className="card-body">
-                <Text variant="h5" className="titulo">{title}</Text>
+                {/* ... */}
+                {/* Aquí es donde debes tener el botón para el carrito */}
+                <button className="btn-agregar-carrito" onClick={onAddToCart}>
+                    Agregar
+                </button>
             </div>
         </div>
     );

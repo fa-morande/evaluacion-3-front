@@ -1,7 +1,6 @@
 import React from "react";
 import Text from "../atoms/Text";
 import Button from "../atoms/Button";
-import "./CardPresentacion.css"; // Crea este CSS con estilos genéricos
 
 function CardPresentacion({ titulo, descripcion, onBotonPrimario, onBotonSecundario }) {
     return (

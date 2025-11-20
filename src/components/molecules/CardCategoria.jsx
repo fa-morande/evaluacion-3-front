@@ -8,7 +8,7 @@ function CardCategoria ({title, CardBody}){
         <div className="main-cardCategoria">
             <CardBody className="body-cardCategoria" >
                 /*falta asignar el src con la ruta*/
-                <Imagen /*src={}*/ className=""/>
+                {<Imagen /*src={}*/ className=""/>}
                 /*falta asignar bien el titulo*/
                 <Text className="title-cardCategoria">{title}</Text>
             </CardBody>
