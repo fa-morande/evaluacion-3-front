@@ -1,23 +1,20 @@
 import React from "react";
-import LoginForm from "../components/molecules/LoginForm";
-import Text from "../components/atoms/Text";
-import "../styles/pages/login.css";
+import LoginForm from "../components/organisms/LoginForm";
+import "../../styles/pages/Login.css";
 
-const Login = () => {
-  return (
-    <main className="login-page">
-      <section className="carta-presentacion">
-        <div className="carta">
-          <Text variant="h1">¿Te interesan los descuentos?</Text>
-          <Text variant="p">Complete el login para acceder a beneficios exclusivos</Text>
+function Login() {
+    const handleLogin = (email, password) => {
+        console.log("Login:", email, password);
+        // Aquí conectarás con el backend más tarde
+    };
+
+    return (
+        <div className="page-container login-page">
+            <main className="main-content">
+                <LoginForm onLogin={handleLogin} />
+            </main>
         </div>
-      </section>
-
-      <section className="login-section">
-        <LoginForm />
-      </section>
-    </main>
-  );
-};
+    );
+}
 
 export default Login;

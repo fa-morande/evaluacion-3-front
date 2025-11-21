@@ -1,0 +1,46 @@
+.login-organism-container {
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-header {
+    margin-bottom: 20px;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.full-width {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.login-footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.create-account-link {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
