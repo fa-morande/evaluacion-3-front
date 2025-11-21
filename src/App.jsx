@@ -1,47 +1,28 @@
-import React, { useState, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
-// Importamos SÓLO el layout global y la configuración de rutas
+// src/App.jsx
+import React, { useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/organisms/Header";
 import Footer from "./components/organisms/Footer";
-import { appRoutes } from "./routes/Config"; // <-- Importamos la configuración del paso 1
-import "./styles/organisms/Footer.css"; // Mantener los imports de CSS
+import Inicio from "./pages/Inicio";
+import Productos from "./pages/Productos";
+import Nosotros from "./pages/Nosotros";
+import Contacto from "./pages/Contacto";
+import Login from "./pages/Login";
+import Registro from "./pages/Registro";
+import Carrito from "./pages/Carrito";
+// Importa aquí todas tus páginas...
 
-// Componente Wrapper para manejar el Layout condicional (Header/Footer)
-const LayoutWrapper = ({ Component, showNavbar, ...props }) => {
-    // Si showNavbar es false (Login, Registro), mostramos solo la página
-    if (!showNavbar) {
-        return (
-            <Suspense fallback={<div>Cargando...</div>}>
-                <Component {...props} />
-            </Suspense>
-        );
-    }
-    
-    // Si showNavbar es true (Home, Productos, etc.), mostramos el layout completo
-    return (
-        <>
-            <Header carrito={props.carrito} /> 
-            <main>
-                <Suspense fallback={<div>Cargando...</div>}>
-                    {/* Renderizamos el componente de la página, pasándole el carrito y funciones */}
-                    <Component {...props} /> 
-                </Suspense>
-            </main>
-            <Footer />
-        </>
-    );
-};
+import "./styles/organisms/Footer.css";
 
 function App() {
-    // Estado central del Carrito
     const [carrito, setCarrito] = useState([]);
 
     const agregarAlCarrito = (producto) => {
         if (!carrito.some(item => item.id === producto.id)) {
-            setCarrito([...carrito, producto]);
-            alert(`${producto.nombre || 'Producto'} agregado al carrito`);
+        setCarrito([...carrito, producto]);
+        alert(`${producto.nombre || producto.name || 'Producto'} agregado al carrito`);
         } else {
-            alert(`${producto.nombre || 'Producto'} ya está en el carrito.`);
+        alert(`${producto.nombre || producto.name || 'Producto'} ya está en el carrito.`);
         }
     };
 
@@ -50,25 +31,34 @@ function App() {
     };
 
     return (
-        <Routes>
-            {/* Hacemos un map sobre el array de rutas de Config.jsx */}
-            {appRoutes.map(({ path, element: Component, showNavbar }) => (
-                <Route
-                    key={path}
-                    path={path}
-                    element={
-                        <LayoutWrapper
-                            Component={Component}
-                            showNavbar={showNavbar}
-                            // Pasamos el estado del carrito y sus acciones a todas las rutas
-                            carrito={carrito}
-                            agregarAlCarrito={agregarAlCarrito}
-                            eliminarDelCarrito={eliminarDelCarrito}
-                        />
-                    }
-                />
-            ))}
-        </Routes>
+        <div className="app-wrapper">
+        <Header carrito={carrito} />
+        
+        <main className="main-content">
+            <Routes>
+            <Route path="/" element={<Navigate to="/inicio" replace />} />
+            <Route 
+                path="/inicio" 
+                element={<Inicio agregarAlCarrito={agregarAlCarrito} />} 
+            />
+            <Route 
+                path="/productos" 
+                element={<Productos agregarAlCarrito={agregarAlCarrito} />} 
+            />
+            <Route path="/nosotros" element={<Nosotros />} />
+            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registro" element={<Registro />} />
+            <Route 
+                path="/carrito" 
+                element={<Carrito carrito={carrito} onRemove={eliminarDelCarrito} />} 
+            />
+            {/* Agrega aquí el resto de tus rutas */}
+            </Routes>
+        </main>
+        
+        <Footer />
+        </div>
     );
 }
 
