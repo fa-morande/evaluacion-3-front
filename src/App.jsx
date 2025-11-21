@@ -1,6 +1,6 @@
 // src/App.jsx
 import React, { useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Header from "./components/organisms/Header";
 import Footer from "./components/organisms/Footer";
 import Inicio from "./pages/Inicio";
@@ -10,12 +10,11 @@ import Contacto from "./pages/Contacto";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Carrito from "./pages/Carrito";
-// Importa aquí todas tus páginas...
-
 import "./styles/organisms/Footer.css";
 
 function App() {
     const [carrito, setCarrito] = useState([]);
+    const location = useLocation(); // Hook para obtener la ruta actual
 
     const agregarAlCarrito = (producto) => {
         if (!carrito.some(item => item.id === producto.id)) {
@@ -29,6 +28,9 @@ function App() {
     const eliminarDelCarrito = (id) => {
         setCarrito(carrito.filter((item) => item.id !== id));
     };
+
+    // Determinar si mostrar el Footer (no mostrar en login)
+    const showFooter = location.pathname !== "/login";
 
     return (
         <div className="app-wrapper">
@@ -53,11 +55,11 @@ function App() {
                 path="/carrito" 
                 element={<Carrito carrito={carrito} onRemove={eliminarDelCarrito} />} 
             />
-            {/* Agrega aquí el resto de tus rutas */}
             </Routes>
         </main>
         
-        <Footer />
+        {/* Footer condicional */}
+        {showFooter && <Footer />}
         </div>
     );
 }

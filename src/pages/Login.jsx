@@ -11,14 +11,10 @@ function Login() {
     };
 
     return (
-        <div className="main-page-container">
-          <NavBar />
-          <div className="page-container login-page">
-              <main className="main-content">
-                  <LoginForm onLogin={handleLogin} />
-              </main>
-          </div>
-          <Footer />
+        <div className="page-container login-page">
+            <main className="main-content">
+                <LoginForm onLogin={handleLogin} />
+            </main>
         </div>
     );
 }

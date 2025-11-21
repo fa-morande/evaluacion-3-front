@@ -1,7 +1,6 @@
 .login-page {
     min-height: calc(100vh - 120px);
 }
-
 .carta-presentacion {
     display: flex;
     justify-content: center;
