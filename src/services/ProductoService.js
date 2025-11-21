@@ -1,28 +1,32 @@
-// Ya no necesitamos importar axios (incluso si lo dejas, no se usará)
-import  productos from '../data/productos.js'; // <-- Importamos la data mock
+// src/services/productoService.js
+const API_BASE_URL = 'http://tu-api.com/api'; // Reemplaza con tu URL
 
-class ProductoService {
+export const productoService = {
+  // Obtener todos los productos
+    async obtenerProductos() {
+        const response = await fetch(`${API_BASE_URL}/productos`);
+        if (!response.ok) throw new Error('Error al obtener productos');
+        return await response.json();
+    },
 
-    // Simula una llamada de red devolviendo la data mock en una promesa
-    getAllProductos() {
-        return new Promise((resolve) => {
-            // Simula 500ms de latencia (así ves el mensaje "Cargando...")
-            setTimeout(() => {
-                // Resolvemos el objeto con la estructura que AXIOS da: { data: [...] }
-                resolve({ data: productos}); 
-            }, 500); 
-        });
+    // Obtener producto por ID
+    async obtenerProductoPorId(id) {
+        const response = await fetch(`${API_BASE_URL}/productos/${id}`);
+        if (!response.ok) throw new Error('Error al obtener producto');
+        return await response.json();
+    },
+
+    // Obtener productos por categoría
+    async obtenerProductosPorCategoria(categoria) {
+        const response = await fetch(`${API_BASE_URL}/productos?categoria=${categoria}`);
+        if (!response.ok) throw new Error('Error al obtener productos por categoría');
+        return await response.json();
+    },
+
+    // Buscar productos
+    async buscarProductos(termino) {
+        const response = await fetch(`${API_BASE_URL}/productos?search=${termino}`);
+        if (!response.ok) throw new Error('Error al buscar productos');
+        return await response.json();
     }
-
-    // Los demás métodos (create, update, etc.) también deben ser mockeados
-    createProducto(producto) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    console.log("Mock: Producto creado, pero no guardado realmente.");
-                    resolve({ data: { ...producto, id: Date.now() } }); 
-                }, 500);
-            });
-    }
-}
-
-export default new ProductoService();
+};

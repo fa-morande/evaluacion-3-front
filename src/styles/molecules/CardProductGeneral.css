@@ -1,0 +1,82 @@
+/* src/components/molecules/CardProductGeneral.css */
+.main-cardProducto {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0;
+    height: 100%;
+    }
+
+    .body-cardProducto {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    }
+
+    .cardProducto-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    }
+
+    .cardProducto-content {
+    padding: 16px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    }
+
+    .cardProducto-categoria {
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    }
+
+    .cardProducto-titulo {
+    color: #2c5530;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0 0 4px 0;
+    }
+
+    .cardProducto-subtitulo {
+    color: #666;
+    font-size: 0.875rem;
+    line-height: 1.2;
+    margin: 0 0 12px 0;
+    }
+
+    .cardProducto-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    }
+
+    .cardProducto-precio {
+    color: #2c5530;
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0;
+    }
+
+    .cardProducto-boton {
+    min-width: 80px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+    .cardProducto-img {
+        height: 160px;
+    }
+    
+    .cardProducto-content {
+        padding: 12px;
+    }
+}

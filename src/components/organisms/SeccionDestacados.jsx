@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 // ... (imports de CardBody y Text)
 import CardBody from "../molecules/CardBody";
 import Text from "../atoms/Text";
-import ProductoService from "../../services/ProductoService";
+import ProductoService from "../../services/productoService";
 
 function SeccionDestacados({ agregarAlCarrito }) { 
     // Usamos 'data' para el contenido y 'loading' para el estado
