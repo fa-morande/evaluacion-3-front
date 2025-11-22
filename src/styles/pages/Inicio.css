@@ -1,0 +1,162 @@
+/* Inicio.css - Estilos para la página de inicio */
+.inicio-container {
+    min-height: 100vh;
+    background-color: #FFFFFF;
+}
+
+/* Espaciado consistente entre secciones */
+.inicio-container > * {
+    margin-bottom: 0; /* Eliminamos márgenes entre secciones */
+}
+
+/* Aseguramos que las secciones tengan espaciado uniforme */
+.inicio-container > section:not(:last-child) {
+    margin-bottom: 4rem;
+}
+
+/* Responsive para espaciado entre secciones */
+@media (max-width: 768px) {
+    .inicio-container > section:not(:last-child) {
+        margin-bottom: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .inicio-container > section:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Estilos para scroll suave */
+.inicio-container {
+    scroll-behavior: smooth;
+}
+
+/* Asegurar que no haya overflow horizontal */
+.inicio-container {
+    overflow-x: hidden;
+}
+
+/* Estados de carga (si los necesitas en el futuro) */
+.inicio-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 50vh;
+    background-color: #F5F7FA;
+}
+
+/* Estilos para cuando no hay contenido */
+.inicio-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #a3a3a3;
+}
+
+.inicio-empty h2 {
+    color: #005F99;
+    margin-bottom: 1rem;
+}
+
+/* Animaciones suaves para transiciones entre secciones */
+.inicio-section-enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.inicio-section-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Estilos para modo oscuro (si lo implementas en el futuro) */
+@media (prefers-color-scheme: dark) {
+    .inicio-container {
+        background-color: #1A1A1A;
+        color: #FFFFFF;
+    }
+}
+
+/* Utilidades para alineación consistente */
+.inicio-align-left {
+    text-align: left;
+}
+
+.inicio-align-center {
+    text-align: center;
+}
+
+.inicio-align-right {
+    text-align: right;
+}
+
+/* Contenedor máximo para consistencia */
+.inicio-max-width {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Padding consistente */
+.inicio-padding {
+    padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+    .inicio-padding {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .inicio-padding {
+        padding: 0 0.5rem;
+    }
+}
+
+/* Estilos para el footer spacing */
+.inicio-footer-spacing {
+    padding-bottom: 2rem;
+}
+
+/* Estilos para elementos de focus para accesibilidad */
+.inicio-container *:focus {
+    outline: 2px solid #005F99;
+    outline-offset: 2px;
+}
+
+/* Estilos para imágenes responsivas dentro del inicio */
+.inicio-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Prevenir flashes de contenido no estilizado */
+.inicio-container {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.inicio-container.inicio-loading {
+    opacity: 0.7;
+}
+
+/* Estilos para scrollbar personalizada (opcional) */
+.inicio-container ::-webkit-scrollbar {
+    width: 8px;
+}
+
+.inicio-container ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.inicio-container ::-webkit-scrollbar-thumb {
+    background: #005F99;
+    border-radius: 4px;
+}
+
+.inicio-container ::-webkit-scrollbar-thumb:hover {
+    background: #004d7a;
+}

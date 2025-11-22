@@ -6,9 +6,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     cursor: pointer;
-    height: 320px;
-    width: 580px;
-    flex-shrink: 0; /* Evita que se encojan */
+    height: 300px;
+    width: 500px;
 }
 
 .card-categoria:hover {
@@ -102,8 +101,4 @@
     transition: border-color 0.3s ease;
     z-index: 3;
     pointer-events: none;
-}
-
-.card-categoria:hover::after {
-    border-color: #FF8800; /* Naranja Vital */
 }

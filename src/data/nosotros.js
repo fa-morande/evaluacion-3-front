@@ -82,10 +82,16 @@ const nosotros = {
 
     /* --> Seccion CardCrearCuenta*/
     crearCuenta : {
-        titulo: "¿Aún no tienes cuenta? Regístrate hoy",
-        descripcion: "Obtén descuentos exclusivos en tu primera compra."
-    }
+        titulo: "¿Listo para cuidar mejor a tu mascota?",
+        descripcion: "Regístrate hoy y obtén acceso a ofertas exclusivas, consejos de expertos y un servicio personalizado para ti y tu compañero peludo."
+    },
 
+    /* --> Seccion CardPresentacion*/
+    bienvenidos: {
+        titulo: "Bienvenido Todo lo que tu mascota necesita en un solo lugar",
+        descripcion: "Descubre nuestra amplia selección de productos premium para el cuidado, alimentación y diversión de tus compañeros peludos.",
+        image: "/img/CardPresentacion.webp"
+    }
 };
 
 export default nosotros;

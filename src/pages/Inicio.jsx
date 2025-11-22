@@ -3,27 +3,20 @@ import CardPresentacion from "../components/organisms/CardPresentacion";
 import SeccionCategorias from "../components/organisms/SeccionCategorias";
 import SeccionDestacados from "../components/organisms/SeccionDestacados";
 import CardCrearCuenta from "../components/molecules/CardCrearCuenta";
+import "../styles/pages/Inicio.css"; // ← IMPORTAR EL CSS
 
 function Inicio({ agregarAlCarrito }) { 
   return (
-    <> 
-      {/* --> Seccion Card Presentacion*/}
+    <div className="inicio-container"> {/* ← CONTENEDOR PRINCIPAL */}
       <CardPresentacion 
-          titulo="Bienvenido a PetShop"
-          descripcion="Todo lo que tu mascota necesita, calidad y amor."
-          onBotonPrimario={() => window.location.href='/productos'}
-          onBotonSecundario={() => window.location.href='/registro'}
+          onBotonPrimario={() => window.location.href='/registro'}
+          onBotonSecundario={() => window.location.href='/productos'}
       />
 
-      {/* --> Seccion Categorias*/}
       <SeccionCategorias />
-      
-      {/* --> Seccion Crear Cuenta - Ahora sin props */}
       <CardCrearCuenta />
-      
-      {/* --> Seccion Destacados */}
       <SeccionDestacados agregarAlCarrito={agregarAlCarrito} />
-    </>
+    </div>
   );
 }
 

@@ -1,28 +1,37 @@
 import React from "react";
 import Text from "../atoms/Text";
 import Button from "../atoms/Button";
+import nosotrosData from "../../data/nosotros";
+import "../../styles/organisms/CardPresentacion.css";
 
-function CardPresentacion({ titulo, descripcion, onBotonPrimario, onBotonSecundario }) {
+function CardPresentacion({ onBotonPrimario, onBotonSecundario }) {
+    // Obtener datos directamente de nosotros.js
+    const { titulo, descripcion } = nosotrosData.bienvenidos;
+
     return (
         <div className="banner-contenido">
             
             {/* --> Titulo principal*/}
             <Text variant="h1" className="titulo-principal">
-            {titulo || "Bienvenido a la Tienda"}
+                {titulo}
             </Text>
             
             {/* --> Descripcion*/}
             <Text variant="p" className="descripcion">
-            {descripcion || "Descripción por defecto del banner."}
+                {descripcion}
             </Text>
             
             {/* --> Botones*/}
             <div className="botones-container">
-                <Button className="btn-secundario" onClick={onBotonSecundario}>
-                    Registrarme
+                <Button 
+                    text="Registrarme"
+                    className="btn-registrarme" 
+                    onClick={onBotonSecundario}>
                 </Button>
-                <Button className="btn-primario" onClick={onBotonPrimario}>
-                    Ver Productos
+                <Button 
+                    text="Ver Productos"
+                    className="btn-productos" 
+                    onClick={onBotonPrimario}>
                 </Button>
             </div>
         </div>
