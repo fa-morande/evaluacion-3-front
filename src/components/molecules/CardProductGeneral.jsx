@@ -3,6 +3,7 @@ import React from "react";
 import Text from "../atoms/Text";
 import Image from "../atoms/Image";
 import Button from "../atoms/Button";
+import '../../styles/molecules/CardProductGeneral.css';
 
 function CardProductGeneral({ 
     imagen, 
@@ -65,12 +66,15 @@ function CardProductGeneral({
                 </Text>
                 
                 <Button
+                    text={
+                        <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <i className="fa fa-shopping-cart"></i>
+                            Agregar
+                        </span>
+                    }
                 variant="primary"
                 size="small"
-                onClick={handleAddToCart}
-                className="cardProducto-boton"
-                >
-                Agregar
+                onClick={handleAddToCart}>    
                 </Button>
             </div>
             </div>

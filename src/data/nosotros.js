@@ -59,7 +59,26 @@ const nosotros = {
             titulo: "Iniciar Sesión",
             descripcion: "Accede a tu cuenta de Morenoshop"
         }
-    }
+    },
+
+    /* --> Seccion Categorias*/
+    categorias : [
+        {
+            nombre: "Perros",
+            extra: "Alimentos, juguetes y accesorios",
+            image: "/img/CategoriaPerros.webp"
+        },
+        {
+            nombre: "Gatos",
+            extra: "Arena, alimentos, rascadores",
+            image: "/img/CategoriaGatos.webp"
+        },
+        {
+            nombre: "Accesorios",
+            extra: "Collares, camas y peines",
+            image: "/img/CategoriaAccesorios.webp"
+        }
+    ]
 };
 
 export default nosotros;

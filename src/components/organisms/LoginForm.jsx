@@ -66,8 +66,10 @@ function LoginForm({ onLogin }) {
                 </div>
 
                 {/* 4. Botón de Acción */}
-                <Button type="submit" className="btn-primario full-width">
-                    Iniciar Sesión
+                <Button 
+                    text="Iniciar Sesion"
+                    type="submit" 
+                    className="btn-primario full-width">                    
                 </Button>
             </form>
 
