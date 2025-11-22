@@ -1,0 +1,44 @@
+/* Button.css - Solo las variantes que necesitas */
+.btn-general {
+  border: none;
+  border-radius: 6px;
+  padding: 12px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+}
+
+/* VARIANTE AZUL - Para "Registrarme" */
+.btn-primary {
+  background-color: #005F99;
+  color: #FFFFFF;
+  border: 2px solid #005F99;
+}
+
+.btn-primary:hover {
+  background-color: #004d7a;
+  border-color: #004d7a;
+  transform: translateY(-2px);
+}
+
+/* VARIANTE BLANCO - Para "Ver Productos" */
+.btn-secondary {
+  background-color: #FFFFFF;
+  color: #1A1A1A;
+  border: 2px solid #FFFFFF;
+}
+
+.btn-secondary:hover {
+  background-color: #F5F7FA;
+  border-color: #F5F7FA;
+  transform: translateY(-2px);
+}
+
+/* Tamaños */
+.btn-small { padding: 8px 16px; font-size: 0.9rem; }
+.btn-medium { padding: 12px 28px; font-size: 1rem; }
+.btn-large { padding: 16px 32px; font-size: 1.1rem; }

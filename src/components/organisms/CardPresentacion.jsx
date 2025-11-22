@@ -5,34 +5,32 @@ import nosotrosData from "../../data/nosotros";
 import "../../styles/organisms/CardPresentacion.css";
 
 function CardPresentacion({ onBotonPrimario, onBotonSecundario }) {
-    // Obtener datos directamente de nosotros.js
     const { titulo, descripcion } = nosotrosData.bienvenidos;
 
     return (
         <div className="banner-contenido">
-            
-            {/* --> Titulo principal*/}
             <Text variant="h1" className="titulo-principal">
                 {titulo}
             </Text>
             
-            {/* --> Descripcion*/}
             <Text variant="p" className="descripcion">
                 {descripcion}
             </Text>
             
-            {/* --> Botones*/}
             <div className="botones-container">
+                {/* Botón AZUL - usa variant="primary" */}
                 <Button 
                     text="Registrarme"
-                    className="btn-registrarme" 
-                    onClick={onBotonSecundario}>
-                </Button>
+                    variant="primary"
+                    onClick={onBotonSecundario}
+                />
+                
+                {/* Botón BLANCO - usa variant="secondary" */}
                 <Button 
                     text="Ver Productos"
-                    className="btn-productos" 
-                    onClick={onBotonPrimario}>
-                </Button>
+                    variant="secondary" 
+                    onClick={onBotonPrimario}
+                />
             </div>
         </div>
     );
