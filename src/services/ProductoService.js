@@ -1,32 +1,24 @@
-// src/services/productoService.js
-const API_BASE_URL = 'http://tu-api.com/api'; // Reemplaza con tu URL
+import axios from 'axios';
 
-export const productoService = {
-  // Obtener todos los productos
-    async obtenerProductos() {
-        const response = await fetch(`${API_BASE_URL}/productos`);
-        if (!response.ok) throw new Error('Error al obtener productos');
-        return await response.json();
-    },
+// Usamos la ruta relativa gracias al proxy del Paso 1
+const BASE_URL = '/api/v1/productos'; 
 
-    // Obtener producto por ID
-    async obtenerProductoPorId(id) {
-        const response = await fetch(`${API_BASE_URL}/productos/${id}`);
-        if (!response.ok) throw new Error('Error al obtener producto');
-        return await response.json();
-    },
+class ProductoService {
 
-    // Obtener productos por categoría
-    async obtenerProductosPorCategoria(categoria) {
-        const response = await fetch(`${API_BASE_URL}/productos?categoria=${categoria}`);
-        if (!response.ok) throw new Error('Error al obtener productos por categoría');
-        return await response.json();
-    },
-
-    // Buscar productos
-    async buscarProductos(termino) {
-        const response = await fetch(`${API_BASE_URL}/productos?search=${termino}`);
-        if (!response.ok) throw new Error('Error al buscar productos');
-        return await response.json();
+    /* --> Listar producto*/
+    getAllProductos() {
+        return axios.get(BASE_URL);
     }
-};
+
+    /* --> Crear producto*/
+    createProducto(producto) {
+        return axios.post(BASE_URL, producto);
+    }
+
+    /* --> Buscar producto*/
+    getProductoById(id) {
+        return axios.get(`${BASE_URL}/${id}`);
+    }
+}
+
+export default new ProductoService();

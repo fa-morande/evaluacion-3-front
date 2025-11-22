@@ -1,0 +1,115 @@
+/* src/styles/organisms/CardPresentacion.css */
+
+.banner-contenido {
+  /* Diseño de la tarjeta / Banner */
+  background-color: var(--bg-card, #FFFFFF); /* Blanco puro */
+    border-radius: 16px;
+    padding: 3rem 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+    text-align: center;
+    
+    /* Sombra suave azulada para dar profundidad (efecto "flotante") */
+    box-shadow: 0 10px 30px rgba(0, 102, 255, 0.1);
+    
+    /* Borde sutil */
+    border: 1px solid #E1E1E1;
+    
+    /* Centrado y espaciado */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    }
+
+    /* Título Principal */
+    .titulo-principal {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--text-main, #1A1A1A);
+    margin: 0;
+    line-height: 1.2;
+    
+    /* Opcional: Un degradado sutil en el texto para hacerlo más "eléctrico" */
+    background: linear-gradient(90deg, var(--primary-color, #0066FF), var(--primary-dark, #0052CC));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    }
+
+    /* Descripción */
+    .descripcion {
+    font-size: 1.1rem;
+    color: var(--text-secondary, #636E72);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    }
+
+    /* Contenedor de Botones */
+    .botones-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    flex-wrap: wrap; /* Para que se adapte en móviles */
+    justify-content: center;
+    }
+
+    /* Estilos específicos para los botones dentro del banner */
+    /* (Asumiendo que ya tienes los estilos base en Boton.css, aquí solo ajustamos layout si hace falta) */
+
+    .banner-contenido .btn-primario {
+    /* El botón de "Ver Productos" debe ser el más llamativo (Naranja) */
+    background-color: var(--accent-color, #FF8800);
+    color: white;
+    padding: 12px 30px; /* Un poco más grande para el banner */
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(255, 136, 0, 0.3); /* Resplandor naranja */
+    }
+
+    .banner-contenido .btn-primario:hover {
+    background-color: var(--accent-dark, #E07000);
+    transform: translateY(-2px);
+    }
+
+    .banner-contenido .btn-secundario {
+    /* El botón de "Registrarme" secundario (Borde Azul) */
+    background-color: transparent;
+    border: 2px solid var(--primary-color, #0066FF);
+    color: var(--primary-color, #0066FF);
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    }
+
+    .banner-contenido .btn-secundario:hover {
+    background-color: rgba(0, 102, 255, 0.05); /* Fondo azul muy suave */
+    transform: translateY(-2px);
+    }
+
+    /* --- Responsive Design --- */
+    @media (max-width: 768px) {
+    .banner-contenido {
+        padding: 2rem 1rem;
+        margin: 1rem;
+    }
+
+    .titulo-principal {
+        font-size: 1.8rem;
+    }
+
+    .descripcion {
+        font-size: 1rem;
+    }
+
+    .botones-container {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .banner-contenido .btn-primario, 
+    .banner-contenido .btn-secundario {
+        width: 100%; /* Botones ancho completo en móvil */
+    }
+}

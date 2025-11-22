@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "./ProductCard";
+import CardProductGeneral from "../molecules/CardProductGeneral";
 import { products } from "../../data/productos"; //
 import "../../styles/organisms/ProductosDestacados.css";
 import Text from "../atoms/Text";
@@ -12,7 +12,7 @@ const ProductosDestacados = ({ agregarAlCarrito }) => {
       </Text>
       <div className="productos-grid">
         {products.map((p) => (
-          <ProductCard 
+          <CardProductGeneral 
             key={p.id} 
             product={p} 
             agregarAlCarrito={agregarAlCarrito}  // ← Pasa la función

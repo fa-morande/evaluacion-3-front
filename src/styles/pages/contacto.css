@@ -1,88 +1,121 @@
-
-
-.Contacto{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 50px 20px;
-    padding: 7rem;
+/* Contacto.css - Mismo estilo que Nosotros.css */
+.contacto-page {
+    padding: 2rem 1rem;
+    background-color: #F5F7FA; /* Blanco Humo */
+    min-height: calc(100vh - 80px - 60px);
 }
 
-.Contacto-card{
-    background-color: white;
-    padding: 40px 20px;
-    border: 1px solid white;
-    border-radius: 5px;
-    box-shadow: 0 8px 20px rgb(0, 0, 0, 0.2);
-    max-width: 450px;
+/* Títulos - Igual que Nosotros */
+.titulo-pagina {
+    color: #0066FF; /* Azul Eléctrico */
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    font-weight: 700;
+}
+
+.subtitulo-seccion {
+    color: #0066FF; /* Azul Eléctrico */
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+}
+
+/* Sección Principal - Igual que Nosotros */
+.seccion-contacto {
+    margin-bottom: 4rem;
+}
+
+.contacto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Sección Información Adicional - Igual que secciones de Nosotros */
+.seccion-informacion-adicional {
+    margin-bottom: 4rem;
+    padding: 3rem 0;
+    background-color: #FFFFFF; /* Blanco Puro */
+}
+
+.informacion-adicional-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Las Cards usan los mismos estilos que en Nosotros porque usan CardInformacion */
+/* No necesitamos estilos adicionales ya que heredan de CardInformacion.css */
+
+/* Estilos específicos para el contenido de contacto */
+.contacto-directo {
+    text-align: left;
     width: 100%;
 }
 
-
-.Contacto-card h1{
-    font-family: 'Times New Roman', Times, serif;
-    text-align: center;
-    color: #17252a;
-
-}
-
-.Contacto-card form{
-    display: flex;
-    flex-direction: column;
-}
-
-.Contacto-card label{
-    margin-bottom: 10px;
-    font: bold;
-    color: #333;
-    margin-top: 10px;
-}
-
-
-.Contacto-card input,.Contacto-card select{
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    border: 1px solid black;
+.contacto-directo p {
+    margin: 0.8rem 0;
+    color: #1A1A1A;
+    line-height: 1.5;
     font-size: 1rem;
-
 }
 
-.Contacto-card input:focus, .Contacto-card select:focus{
-    outline: none;
-    border-color: #3aafa9;
-    box-shadow: 0 0 5px rgb(58, 175, 169, 0.5);
-
+.contacto-directo strong {
+    color: #0066FF; /* Azul Eléctrico */
+    font-weight: 600;
 }
 
-
-.btn-registrar{
-    background-color:#2b7a78 ;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 10px;
-    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
-
-
-
+/* Responsive - Igual que Nosotros */
+@media (max-width: 768px) {
+    .contacto-page {
+        padding: 1rem 0.5rem;
+    }
+    
+    .titulo-pagina {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .subtitulo-seccion {
+        font-size: 1.5rem;
+    }
+    
+    .contacto-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .informacion-adicional-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+    }
+    
+    .contacto-directo {
+        text-align: center;
+    }
+    
+    .contacto-directo p {
+        font-size: 0.9rem;
+    }
 }
 
-
-.btn-registrar:hover{
-    background-color: #3aafa9;
-    transform: translateY(-6px);
-    box-shadow: 0 8px  15px rgb(0, 0, 0,0.2);
-
-
-}
-
-.mensaje-error{
-    color: red;
-    font-size: 0.9rem;
-    margin-top: 10px;
-    text-align: center;
+@media (max-width: 480px) {
+    .contacto-grid,
+    .informacion-adicional-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contacto-directo p {
+        font-size: 0.85rem;
+    }
 }

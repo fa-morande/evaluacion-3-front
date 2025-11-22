@@ -1,22 +1,29 @@
 import React from "react";
 import Text from "../atoms/Text";
 import Image from "../atoms/Image";
+import "../../styles/molecules/CardInformacion.css";
 
 function CardInformacion({ icono, imagenUrl, titulo, descripcion, cargo }) {
     return (
         <div className="card-info">
-            {/* Si existe imagenUrl (para equipo), la muestra */}
-            {imagenUrl && <Image src={imagenUrl} alt={titulo} className="card-imagen-circular" />}
+            {/* Imagen para equipo */}
+            {imagenUrl && (
+                <div className="card-imagen-container">
+                    <Image src={imagenUrl} alt={titulo} className="card-imagen-circular" />
+                </div>
+            )}
             
-            {/* Si existe icono (para valores), lo muestra */}
-            {/* NOTA: Asume que usas iconos SVG o una librería como FontAwesome */}
-            {icono && <i className={`fa ${icono} icono-grande`}></i>} 
+            {/* Icono para valores */}
+            {icono && (
+                <div className="card-icono-container">
+                    <i className={`fa ${icono} card-icono`}></i>
+                </div>
+            )}
 
             <div className="card-contenido">
-                <Text variant="h4" className="titulo">{titulo}</Text>
-                {/* Muestra el cargo solo si existe (para Equipo) */}
-                {cargo && <Text variant="span" className="cargo">{cargo}</Text>} 
-                <Text variant="p" className="descripcion">{descripcion}</Text>
+                <Text variant="h4" className="card-titulo">{titulo}</Text>
+                {cargo && <Text variant="span" className="card-cargo">{cargo}</Text>}
+                {descripcion && <Text variant="p" className="card-descripcion">{descripcion}</Text>}
             </div>
         </div>
     );

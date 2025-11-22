@@ -1,10 +1,10 @@
+// src/data/nosotros.js
 const nosotros = {
     /* --> Seccion Presentacion*/
     presentacion: [
         { key: "vision", titulo: "Nuestra Visión", texto: "Ser la tienda de mascotas líder en Chile, ofreciendo productos de la más alta calidad y un servicio inigualable." },
         { key: "mision", titulo: "Nuestra Misión", texto: "Garantizar la felicidad y el bienestar de las mascotas y sus dueños a través de una experiencia de compra fácil y confiable." }
     ],
-
 
     /* --> Seccion Valores*/
     valores: [
@@ -14,7 +14,6 @@ const nosotros = {
         { icono: "fa-users", titulo: "Comunidad", descripcion: "Construimos relaciones duraderas con nuestros clientes y sus mascotas." }
     ],
 
-
     /* --> Seccion Equipo*/
     equipo: [
         { nombre: "María Gonzales", imagenUrl: "/img/equipo/maria.webp", cargo: "Gerente General" },
@@ -22,16 +21,41 @@ const nosotros = {
         { nombre: "Joaquín Iturriaga", imagenUrl: "/img/equipo/joaquin.webp", cargo: "Especialista en Nutrición" }
     ],
 
+    /* --> Seccion Contacto*/
+    contacto: {
+        informacion: "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto. Nuestro equipo de soporte está disponible 24/7.",
+        detalles: [
+            {
+                icono: "fa-envelope",
+                titulo: "Información de Contacto",
+                descripcion: "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto. Nuestro equipo de soporte está disponible 24/7."
+            },
+            {
+                icono: "fa-phone",
+                titulo: "Detalles de Contacto",
+                descripcion: "Email: contacto@tienda.cl\nTeléfono: +56 9 1234 5678\nHorario: Lunes a Viernes 9:00 - 18:00"
+            },
+            {
+                icono: "fa-map-marker",
+                titulo: "Ubicación",
+                descripcion: "Av. Principal 1234, Santiago, Chile. Estamos ubicados en el corazón de la ciudad."
+            },
+            {
+                icono: "fa-clock",
+                titulo: "Tiempo de Respuesta",
+                descripcion: "Respondemos todos los mensajes en un plazo máximo de 24 horas hábiles. Tu consulta es importante para nosotros."
+            }
+        ],
+        email: "contacto@tienda.cl",
+        telefono: "+56 9 1234 5678",
+        horario: "Lunes a Viernes 9:00 - 18:00",
+        ubicacion: "Av. Principal 1234, Santiago, Chile"
+    },
 
-    /* --> Seccion contactanos*/
-    /* --> Especificamente el cardBody*/
-    contactanos: "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos pronto. Nuestro equipo de soporte está disponible 24/7.",
-
-
-    /* --> Seccion contactanos*/
+    /* --> Seccion Login*/
     login: {
         cardInfo: {
-            icono: "fa-user", 
+            icono: "fa-user",
             titulo: "Iniciar Sesión",
             descripcion: "Accede a tu cuenta de Morenoshop"
         }
