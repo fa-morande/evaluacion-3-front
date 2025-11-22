@@ -1,0 +1,92 @@
+/* CardCrearCuenta.css - Con botón personalizado */
+.card-promocional {
+    background-color: #005F99;
+    padding: 3rem 2rem;
+    text-align: center;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    box-sizing: border-box;
+}
+
+.card-promocional .titulo {
+    color: #FFFFFF !important;
+    font-size: 2.2rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 1rem !important;
+}
+
+.card-promocional .descripcion {
+    color: #E1E8ED !important;
+    font-size: 1.2rem !important;
+    line-height: 1.6 !important;
+    margin-bottom: 2rem !important;
+    opacity: 0.9;
+}
+
+/* Botón personalizado - Control total */
+.btn-enlace {
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-accion-personalizado {
+    background-color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    color: #1A1A1A;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: none;
+}
+
+.btn-accion-personalizado:hover {
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+    color: #1A1A1A;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .card-promocional {
+        padding: 2.5rem 1.5rem;
+    }
+    
+    .card-promocional .titulo {
+        font-size: 1.8rem !important;
+    }
+    
+    .card-promocional .descripcion {
+        font-size: 1.1rem !important;
+    }
+    
+    .btn-accion-personalizado {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-promocional {
+        padding: 2rem 1rem;
+    }
+    
+    .card-promocional .titulo {
+        font-size: 1.6rem !important;
+    }
+    
+    .card-promocional .descripcion {
+        font-size: 1rem !important;
+    }
+    
+    .btn-accion-personalizado {
+        padding: 10px 20px;
+        width: 100%;
+        max-width: 200px;
+    }
+}

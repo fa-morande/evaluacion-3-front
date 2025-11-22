@@ -1,0 +1,122 @@
+/* SeccionCategorias.css - Fondo blanco, pantalla completa */
+.seccion-categorias-container {
+    padding: 4rem 0; /* Sin padding lateral para usar todo el ancho */
+    background-color: #FFFFFF; /* Fondo blanco */
+    width: 95vw; /* Ocupa todo el ancho de la pantalla */
+    margin-left: calc(-50vw + 50%); /* Truco para centrar con ancho completo */
+    margin-right: calc(-50vw + 50%);
+    overflow-x: auto; /* Scroll horizontal si es necesario */
+}
+
+.encabezado-categorias {
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 2rem; /* Padding solo para el encabezado */
+}
+
+.titulo-seccion-cat {
+    color: #000000;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.subtitulo-seccion-cat {
+    color: #1A1A1A;
+    font-size: 1.2rem;
+    opacity: 0.8;
+}
+
+/* Contenedor horizontal para las cards */
+.categorias-grid {
+    display: flex;
+    gap: 2rem;
+    padding: 0 2rem;
+    overflow-x: auto;
+    scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    -ms-overflow-style: none; /* Ocultar scrollbar en IE/Edge */
+}
+
+/* Ocultar scrollbar en Chrome/Safari */
+.categorias-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .card-categoria {
+        width: 500px;
+        height: 263px;
+    }
+    
+    .contenido-texto {
+        padding: 1.5rem;
+    }
+    
+    .titulo-cat {
+        font-size: 1.6rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .seccion-categorias-container {
+        padding: 3rem 0;
+    }
+    
+    .titulo-seccion-cat {
+        font-size: 2rem;
+    }
+    
+    .subtitulo-seccion-cat {
+        font-size: 1.1rem;
+    }
+    
+    .card-categoria {
+        width: 400px;
+        height: 210px;
+    }
+    
+    .contenido-texto {
+        padding: 1.25rem;
+    }
+    
+    .titulo-cat {
+        font-size: 1.4rem !important;
+    }
+    
+    .extra-cat {
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .seccion-categorias-container {
+        padding: 2rem 0;
+    }
+    
+    .encabezado-categorias {
+        padding: 0 1rem;
+    }
+    
+    .categorias-grid {
+        padding: 0 1rem;
+        gap: 1.5rem;
+    }
+    
+    .card-categoria {
+        width: 320px;
+        height: 168px;
+    }
+    
+    .contenido-texto {
+        padding: 1rem;
+    }
+    
+    .titulo-cat {
+        font-size: 1.2rem !important;
+    }
+    
+    .extra-cat {
+        font-size: 0.85rem !important;
+    }
+}

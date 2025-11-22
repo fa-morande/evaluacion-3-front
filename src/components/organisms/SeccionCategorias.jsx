@@ -2,7 +2,7 @@ import React from "react";
 import CardCategoria from "../molecules/CardCategoria";
 import Text from "../atoms/Text";
 import nosotrosData from "../../data/nosotros.js"; // <-- Importamos desde nosotros.js
-import "../../styles/organisms/SeccionCategoria.css";
+import "../../styles/organisms/SeccionCategorias.css";
 
 function SeccionCategorias() {
     // Obtenemos el array de categorías directamente desde nosotros.js

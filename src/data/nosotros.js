@@ -78,7 +78,14 @@ const nosotros = {
             extra: "Collares, camas y peines",
             image: "/img/CategoriaAccesorios.webp"
         }
-    ]
+    ],
+
+    /* --> Seccion CardCrearCuenta*/
+    crearCuenta : {
+        titulo: "¿Aún no tienes cuenta? Regístrate hoy",
+        descripcion: "Obtén descuentos exclusivos en tu primera compra."
+    }
+
 };
 
 export default nosotros;
