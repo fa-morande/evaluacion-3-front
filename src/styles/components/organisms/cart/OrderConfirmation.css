@@ -1,0 +1,65 @@
+.order-confirmation {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.confirmation-header {
+    margin-bottom: 3rem;
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.order-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.detail-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #005F99;
+}
+
+.order-number {
+    color: #005F99;
+}
+
+.order-status {
+    color: #FF8800;
+    font-weight: bold;
+}
+
+.order-total {
+    color: #005F99;
+}
+
+.confirmation-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem 0;
+}
+
+.confirmation-footer {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+@media (max-width: 480px) {
+    .confirmation-actions {
+        flex-direction: column;
+    }
+    
+    .order-details {
+        grid-template-columns: 1fr;
+    }
+}
