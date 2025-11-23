@@ -1,31 +1,50 @@
-/* CardProductGeneral.css */
+/* CardProductGeneral.css - Rediseñado */
 .main-cardProducto {
-    background: #FFFFFF; /* Blanco Puro */
-    border: 2px solid #E1E8ED; /* Gris Claro */
+    background: #FFFFFF;
+    border: 2px solid #E1E8ED;
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-cardProducto:hover {
-    border-color: #0066FF; /* Azul Eléctrico */
+    border-color: #005F99;
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 102, 255, 0.15);
+    box-shadow: 0 8px 30px rgba(0, 95, 153, 0.15);
 }
 
 .body-cardProducto {
     display: flex;
     flex-direction: column;
     height: 100%;
+    position: relative;
+}
+
+/* Etiqueta de categoría SOBRE la imagen */
+.cardProducto-categoria {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background-color: #005F99;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    z-index: 2;
 }
 
 .cardProducto-img {
     width: 100%;
     height: 200px;
     object-fit: cover;
-    background-color: #F5F7FA; /* Blanco Humo para fondo de imagen */
+    background-color: #F5F7FA;
 }
 
 .cardProducto-content {
@@ -36,16 +55,8 @@
     gap: 0.5rem;
 }
 
-.cardProducto-categoria {
-    color: #0066FF; /* Azul Eléctrico */
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
 .cardProducto-titulo {
-    color: #1A1A1A; /* Casi Negro */
+    color: #1A1A1A;
     font-size: 1.1rem;
     font-weight: 600;
     line-height: 1.3;
@@ -58,6 +69,7 @@
     font-size: 0.9rem;
     line-height: 1.4;
     margin: 0;
+    flex: 1;
 }
 
 .cardProducto-footer {
@@ -69,26 +81,10 @@
 }
 
 .cardProducto-precio {
-    color: #0066FF; /* Azul Eléctrico */
+    color: #005F99;
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0;
-}
-
-.cardProducto-boton {
-    background-color: #FF8800 !important; /* Naranja Vital */
-    border-color: #FF8800 !important;
-    color: #FFFFFF !important;
-    font-weight: 600;
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-.cardProducto-boton:hover {
-    background-color: #E67A00 !important;
-    border-color: #E67A00 !important;
-    transform: translateY(-2px);
 }
 
 /* Responsive */
@@ -107,11 +103,6 @@
     
     .cardProducto-precio {
         font-size: 1.1rem;
-    }
-    
-    .cardProducto-boton {
-        padding: 6px 12px;
-        font-size: 0.85rem;
     }
 }
 

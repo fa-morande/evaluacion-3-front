@@ -1,0 +1,26 @@
+/* Containers.css - Contenedores específicos */
+.container-full {
+    width: 100%;
+    padding: 0;
+}
+
+.container-centered {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.container-wide {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Utilidades para secciones específicas */
+.section-with-padding {
+    padding: 2rem 0;
+}
+
+.section-no-padding {
+    padding: 0;
+}

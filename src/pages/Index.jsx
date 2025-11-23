@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../components/organisms/Header";
 import Footer from "../components/organisms/Footer";
 import ProductosDestacados from "../components/organisms/ProductosDestacados";
-import "../styles/organisms/Footer.css"
+import "../styles/components/organisms/Footer.css"
 const Index = () => {
   const [carrito, setCarrito] = useState([]);
 

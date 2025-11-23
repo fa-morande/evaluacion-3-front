@@ -1,0 +1,169 @@
+/* BodyFiltro.css - Mejorado y más grande */
+.seccion-filtro {
+    padding: 3rem 0; /* Más padding vertical */
+    background-color: #FFFFFF;
+    border-bottom: 2px solid #e0e0e0; /* Borde más grueso */
+    width: 61vw;
+    height: 8vw;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+    margin: 0 auto;
+    border-radius: 10px; /* Más redondeados */
+}
+
+.controles-filtro {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    gap: 1rem; /* Más espacio entre secciones */
+    align-items: flex-start;
+}
+
+.seccion-busqueda,
+.seccion-categorias {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Más espacio interno */
+    
+}
+
+.titulo-seccion {
+    color: #1A1A1A;
+    font-size: 1rem; /* Texto más grande */
+    font-weight: 700; /* Más negrita */
+    margin-bottom: 0.1rem;
+    letter-spacing: 0.5px;
+}
+
+.wrapper-busqueda {
+    width: 100%;
+}
+
+.input-busqueda {
+    width: 100%;
+    padding: 16px 20px; /* Input más grande */
+    border: 2px solid #e0e0e0;
+    border-radius: 8px; /* Bordes más redondeados */
+    font-size: 1.1rem; /* Texto más grande */
+    transition: all 0.3s ease;
+    background-color: #F8F9FA;
+}
+
+.input-busqueda:focus {
+    outline: none;
+    border-color: #005F99;
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(0, 95, 153, 0.1);
+}
+
+.input-busqueda::placeholder {
+    color: #6c757d;
+    opacity: 0.7;
+}
+
+.botones-filtro {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem; /* Más espacio entre botones */
+}
+
+/* Estilos específicos para los botones de filtro - MÁS GRANDES */
+.botones-filtro .btn-general {
+    padding: 10px 20px; /* Botones más grandes */
+    font-size: 1rem; /* Texto más grande */
+    border-radius: 5px; /* Más redondeados */
+    transition: all 0.3s ease;
+    font-weight: 600;
+    min-width: 100px; /* Ancho mínimo para consistencia */
+    text-align: center;
+}
+
+/* Efectos hover mejorados */
+.botones-filtro .btn-primary {
+    box-shadow: 0 4px 15px rgba(0, 95, 153, 0.3);
+}
+
+.botones-filtro .btn-primary:hover {
+    box-shadow: 0 6px 20px rgba(0, 95, 153, 0.4);
+    transform: translateY(-3px);
+}
+
+.botones-filtro .btn-secondary {
+    border: 2px solid #e0e0e0;
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+}
+
+.botones-filtro .btn-secondary:hover {
+    border-color: #005F99;
+    background-color: #F8F9FA;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .controles-filtro {
+        gap: 3rem;
+        padding: 0 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .seccion-filtro {
+        padding: 2.5rem 0;
+    }
+    
+    .controles-filtro {
+        flex-direction: column;
+        gap: 2.5rem;
+        padding: 0 1rem;
+    }
+    
+    .seccion-busqueda,
+    .seccion-categorias {
+        width: 100%;
+    }
+    
+    .titulo-seccion {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    
+    .botones-filtro {
+        justify-content: center;
+    }
+    
+    .input-busqueda {
+        padding: 14px 18px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .seccion-filtro {
+        padding: 2rem 0;
+    }
+    
+    .controles-filtro {
+        padding: 0 0.8rem;
+    }
+    
+    .titulo-seccion {
+        font-size: 1.1rem;
+    }
+    
+    .botones-filtro {
+        gap: 0.8rem;
+    }
+    
+    .botones-filtro .btn-general {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        min-width: 90px;
+    }
+    
+    .input-busqueda {
+        padding: 12px 16px;
+    }
+}

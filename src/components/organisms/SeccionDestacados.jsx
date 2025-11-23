@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardBody from "../molecules/CardBody"; 
 import Text from "../atoms/Text";
 import ProductoService from "../../services/ProductoService";
-import '../../styles/organisms/SeccionDestacados.css';
+import '../../styles/components/organisms/SeccionDestacados.css';
 
 // 1. Recibe la función 'agregarAlCarrito' como prop desde App.jsx
 function SeccionDestacados({ agregarAlCarrito }) { 

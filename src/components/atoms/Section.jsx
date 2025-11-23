@@ -1,6 +1,6 @@
 import React from "react";
 import Text from "./Text";
-import "../../styles/atoms/section.css";
+import "../../styles/components/atoms/section.css";
 
 const Section = ({ title, children, centered = true }) => {
     return (

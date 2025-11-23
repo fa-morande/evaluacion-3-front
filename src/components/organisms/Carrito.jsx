@@ -1,5 +1,5 @@
 import CarritoCard from "../molecules/CarritoCard";
-import "../../styles/organisms/Carrito.css";
+import "../../styles/components/organisms/Carrito.css";
 import React from "react";
 const Carrito = ({ carrito, onRemove }) => {
   const total = carrito.reduce((acc, item) => acc + item.price, 0);

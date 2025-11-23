@@ -1,4 +1,4 @@
-import "../../styles/molecules/CarritoCard.css";
+import "../../styles/components/molecules/CarritoCard.css";
 import React from "react";
 const CarritoCard = ({ item, onRemove }) => {
   return (

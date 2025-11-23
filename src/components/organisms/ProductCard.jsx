@@ -1,6 +1,6 @@
 // src/components/molecules/ProductCard.jsx
 import React from "react";
-import "../../styles/molecules/ProductCard.css";
+import "../../styles/components/molecules/ProductCard.css";
 
 const ProductCard = ({ product, agregarAlCarrito }) => {
   return (

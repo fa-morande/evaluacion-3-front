@@ -2,7 +2,7 @@ import React from "react";
 import Text from "../atoms/Text";
 import Button from "../atoms/Button";
 import nosotrosData from "../../data/nosotros";
-import "../../styles/organisms/CardPresentacion.css";
+import "../../styles/components/organisms/CardPresentacion.css";
 
 function CardPresentacion({ onBotonPrimario, onBotonSecundario }) {
     const { titulo, descripcion } = nosotrosData.bienvenidos;

@@ -5,8 +5,8 @@ import App from "./App";
 
 // CSS global
 import "./styles/global.css";
-import "./styles/atoms/Button.css";
-import "./styles/molecules/ProductCard.css";
+import "./styles/components/atoms/Button.css";
+import "./styles/components/molecules/ProductCard.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 

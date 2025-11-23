@@ -4,7 +4,7 @@ import SeccionCategorias from "../components/organisms/SeccionCategorias";
 import SeccionDestacados from "../components/organisms/SeccionDestacados";
 import CardCrearCuenta from "../components/molecules/CardCrearCuenta";
 import "../styles/pages/Inicio.css"; // ← IMPORTAR EL CSS
-import "../styles/atoms/Button.css";
+import "../styles/components/atoms/Button.css";
 
 
 function Inicio({ agregarAlCarrito }) { 

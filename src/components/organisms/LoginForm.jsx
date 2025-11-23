@@ -5,7 +5,7 @@ import Text from "../atoms/Text";
 import CardInformacion from "../molecules/CardInformacion";
 import Formulario from "../molecules/Formulario"; // <-- Tu nueva molécula
 import nosotros from "../../data/nosotros";
-import "../../styles/organisms/LoginForm.css"; 
+import "../../styles/components/organisms/LoginForm.css"; 
 
 function LoginForm({ onLogin }) {
     // Estados locales para el formulario

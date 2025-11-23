@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import "../../styles/molecules/Navbar.css";
+import "../../styles/components/molecules/Navbar.css";
 
 const Navbar = ({ carrito = [] }) => {
   const location = useLocation();

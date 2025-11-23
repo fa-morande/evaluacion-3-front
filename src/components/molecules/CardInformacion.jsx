@@ -1,7 +1,7 @@
 import React from "react";
 import Text from "../atoms/Text";
 import Image from "../atoms/Image";
-import "../../styles/molecules/CardInformacion.css";
+import "../../styles/components/molecules/CardInformacion.css";
 
 function CardInformacion({ icono, imagenUrl, titulo, descripcion, cargo }) {
     return (

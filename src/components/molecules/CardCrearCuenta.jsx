@@ -1,7 +1,7 @@
 import React from "react";
 import Text from "../atoms/Text";
 import nosotrosData from "../../data/nosotros";
-import "../../styles/molecules/CardCrearCuenta.css";
+import "../../styles/components/molecules/CardCrearCuenta.css";
 
 function CardCrearCuenta() {
     const { titulo, descripcion } = nosotrosData.crearCuenta;

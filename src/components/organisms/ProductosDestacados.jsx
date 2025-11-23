@@ -1,7 +1,7 @@
 import React from "react";
 import CardProductGeneral from "../molecules/CardProductGeneral";
 import { products } from "../../data/productos"; //
-import "../../styles/organisms/ProductosDestacados.css";
+import "../../styles/components/organisms/ProductosDestacados.css";
 import Text from "../atoms/Text";
 
 const ProductosDestacados = ({ agregarAlCarrito }) => {

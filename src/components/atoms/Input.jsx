@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/atoms/Input.css";
+import "../../styles/components/atoms/Input.css";
 
 const Input = ({
     type = "text",

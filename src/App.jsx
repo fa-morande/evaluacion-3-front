@@ -10,7 +10,7 @@ import Contacto from "./pages/Contacto";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Carrito from "./pages/Carrito";
-import "./styles/organisms/Footer.css";
+import "./styles/components/organisms/Footer.css";
 
 function App() {
     const [carrito, setCarrito] = useState([]);

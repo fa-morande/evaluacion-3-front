@@ -1,7 +1,7 @@
 import React from "react";
 import Input from "../atoms/Input";
 import Text from "../atoms/Text"; 
-import "../../styles/molecules/Formulario.css"; // Crearemos este CSS abajo
+import "../../styles/components/molecules/Formulario.css"; // Crearemos este CSS abajo
 
 function Formulario({ subtitulo, type = "text", placeholder, value, onChange }) {
     return (
