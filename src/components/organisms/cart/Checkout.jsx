@@ -3,7 +3,7 @@ import { createPedido } from "../../../services/api/pedidos";
 import Button from "../../atoms/Button";
 import Input from "../../atoms/Input";
 import Text from "../../atoms/Text";
-import "../../styles/components/organisms/Checkout.css";
+import "../../../styles/components/organisms/cart/Checkout.css";
 
 function Checkout({ carrito, usuario, onPedidoCreado, onCancel }) {
     const [loading, setLoading] = useState(false);

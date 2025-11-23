@@ -1,6 +1,6 @@
 import React from "react";
-import Text from "../atoms/Text";
-import Image from "../atoms/Image";
+import Text from "../../atoms/Text";
+import Image from "../../atoms/Image";
 
 function CardBody({ imagen, title, price, onClick, onAddToCart }) {
     return (

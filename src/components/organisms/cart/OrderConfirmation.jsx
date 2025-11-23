@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import "../../styles/components/organisms/OrderConfirmation.css";
+import "../../../styles/components/organisms/cart/OrderConfirmation.css";
 
 function OrderConfirmation({ pedido }) {
     return (

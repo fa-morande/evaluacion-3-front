@@ -1,8 +1,8 @@
 import React from 'react';
 import Text from '../../components/atoms/Text';
-import CardInformacion from '../../components/molecules/CardInformacion';
+import CardInformacion from '../../components/molecules/cards/CardInformacion';
 import nosotros from '../../services/data/nosotros';
-import "../styles/pages/Nosotros.css";
+import "../../styles/pages/public/Nosotros.css";
 
 
 function Nosotros() {

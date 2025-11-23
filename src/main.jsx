@@ -4,9 +4,8 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 
 // CSS global
-import "./styles/global.css";
-import "./styles/components/atoms/Button.css";
-import "./styles/components/molecules/ProductCard.css";
+import "./styles/globals.css";
+import "./styles/components/atoms/Button.css"; // Esta ruta ya era correcta.
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 

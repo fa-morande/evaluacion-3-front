@@ -1,8 +1,8 @@
 import React from "react";
-import LoginForm from "../components/organisms/LoginForm";
-import { login } from "../services/usuarios";
+import LoginForm from "../../components/organisms/auth/LoginForm";
+import { login } from "../../services/api/usuarios";
 import { useNavigate } from "react-router-dom";
-import "../styles/pages/Login.css";
+import "../../styles/pages/public/Login.css";
 
 function Login() {
     const navigate = useNavigate();

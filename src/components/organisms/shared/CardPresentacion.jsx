@@ -1,8 +1,8 @@
 import React from "react";
-import Text from "../atoms/Text";
-import Button from "../atoms/Button";
-import nosotrosData from "../../data/nosotros";
-import "../../styles/components/organisms/CardPresentacion.css";
+import Text from "../../atoms/Text";
+import Button from "../../atoms/Button";
+import nosotrosData from "../../../services/data/nosotros";
+import "../../../styles/components/organisms/shared/CardPresentacion.css";
 
 function CardPresentacion({ onBotonPrimario, onBotonSecundario }) {
     const { titulo, descripcion } = nosotrosData.bienvenidos;

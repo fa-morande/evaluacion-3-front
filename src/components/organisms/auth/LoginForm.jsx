@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import CardInformacion from "../molecules/CardInformacion";
-import Formulario from "../molecules/Formulario";
-import nosotros from "../../../data/nosotros";
-import "../../styles/components/organisms/LoginForm.css";
+import CardInformacion from "../../molecules/cards/CardInformacion";
+import Formulario from "../../molecules/forms/Formulario";
+import nosotros from "../../../services/data/nosotros";
+import "../../../styles/components/organisms/auth/LoginForm.css";
 
 function LoginForm({ onLogin }) {
 

@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../molecules/NavBar";
-import "../../styles/components/organisms/Header.css";
+import Navbar from "../../molecules/navigation/NavBar";
+import "../../../styles/components/organisms/layout/Header.css";
 
 const Header = ({ carrito = [] }) => {
   return (

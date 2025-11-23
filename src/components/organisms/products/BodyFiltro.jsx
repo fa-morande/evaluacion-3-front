@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import productos from "../../../data/productos";
-import '../../styles/components/organisms/BodyFiltro.css';
+import productos from "../../../services/data/productos";
+import '../../../styles/components/organisms/products/BodyFiltro.css';
 
 function BodyFiltro({ onSearch, onFilterChange }) {
     const [filtroActivo, setFiltroActivo] = useState("todos");

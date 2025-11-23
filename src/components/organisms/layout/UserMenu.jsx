@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import "../../styles/components/organisms/UserMenu.css";
+import "../../../styles/components/organisms/layout/UserMenu.css";
 
 function UserMenu({ user, carritoCount = 0 }) {
     const [isOpen, setIsOpen] = useState(false);

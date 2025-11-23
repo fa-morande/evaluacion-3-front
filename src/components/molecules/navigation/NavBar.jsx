@@ -1,8 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import UserMenu from "../organisms/UserMenu"; // Nuevo import
-import "../../styles/components/molecules/Navbar.css";
-
+import UserMenu from "../../organisms/layout/UserMenu";
+import "../../../styles/components/molecules/navigation/NavBar.css";
 const Navbar = ({ carrito = [] }) => {
     const location = useLocation();
     

@@ -1,8 +1,8 @@
 import React from "react";
-import CardCategoria from "../molecules/CardCategoria";
+import CardCategoria from "../../molecules/cards/CardCategoria";
 import Text from "../../atoms/Text.jsx";
 import nosotrosData from "../../../services/data/nosotros.js"; // <-- Importamos desde nosotros.js
-import "../../styles/components/organisms/SeccionCategorias.css";
+import "../../../styles/components/organisms/products/SeccionCategorias.css";
 
 function SeccionCategorias() {
     // Obtenemos el array de categorías directamente desde nosotros.js

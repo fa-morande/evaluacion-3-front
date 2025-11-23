@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Checkout from "../components/organisms/Checkout";
-import OrderConfirmation from "../components/organisms/OrderConfirmation";
-import CarritoCard from "../components/molecules/CarritoCard";
-import Button from "../components/atoms/Button";
-import Text from "../components/atoms/Text";
-import "../styles/pages/Carrito.css";
+import Checkout from "../../components/organisms/cart/Checkout.jsx";
+import OrderConfirmation from "../../components/organisms/cart/OrderConfirmation.jsx";
+import CarritoCard from "../../components/molecules/cards/CarritoCard";
+import Button from "../../components/atoms/Button";
+import Text from "../../components/atoms/Text";
+import "../../styles/pages/public/Carrito.css";
 
 function Carrito() {
     const [carrito, setCarrito] = useState([]);

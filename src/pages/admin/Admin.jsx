@@ -1,69 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdminSidebar from '../components/admin/AdminSidebar';
-import AdminDashboard from '../components/admin/AdminDashboard';
-import CategoriasAdmin from '../components/admin/CategoriasAdmin';
-import ProductosAdmin from '../components/admin/ProductosAdmin';
-import PedidosAdmin from '../components/admin/PedidosAdmin';
-import UsuariosAdmin from '../components/admin/UsuariosAdmin';
-import '../styles/pages/Admin.css';
+import React from 'react';
+import '../../styles/pages/admin/Admin.css';
 
 function Admin() {
-    const [seccionActiva, setSeccionActiva] = useState('dashboard');
-    const [adminUser, setAdminUser] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        // Verificar si el usuario está logueado como admin
-        const user = JSON.parse(localStorage.getItem('adminUser') || 'null');
-        console.log("Usuario admin encontrado:", user); // Debug
-        
-        if (!user || user.role !== 'ADMIN') {
-            console.log("Redirigiendo a login..."); // Debug
-            navigate('/admin/login');
-        } else {
-            setAdminUser(user);
-        }
-    }, [navigate]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('adminUser');
-        localStorage.removeItem('usuario');
-        navigate('/admin/login');
-    };
-
-    const renderSeccion = () => {
-        switch (seccionActiva) {
-            case 'dashboard':
-                return <AdminDashboard />;
-            case 'categorias':
-                return <CategoriasAdmin />;
-            case 'productos':
-                return <ProductosAdmin />;
-            case 'pedidos':
-                return <PedidosAdmin />;
-            case 'usuarios':
-                return <UsuariosAdmin />;
-            default:
-                return <AdminDashboard />;
-        }
-    };
-
-    if (!adminUser) {
-        return <div>Cargando...</div>;
-    }
-
     return (
-        <div className="admin-container">
-            <AdminSidebar 
-                seccionActiva={seccionActiva}
-                onSeccionChange={setSeccionActiva}
-                onLogout={handleLogout}
-                adminUser={adminUser}
-            />
-            <main className="admin-main">
-                {renderSeccion()}
-            </main>
+        <div className="admin-container" style={{ padding: '2rem', background: 'white' }}>
+            <h1>Panel de Administración</h1>
+            <p>Bienvenido al panel de administración</p>
+            <div style={{ background: '#f5f5f5', padding: '1rem', borderRadius: '8px' }}>
+                <h3>Funcionalidades disponibles:</h3>
+                <ul>
+                    <li>Gestión de Productos</li>
+                    <li>Gestión de Usuarios</li>
+                    <li>Gestión de Pedidos</li>
+                </ul>
+            </div>
         </div>
     );
 }

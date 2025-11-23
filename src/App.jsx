@@ -1,19 +1,22 @@
-// src/App.jsx
 import React, { useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 
-// COMPONENTES - Nuevas rutas
+// COMPONENTES
 import Header from "./components/organisms/layout/Header";
 import Footer from "./components/organisms/layout/Footer";
 
-// PÁGINAS - Nuevas rutas
-import Index from "./pages/public/Index";
+// PÁGINAS PÚBLICAS
+import Inicio from "./pages/public/Inicio";
 import Productos from "./pages/public/Productos";
 import Nosotros from "./pages/public/Nosotros";
 import Contacto from "./pages/public/Contacto";
 import Login from "./pages/public/Login";
 import Registro from "./pages/public/Registro";
 import Carrito from "./pages/public/Carrito";
+
+// PÁGINAS ADMIN
+import Admin from "./pages/admin/Admin";
+import AdminLogin from "./pages/admin/AdminLogin";
 
 // ESTILOS
 import "./App.css";
@@ -36,36 +39,35 @@ function App() {
         setCarrito(carrito.filter((item) => item.id !== id));
     };
 
-    // Determinar si mostrar el Footer (no mostrar en login)
-    const showFooter = location.pathname !== "/login";
+    // Determinar si mostrar Header y Footer (no mostrar en rutas de admin)
+    const isAdminRoute = location.pathname.startsWith('/admin');
+    const showFooter = location.pathname !== "/login" && !isAdminRoute;
+    const showHeader = !isAdminRoute;
 
     return (
         <div className="app-wrapper">
-            <Header carrito={carrito} />
+            {/* Header solo para rutas públicas */}
+            {showHeader && <Header carrito={carrito} />}
             
             <main className="main-content">
                 <Routes>
+                    {/* Rutas públicas */}
                     <Route path="/" element={<Navigate to="/inicio" replace />} />
-                    <Route 
-                        path="/inicio" 
-                        element={<Index agregarAlCarrito={agregarAlCarrito} />} 
-                    />
-                    <Route 
-                        path="/productos" 
-                        element={<Productos agregarAlCarrito={agregarAlCarrito} />} 
-                    />
+                    <Route path="/inicio" element={<Inicio agregarAlCarrito={agregarAlCarrito} />} />
+                    <Route path="/productos" element={<Productos agregarAlCarrito={agregarAlCarrito} />} />
                     <Route path="/nosotros" element={<Nosotros />} />
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/registro" element={<Registro />} />
-                    <Route 
-                        path="/carrito" 
-                        element={<Carrito carrito={carrito} onRemove={eliminarDelCarrito} />} 
-                    />
+                    <Route path="/carrito" element={<Carrito carrito={carrito} onEliminarDelCarrito={eliminarDelCarrito} />} />
+                    
+                    {/* Rutas de Admin - sin Header/Footer */}
+                    <Route path="/admin/login" element={<AdminLogin />} />
+                    <Route path="/admin/*" element={<Admin />} />
                 </Routes>
             </main>
             
-            {/* Footer condicional */}
+            {/* Footer solo para rutas públicas */}
             {showFooter && <Footer />}
         </div>
     );

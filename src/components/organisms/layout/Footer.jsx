@@ -1,7 +1,7 @@
 import React from "react";
-import Text from "../atoms/Text";
-import Image from "../atoms/Image";
-import "../../styles/components/organisms/Footer.css";
+import Text from "../../atoms/Text";
+import Image from "../../atoms/Image";
+import "../../../styles/components/organisms/layout/Footer.css";
 
 // Datos estáticos (que podríamos traer del API de Categorías)
 const ENLACES = [

@@ -1,7 +1,7 @@
 import React from "react";
 import{ useState } from "react";
-import "../styles/pages/registro.css";
-import Button from "../components/atoms/Button";
+import "../../styles/pages/public/Registro.css";
+import Button from "../../components/atoms/Button";
 
 const Registro = () => {
   const [nombre, setNombre] = useState("");

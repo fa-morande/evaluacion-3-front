@@ -1,6 +1,6 @@
 import React from "react";
-import Text from "../atoms/Text";
-import "../../styles/components/molecules/CardCategoria.css";
+import Text from "../../atoms/Text";
+import "../../../styles/components/molecules/cards/CardCategoria.css";
 
 function CardCategoria ({ imagen, titulo, descripcion }){ 
     return (

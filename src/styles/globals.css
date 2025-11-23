@@ -136,6 +136,29 @@
 .pb-3 { padding-bottom: 1.5rem; }
 .pb-4 { padding-bottom: 2rem; }
 
+/* Reset completo para eliminar espacios blancos */
+body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    overflow-x: hidden !important;
+}
+
+/* Forzar que todos los contenedores no tengan padding lateral */
+.container, .container-fluid, .container-centered, .container-wide {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+/* Asegurar que el header y footer ocupen todo el ancho */
+header, footer {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 /* Responsive base */
 @media (max-width: 768px) {
     h1 { font-size: 2rem; }

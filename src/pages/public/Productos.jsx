@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import BodyFiltro from '../components/organisms/BodyFiltro';
-import CardProductGeneral from '../components/molecules/CardProductGeneral';
-import productosData from '../data/productos';
-import '../styles/components/Containers.css';
-import '../styles/pages/Productos.css';
+import BodyFiltro from '../../components/organisms/products/BodyFiltro';
+import CardProductGeneral from '../../components/molecules/cards/CardProductGeneral';
+import productosData from '../../services/data/productos';
+import '../../styles/pages/public/Productos.css'; // Solo importar Productos.css
 
 function Productos({ agregarAlCarrito }) {
     const [productos, setProductos] = useState([]);
@@ -37,12 +36,12 @@ function Productos({ agregarAlCarrito }) {
     }, []);
 
     const handleSearch = (termino) => {
-        console.log("Búsqueda:", termino); // Para debug
+        console.log("Búsqueda:", termino);
         setFiltros(prev => ({ ...prev, busqueda: termino }));
     };
 
     const handleFilter = (categoria) => {
-        console.log("Filtro categoría:", categoria); // Para debug
+        console.log("Filtro categoría:", categoria);
         setFiltros(prev => ({ ...prev, categoria }));
     };
 
@@ -58,13 +57,14 @@ function Productos({ agregarAlCarrito }) {
 
     return (
         <div className="productos-page">
-            {/* CORREGIDO: Agregar las props que faltaban */}
+            {/* BodyFiltro ocupa todo el ancho */}
             <BodyFiltro 
                 onSearch={handleSearch}
                 onFilterChange={handleFilter}
             />
             
-            <div className="container-centered">
+            {/* Contenedor centrado solo para productos */}
+            <div className="productos-container">
                 <h2>Nuestros Productos</h2>
                 
                 <section className="seccion-productos-generales">

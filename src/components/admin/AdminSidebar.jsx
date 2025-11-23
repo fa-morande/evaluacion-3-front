@@ -1,4 +1,5 @@
 import React from 'react';
+import Text from '../atoms/Text';
 import '../../styles/components/admin/AdminSidebar.css';
 
 function AdminSidebar({ seccionActiva, onSeccionChange, onLogout, adminUser }) {
