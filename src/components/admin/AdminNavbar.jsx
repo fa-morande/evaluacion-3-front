@@ -1,36 +1,23 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import '../../../styles/components/organisms/layout/AdminNavbar.css';
+import { useAuth } from '../../context/AuthContext';
+// IMPORTANTE: Aquí conectamos el CSS
+import '../../styles/components/admin/AdminNavbar.css'; 
 
-function AdminNavbar({ adminUser, onLogout }) {
-    const navigate = useNavigate();
-
-    const handleLogout = () => {
-        onLogout();
-        navigate('/');
-    };
+const AdminNavbar = () => {
+    const { user } = useAuth();
 
     return (
-        <nav className="admin-navbar">
-            <div className="admin-navbar-brand">
-                <Link to="/admin">
-                    <h2>Panel Administrativo</h2>
-                </Link>
-            </div>
+        <header className="admin-navbar">
+            <h1>Administración</h1>
             
-            <div className="admin-navbar-user">
-                <span className="user-info">
-                    {adminUser?.email} (Administrador)
-                </span>
-                <button 
-                    className="logout-btn"
-                    onClick={handleLogout}
-                >
-                    🚪 Cerrar Sesión
-                </button>
+            <div className="admin-user-info">
+                <span>Hola, {user?.nombre || 'Admin'}</span>
+                <div className="admin-avatar">
+                    {user?.nombre ? user.nombre.charAt(0).toUpperCase() : 'A'}
+                </div>
             </div>
-        </nav>
+        </header>
     );
-}
+};
 
 export default AdminNavbar;

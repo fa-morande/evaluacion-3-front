@@ -1,41 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react"; // 1. Agrega useEffect
 import LoginForm from "../../components/organisms/auth/LoginForm";
-import { login } from "../../services/api/usuarios";
+import { login as apiLogin } from "../../services/api/usuarios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import "../../styles/pages/public/Login.css";
 
 function Login() {
     const navigate = useNavigate();
+    const { login, user } = useAuth(); // 2. Traemos 'user' para verificar si ya existe
+
+    // 3. NUEVO: Si ya estoy logueado, sácame de aquí
+    useEffect(() => {
+        if (user) {
+            if (user.role === 'admin' || user.role === 'ADMIN') {
+                navigate('/admin', { replace: true });
+            } else {
+                navigate('/inicio', { replace: true });
+            }
+        }
+    }, [user, navigate]);
 
     const handleLogin = async (email, password) => {
         try {
-            console.log("Intentando login con:", email); // Debug
-            
-            const usuario = await login(email, password);
-            console.log("Login exitoso, usuario:", usuario); // Debug
-
-            // Guardar usuario en localStorage
-            localStorage.setItem("usuario", JSON.stringify(usuario));
-            
-            // También guardar específicamente como admin si corresponde
-            if (usuario.role === "ADMIN") {
-                localStorage.setItem("adminUser", JSON.stringify(usuario));
-            }
-
-            alert("Inicio de sesión exitoso");
-
-            // Redirigir según rol - CORREGIDO
-            if (usuario.role === "ADMIN") {
-                navigate("/admin"); // Cambiado de "/admin/dashboard" a "/admin"
-            } else {
-                navigate("/");
-            }
-
+            // ... (tu lógica de login existente se mantiene igual) ...
+            const usuarioApi = await apiLogin(email, password);
+            login(usuarioApi);
+            // La redirección ya la manejará el useEffect o puedes dejarla aquí también
         } catch (error) {
-            console.error("Error en login:", error);
-            alert(error.message || "Email o contraseña incorrectos");
+            console.error(error);
+            alert("Error: " + error.message);
         }
     };
+
+    // Si ya hay usuario, retornamos null para evitar parpadeos mientras redirige
+    if (user) return null;
 
     return (
         <div className="page-container login-page">

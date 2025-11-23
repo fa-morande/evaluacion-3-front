@@ -1,43 +1,39 @@
 .admin-navbar {
-    background-color: #001b42;
-    color: white;
-    padding: 1rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.admin-navbar-brand h2 {
-    margin: 0;
-    color: white;
-}
-
-.admin-navbar-brand a {
-    text-decoration: none;
-}
-
-.admin-navbar-user {
+    height: 70px;
+    background-color: white;
     display: flex;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between; /* Separa título del perfil */
+    padding: 0 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Sombra sutil abajo */
+    border-bottom: 1px solid #e2e8f0;
 }
 
-.user-info {
-    font-size: 0.9rem;
-    opacity: 0.9;
+.admin-navbar h1 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    font-weight: 600;
 }
 
-.logout-btn {
-    background: #FF8800;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9rem;
+.admin-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.logout-btn:hover {
-    background: #e67a00;
+.admin-user-info span {
+    font-weight: 500;
+    color: #475569;
+}
+
+.admin-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #64748b;
 }

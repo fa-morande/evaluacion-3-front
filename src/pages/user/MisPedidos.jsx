@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPedidosPorUsuario } from "../../services/api/pedidos";
 import Text from "../../components/atoms/Text";
-import "../styles/pages/MisPedidos.css";
+import "../../styles/pages/user/MisPedidos.css";
 
 function MisPedidos() {
     const [pedidos, setPedidos] = useState([]);

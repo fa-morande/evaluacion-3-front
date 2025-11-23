@@ -1,64 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { adminService } from '../../services/api/adminService';
+import React from 'react';
 import '../../styles/components/admin/AdminDashboard.css';
 
-function AdminDashboard() {
-    const [stats, setStats] = useState({
-        totalProductos: 0,
-        totalPedidos: 0,
-        totalUsuarios: 0,
-        pedidosPendientes: 0
-    });
-
-    useEffect(() => {
-        cargarEstadisticas();
-    }, []);
-
-    const cargarEstadisticas = async () => {
-        try {
-            // Aquí puedes cargar estadísticas reales cuando tengas los servicios
-            console.log("Cargando estadísticas del dashboard...");
-            
-            // Datos de ejemplo por ahora
-            setStats({
-                totalProductos: 45,
-                totalPedidos: 120,
-                totalUsuarios: 89,
-                pedidosPendientes: 15
-            });
-        } catch (error) {
-            console.error('Error cargando estadísticas:', error);
-        }
-    };
-
+const AdminDashboard = () => {
     return (
-        <div className="admin-dashboard">
-            <h1>Dashboard Administrativo</h1>
-            <p>Bienvenido al panel de administración</p>
+        <div className="admin-dashboard-container">
+            <h2 className="dashboard-title">Resumen General</h2>
             
             <div className="stats-grid">
                 <div className="stat-card">
-                    <h3>Total Productos</h3>
-                    <p className="stat-number">{stats.totalProductos}</p>
+                    <h3>Ventas Totales</h3>
+                    <p className="value">$1.2M</p>
                 </div>
-                
                 <div className="stat-card">
-                    <h3>Total Pedidos</h3>
-                    <p className="stat-number">{stats.totalPedidos}</p>
+                    <h3>Pedidos</h3>
+                    <p className="value">34</p>
                 </div>
-                
                 <div className="stat-card">
-                    <h3>Total Usuarios</h3>
-                    <p className="stat-number">{stats.totalUsuarios}</p>
-                </div>
-                
-                <div className="stat-card">
-                    <h3>Pedidos Pendientes</h3>
-                    <p className="stat-number">{stats.pedidosPendientes}</p>
+                    <h3>Usuarios</h3>
+                    <p className="value">156</p>
                 </div>
             </div>
         </div>
     );
-}
-
+};
 export default AdminDashboard;

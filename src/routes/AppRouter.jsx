@@ -1,60 +1,56 @@
-// src/routes/AppRouter.jsx
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from '../context/AuthContext';
 
-// PÁGINAS PÚBLICAS
-import Index from '../pages/public/Index';
+// LAYOUTS
+import MainLayout from '../components/organisms/layout/MainLayout';
+import AdminLayout from '../components/organisms/layout/AdminLayout';
+
+// PÁGINAS
+import Inicio from '../pages/public/Inicio';
 import Productos from '../pages/public/Productos';
 import Carrito from '../pages/public/Carrito';
 import Login from '../pages/public/Login';
 import Registro from '../pages/public/Registro';
 import Nosotros from '../pages/public/Nosotros';
 import Contacto from '../pages/public/Contacto';
-
-// PÁGINAS DE USUARIO
 import MisPedidos from '../pages/user/MisPedidos';
 import Perfil from '../pages/user/Perfil';
 
-// PÁGINAS DE ADMIN
-import Admin from '../pages/admin/Admin';
-import AdminLogin from '../pages/admin/AdminLogin';
+// PÁGINAS ADMIN
+import AdminDashboard from '../components/admin/AdminDashboard';
+import AdminHome from '../pages/admin/AdminHome';
 
-// COMPONENTES
-import ProtectedRoute from '../components/organisms/layout/ProtectedRoute';
-
-function AppRouter() {
+function AppRouter({ carrito, agregarAlCarrito, eliminarDelCarrito }) {
     return (
-        <BrowserRouter>
+        <AuthProvider>
             <Routes>
-                {/* Rutas públicas */}
-                <Route path="/" element={<Index />} />
-                <Route path="/inicio" element={<Index />} />
-                <Route path="/productos" element={<Productos />} />
-                <Route path="/carrito" element={<Carrito />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/registro" element={<Registro />} />
-                <Route path="/nosotros" element={<Nosotros />} />
-                <Route path="/contacto" element={<Contacto />} />
-                
-                {/* Rutas de usuario */}
-                <Route path="/mis-pedidos" element={<MisPedidos />} />
-                <Route path="/perfil" element={<Perfil />} />
-                
-                {/* Rutas de administración */}
-                <Route path="/admin/login" element={<AdminLogin />} />
-                <Route 
-                    path="/admin/*" 
-                    element={
-                        <ProtectedRoute>
-                            <Admin />
-                        </ProtectedRoute>
-                    } 
-                />
-                
-                {/* Ruta por defecto */}
-                <Route path="*" element={<Index />} />
+                {/* ZONA PÚBLICA */}
+                <Route element={<MainLayout carrito={carrito} />}>
+                    <Route path="/" element={<Navigate to="/inicio" replace />} />
+                    <Route path="/inicio" element={<Inicio agregarAlCarrito={agregarAlCarrito} />} />
+                    <Route path="/productos" element={<Productos agregarAlCarrito={agregarAlCarrito} />} />
+                    <Route path="/carrito" element={<Carrito carrito={carrito} onEliminarDelCarrito={eliminarDelCarrito} />} />
+                    <Route path="/nosotros" element={<Nosotros />} />
+                    <Route path="/contacto" element={<Contacto />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/registro" element={<Registro />} />
+                    <Route path="/mis-pedidos" element={<MisPedidos />} />
+                    <Route path="/perfil" element={<Perfil />} />
+                </Route>
+
+                {/* ZONA ADMIN */}
+                <Route path="/admin" element={<AdminLayout />}>
+                    {/* CORRECCIÓN: Solo UNA ruta index. Borré la duplicada. */}
+                    <Route index element={<AdminHome />} />
+                    
+                    {/* El Dashboard ahora es una sub-ruta explícita */}
+                    <Route path="dashboard" element={<AdminDashboard />} />
+                </Route>
+
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-        </BrowserRouter>
+        </AuthProvider>
     );
 }
 

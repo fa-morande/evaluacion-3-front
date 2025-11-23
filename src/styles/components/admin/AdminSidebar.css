@@ -1,55 +1,69 @@
+/* Contenedor principal del Sidebar */
 .admin-sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 250px;
-    height: 100vh;
-    background: #001b42;
-    color: white;
-    padding: 1rem 0;
-    }
-
-    .sidebar-header {
-    padding: 0 1.5rem 1.5rem;
-    border-bottom: 1px solid #2d3748;
-    }
-
-    .sidebar-header h2 {
-    color: white;
-    margin: 0;
-    }
-
-    .sidebar-nav {
-    padding: 1rem 0;
-    }
-
-    .nav-item {
-    width: 100%;
-    padding: 1rem 1.5rem;
-    background: none;
-    border: none;
-    color: #cbd5e0;
+    width: 260px;           /* Ancho fijo */
+    height: 100vh;          /* Altura total de la pantalla */
+    background-color: #1e293b; /* Azul oscuro/Gris profesional (Slate 800) */
+    color: #f8fafc;         /* Texto blanco hueso */
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
+    flex-direction: column;
+    padding: 1rem;
+    position: sticky;       /* Se queda fijo al hacer scroll */
+    top: 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+/* Logo o Título del Admin */
+.admin-sidebar h2 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #38bdf8;         /* Un acento de color (Cyan) */
+    font-weight: bold;
+    border-bottom: 1px solid #334155;
+    padding-bottom: 1rem;
+}
+
+/* Lista de navegación */
+.admin-sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Enlaces individuales */
+.admin-sidebar nav ul li a {
+    display: block;
+    padding: 12px 15px;
+    color: #cbd5e1;
+    text-decoration: none;
+    border-radius: 6px;
     transition: all 0.3s ease;
-    }
-
-    .nav-item:hover {
-    background: #2d3748;
-    color: white;
-    }
-
-    .nav-item.active {
-    background: #005F99;
-    color: white;
-    }
-
-    .nav-icon {
-    font-size: 1.2rem;
-    }
-
-    .nav-label {
     font-weight: 500;
+}
+
+/* Efecto Hover (al pasar el mouse) */
+.admin-sidebar nav ul li a:hover {
+    background-color: #334155; /* Un poco más claro */
+    color: white;
+    transform: translateX(5px); /* Pequeño movimiento a la derecha */
+}
+
+/* Enlace Activo (Opcional, si usas NavLink) */
+.admin-sidebar nav ul li a.active {
+    background-color: #0ea5e9; /* Azul primario */
+    color: white;
+}
+
+/* Botón de Salir (al final) */
+.admin-logout {
+    margin-top: auto; /* Empuja el botón al fondo */
+    background-color: #ef4444;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
 }
