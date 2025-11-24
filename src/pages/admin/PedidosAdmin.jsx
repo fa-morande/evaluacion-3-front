@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../atoms/Button';
+import Button from '../../components/atoms/Button'; 
 import '../../styles/components/admin/AdminGlobal.css';
 
 // Datos Mock

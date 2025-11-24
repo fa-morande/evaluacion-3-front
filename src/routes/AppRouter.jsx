@@ -6,7 +6,7 @@ import { AuthProvider } from '../context/AuthContext';
 import MainLayout from '../components/organisms/layout/MainLayout';
 import AdminLayout from '../components/organisms/layout/AdminLayout';
 
-// PÁGINAS
+// PÁGINAS PÚBLICAS
 import Inicio from '../pages/public/Inicio';
 import Productos from '../pages/public/Productos';
 import Carrito from '../pages/public/Carrito';
@@ -17,11 +17,11 @@ import Contacto from '../pages/public/Contacto';
 import MisPedidos from '../pages/user/MisPedidos';
 import Perfil from '../pages/user/Perfil';
 
-// PÁGINAS ADMIN
-import AdminDashboard from '../components/admin/AdminDashboard';
-import ProductosAdmin from '../components/admin/ProductosAdmin';
-import PedidosAdmin from '../components/admin/PedidosAdmin';
-import UsuariosAdmin from '../components/admin/UsuariosAdmin';
+// --- REFACTOR: PÁGINAS ADMIN (Ahora apuntan a pages/admin) ---
+import AdminDashboard from '../pages/admin/AdminDashboard';
+import ProductosAdmin from '../pages/admin/ProductosAdmin';
+import PedidosAdmin from '../pages/admin/PedidosAdmin';
+import UsuariosAdmin from '../pages/admin/UsuariosAdmin';
 
 function AppRouter({ carrito, agregarAlCarrito, eliminarDelCarrito }) {
     return (
@@ -43,7 +43,6 @@ function AppRouter({ carrito, agregarAlCarrito, eliminarDelCarrito }) {
 
                 {/* ZONA ADMIN */}
                 <Route path="/admin" element={<AdminLayout />}>
-                 {/* Dashboard es el home */}
                     <Route index element={<AdminDashboard />} />
                     <Route path="productos" element={<ProductosAdmin />} />
                     <Route path="pedidos" element={<PedidosAdmin />} />

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { adminService } from '../../services/api/adminService';
-import Button from '../atoms/Button';
-import Input from '../atoms/Input';
-import Text from '../atoms/Text';
-import AdminTable from './AdminTable'; 
+import Button from '../../components/atoms/Button';
+import Input from '../../components/atoms/Input';
+import Text from '../../components/atoms/Text';
+import AdminTable from '../../components/organisms/AdminTable';
+
 import '../../styles/components/admin/AdminGlobal.css';
 
 function ProductosAdmin() {
