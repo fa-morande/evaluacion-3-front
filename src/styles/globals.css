@@ -152,13 +152,6 @@ body, html {
     margin-right: 0 !important;
 }
 
-/* Asegurar que el header y footer ocupen todo el ancho */
-header, footer {
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 /* Responsive base */
 @media (max-width: 768px) {
     h1 { font-size: 2rem; }

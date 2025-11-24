@@ -1,22 +1,35 @@
 /* BodyFiltro.css - Mejorado y más grande */
 .seccion-filtro {
-    padding: 3rem 0; /* Más padding vertical */
+    /* 1. Altura Automática: Que crezca lo que tenga que crecer */
+    height: auto; 
+    min-height: 120px; /* Opcional: Para que no se vea muy chico si está vacío */
+
+    /* 2. Ancho más inteligente: Ocupa el 90% pero no te pases de 1200px */
+    width: 90%;
+    max-width: 1200px;
+    
+    /* 3. Márgenes y Padding */
+    margin: 2rem auto; /* Centrado horizontal */
+    padding: 2rem 1rem; /* Espacio interno para que los hijos respiren */
+    
+    /* Estética */
     background-color: #FFFFFF;
-    border-bottom: 2px solid #e0e0e0; /* Borde más grueso */
-    width: 61vw;
-    height: 8vw;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil */
-    margin: 0 auto;
-    border-radius: 10px; /* Más redondeados */
+    border-bottom: 2px solid #e0e0e0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    
+    /* Para evitar desbordamientos extraños */
+    box-sizing: border-box; 
+    display: flex;
+    justify-content: center;
 }
 
 .controles-filtro {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 2rem;
+    width: 100%; /* Que ocupe todo el espacio disponible del padre */
     display: flex;
-    gap: 1rem; /* Más espacio entre secciones */
-    align-items: flex-start;
+    gap: 2rem;
+    align-items: flex-start; /* Alineación superior para evitar estiramientos */
+    flex-wrap: wrap; /* CRUCIAL: Si no cabe, baja a la siguiente línea */
 }
 
 .seccion-busqueda,

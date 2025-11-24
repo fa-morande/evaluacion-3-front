@@ -45,7 +45,6 @@ function BodyFiltro({ onSearch, onFilterChange }) {
                         />
                     </div>
                 </div>
-
                 {/* Sección de Categorías */}
                 <div className="seccion-categorias">
                     <Text variant="h3" className="titulo-seccion">
