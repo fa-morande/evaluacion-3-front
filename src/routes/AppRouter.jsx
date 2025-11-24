@@ -19,7 +19,9 @@ import Perfil from '../pages/user/Perfil';
 
 // PÁGINAS ADMIN
 import AdminDashboard from '../components/admin/AdminDashboard';
-import AdminHome from '../pages/admin/AdminHome';
+import ProductosAdmin from '../components/admin/ProductosAdmin';
+import PedidosAdmin from '../components/admin/PedidosAdmin';
+import UsuariosAdmin from '../components/admin/UsuariosAdmin';
 
 function AppRouter({ carrito, agregarAlCarrito, eliminarDelCarrito }) {
     return (
@@ -41,11 +43,11 @@ function AppRouter({ carrito, agregarAlCarrito, eliminarDelCarrito }) {
 
                 {/* ZONA ADMIN */}
                 <Route path="/admin" element={<AdminLayout />}>
-                    {/* CORRECCIÓN: Solo UNA ruta index. Borré la duplicada. */}
-                    <Route index element={<AdminHome />} />
-                    
-                    {/* El Dashboard ahora es una sub-ruta explícita */}
-                    <Route path="dashboard" element={<AdminDashboard />} />
+                 {/* Dashboard es el home */}
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="productos" element={<ProductosAdmin />} />
+                    <Route path="pedidos" element={<PedidosAdmin />} />
+                    <Route path="usuarios" element={<UsuariosAdmin />} />
                 </Route>
 
                 <Route path="*" element={<Navigate to="/" replace />} />

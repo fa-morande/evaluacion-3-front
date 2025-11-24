@@ -1,53 +1,39 @@
-// src/services/api/ProductoService.js
 import axios from 'axios';
 import { API_URL } from '../../utils/constants';
 
 const BASE_URL = `${API_URL}/productos`;
 
 class ProductoService {
-    /* --> Listar todos los productos */
+    
+    // GET: Listar todos
     getAllProductos() {
         return axios.get(BASE_URL);
     }
 
-    /* --> Obtener producto por ID */
-    getProductoById(id) {
-        return axios.get(`${BASE_URL}/${id}`);
-    }
-
-    /* --> Crear producto */
+    // POST: Crear producto (Importante para lo que quieres hacer ahora)
     createProducto(producto) {
+        // Axios envía automáticamente el header Content-Type: application/json
         return axios.post(BASE_URL, producto);
     }
 
-    /* --> Actualizar producto */
+    // PUT: Actualizar
     updateProducto(id, producto) {
         return axios.put(`${BASE_URL}/${id}`, producto);
     }
 
-    /* --> Eliminar producto */
+    // DELETE: Borrar
     deleteProducto(id) {
         return axios.delete(`${BASE_URL}/${id}`);
     }
 
-    /* --> Productos activos */
-    getProductosActivos() {
-        return axios.get(`${BASE_URL}/activos`);
+    // PUT: Destacar (Según el código que me pasaste, usa query params)
+    marcarDestacado(id, destacado) {
+        return axios.put(`${BASE_URL}/${id}/destacado?destacado=${destacado}`);
     }
 
-    /* --> Productos destacados */
-    getProductosDestacados() {
-        return axios.get(`${BASE_URL}/destacados`);
-    }
-
-    /* --> Productos por categoría */
-    getProductosPorCategoria(categoriaId) {
-        return axios.get(`${BASE_URL}/categoria/${categoriaId}`);
-    }
-
-    /* --> Buscar productos por nombre */
-    buscarProductos(nombre) {
-        return axios.get(`${BASE_URL}/buscar?nombre=${nombre}`);
+    // PUT: Stock
+    actualizarStock(id, stock) {
+        return axios.put(`${BASE_URL}/${id}/stock?stock=${stock}`);
     }
 }
 
