@@ -1,59 +1,70 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom'; // 1. Para leer la URL
 import BodyFiltro from '../../components/organisms/products/BodyFiltro';
 import CardProductGeneral from '../../components/molecules/cards/CardProductGeneral';
-import productosData from '../../services/data/productos';
-import '../../styles/pages/public/Productos.css'; // Solo importar Productos.css
+import { getProductos } from '../../services/api/productos'; // 2. Servicio real
+import '../../styles/pages/public/Productos.css'; 
 
 function Productos({ agregarAlCarrito }) {
     const [productos, setProductos] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchParams] = useSearchParams(); // Hook de parámetros
+
     const [filtros, setFiltros] = useState({
         categoria: '',
         busqueda: ''
     });
 
-    const transformarProductos = () => {
-        const productosPlano = [];
-        
-        Object.entries(productosData.categoria).forEach(([categoria, productosCategoria]) => {
-            productosCategoria.forEach(producto => {
-                productosPlano.push({
-                    id: `${categoria}-${producto.id}`,
-                    imagen: producto.image,
-                    categoria: categoria,
-                    titulo: producto.name,
-                    subtitulo: producto.description,
-                    precio: producto.price,
-                    ...producto
-                });
-            });
-        });
-        
-        return productosPlano;
-    };
-
+    // Carga de productos y lectura de URL
     useEffect(() => {
-        setProductos(transformarProductos());
-    }, []);
+        const fetchProductos = async () => {
+            try {
+                const data = await getProductos();
+                const lista = Array.isArray(data) ? data : (data.productos || []);
+                setProductos(lista);
+
+                // 3. Si venimos de Inicio con ?categoria=Perros, aplicamos el filtro
+                const categoriaUrl = searchParams.get('categoria');
+                if (categoriaUrl) {
+                    setFiltros(prev => ({ ...prev, categoria: categoriaUrl }));
+                }
+
+            } catch (error) {
+                console.error("Error cargando productos:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProductos();
+    }, [searchParams]);
 
     const handleSearch = (termino) => {
-        console.log("Búsqueda:", termino);
         setFiltros(prev => ({ ...prev, busqueda: termino }));
     };
 
     const handleFilter = (categoria) => {
-        console.log("Filtro categoría:", categoria);
         setFiltros(prev => ({ ...prev, categoria }));
     };
 
+    // Lógica de filtrado (Adaptada a tu Backend: categoria es un objeto)
     const productosFiltrados = productos.filter(producto => {
-        const coincideCategoria = !filtros.categoria || producto.categoria === filtros.categoria;
+        const catNombre = producto.categoria?.nombre || 'General';
+        
+        // Comparación flexible
+        const coincideCategoria = !filtros.categoria || 
+            catNombre.toLowerCase() === filtros.categoria.toLowerCase();
+        
+        const termino = filtros.busqueda.toLowerCase();
         const coincideBusqueda = !filtros.busqueda || 
-            producto.titulo.toLowerCase().includes(filtros.busqueda.toLowerCase()) ||
-            producto.categoria.toLowerCase().includes(filtros.busqueda.toLowerCase()) ||
-            (producto.subtitulo && producto.subtitulo.toLowerCase().includes(filtros.busqueda.toLowerCase()));
+            producto.nombre.toLowerCase().includes(termino) ||
+            catNombre.toLowerCase().includes(termino) ||
+            (producto.descripcion && producto.descripcion.toLowerCase().includes(termino));
         
         return coincideCategoria && coincideBusqueda;
     });
+
+    if (loading) return <div className="productos-page"><p style={{textAlign:'center', marginTop:'50px'}}>Cargando...</p></div>;
 
     return (
         <div className="productos-page">
@@ -65,22 +76,31 @@ function Productos({ agregarAlCarrito }) {
             
             {/* Contenedor centrado solo para productos */}
             <div className="productos-container">
-                <h2>Nuestros Productos</h2>
+                <h2>
+                    {filtros.categoria ? `Categoría: ${filtros.categoria}` : "Nuestros Productos"}
+                </h2>
                 
                 <section className="seccion-productos-generales">
                     {productosFiltrados.length === 0 ? (
                         <div className="no-products">
                             <p>No se encontraron productos con los filtros aplicados.</p>
+                            <button 
+                                onClick={() => setFiltros({categoria: '', busqueda: ''})}
+                                style={{marginTop:'10px', cursor:'pointer', padding:'5px 10px'}}
+                            >
+                                Ver todos
+                            </button>
                         </div>
                     ) : (
                         <div className="grid-productos">
                             {productosFiltrados.map((producto) => (
                                 <CardProductGeneral
                                     key={producto.id}
-                                    imagen={producto.imagen}
-                                    categoria={producto.categoria}
-                                    titulo={producto.titulo}
-                                    subtitulo={producto.subtitulo}
+                                    // Mapeo Backend -> Props
+                                    imagen={producto.imagenUrl || "https://via.placeholder.com/300"}
+                                    titulo={producto.nombre}
+                                    subtitulo={producto.descripcion}
+                                    categoria={producto.categoria?.nombre || "Varios"}
                                     precio={producto.precio}
                                     onAddToCart={() => agregarAlCarrito(producto)}
                                 />

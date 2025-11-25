@@ -1,52 +1,87 @@
-const API_URL = "https://back-m41x.onrender.com/api";
+// src/services/api/pedidos.js
 
+const API_URL = "/api"; // Proxy
+
+const getToken = () => {
+    const storedUser = localStorage.getItem("user"); // Llave correcta
+    if (!storedUser) return null;
+    try {
+        const user = JSON.parse(storedUser);
+        // Buscamos el token donde sea
+        return user.token || user.accessToken || user.usuario?.token || null;
+    } catch (e) {
+        return null;
+    }
+};
+
+// --- CREAR PEDIDO ---
 export async function createPedido(pedidoData) {
-    try {
-        const response = await fetch(`${API_URL}/pedidos`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(pedidoData),
-        });
+    const token = getToken();
+    
+    const headers = {
+        "Content-Type": "application/json"
+    };
 
-        if (!response.ok) {
-            throw new Error("Error al crear el pedido");
-        }
-
-        return await response.json();
-    } catch (error) {
-        console.error("Error creando pedido:", error);
-        throw error;
+    if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
     }
+
+    const res = await fetch(`${API_URL}/pedidos`, {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(pedidoData),
+        credentials: 'include' // Importante para cookies
+    });
+
+    const responseText = await res.text();
+    let jsonData;
+    try {
+        jsonData = JSON.parse(responseText);
+    } catch (e) {
+        jsonData = { message: responseText };
+    }
+
+    if (!res.ok) {
+        throw new Error(jsonData.message || "Error al crear el pedido");
+    }
+
+    return jsonData;
 }
 
-export async function getPedidosPorUsuario(usuarioId) {
-    try {
-        const response = await fetch(`${API_URL}/pedidos/usuario/${usuarioId}`);
-        
-        if (!response.ok) {
-            throw new Error("Error al obtener pedidos");
-        }
+// --- OBTENER TODOS (Admin) ---
+export async function getPedidos() {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json" };
+    
+    if (token) headers["Authorization"] = `Bearer ${token}`;
 
-        return await response.json();
-    } catch (error) {
-        console.error("Error obteniendo pedidos:", error);
-        throw error;
-    }
+    const res = await fetch(`${API_URL}/pedidos`, {
+        headers: headers,
+        credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error("Error al cargar pedidos");
+    return res.json();
 }
 
-export async function getPedidoById(id) {
-    try {
-        const response = await fetch(`${API_URL}/pedidos/${id}`);
-        
-        if (!response.ok) {
-            throw new Error("Error al obtener pedido");
-        }
+// --- OBTENER POR USUARIO ---
+export async function getPedidosPorUsuario(idUsuario) {
+    const token = getToken();
+    const headers = { "Content-Type": "application/json" };
+    
+    if (token) headers["Authorization"] = `Bearer ${token}`;
 
-        return await response.json();
-    } catch (error) {
-        console.error("Error obteniendo pedido:", error);
-        throw error;
-    }
+    // Si no pasamos ID, intentamos deducirlo del token/session en el backend
+    // Ojo: Ajusta la URL si tu backend requiere el ID explícito en la ruta
+    const url = idUsuario 
+        ? `${API_URL}/pedidos/usuario/${idUsuario}` 
+        : `${API_URL}/pedidos/mis-pedidos`; // Ruta alternativa común
+
+    const res = await fetch(url, {
+        headers: headers,
+        credentials: 'include'
+    });
+
+    if (!res.ok) throw new Error("Error al cargar tus pedidos");
+    return res.json();
 }

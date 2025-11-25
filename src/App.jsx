@@ -1,17 +1,32 @@
-import React, { useState } from "react";
-import AppRouter from "./routes/AppRouter"; // Importamos el Router Maestro
+import React, { useState, useEffect } from "react";
+import AppRouter from "./routes/AppRouter";
 import "./App.css";
 
 function App() {
-    // 1. ESTADO DEL CARRITO (Se mantiene aquí por ahora)
-    const [carrito, setCarrito] = useState([]);
+    // 1. INICIALIZACIÓN PERSISTENTE
+    // En lugar de empezar con [], revisamos si ya hay algo guardado
+    const [carrito, setCarrito] = useState(() => {
+        const carritoGuardado = localStorage.getItem("carrito");
+        return carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    });
+
+    // 2. EFECTO DE GUARDADO AUTOMÁTICO
+    // Cada vez que 'carrito' cambie, lo guardamos en localStorage
+    useEffect(() => {
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+    }, [carrito]);
 
     const agregarAlCarrito = (producto) => {
-        if (!carrito.some(item => item.id === producto.id)) {
-            setCarrito([...carrito, producto]);
-            alert(`${producto.nombre || producto.name || 'Producto'} agregado al carrito`);
+        // Verificamos si ya existe
+        const existe = carrito.some(item => item.id === producto.id);
+
+        if (existe) {
+            alert("Este producto ya está en tu carrito 🛒");
         } else {
-            alert("El producto ya está en el carrito.");
+            // Agregamos el producto con cantidad inicial 1
+            const nuevoProducto = { ...producto, cantidad: 1 };
+            setCarrito([...carrito, nuevoProducto]);
+            alert("¡Producto agregado! ✅");
         }
     };
 
@@ -19,8 +34,6 @@ function App() {
         setCarrito(carrito.filter((item) => item.id !== id));
     };
 
-    // 2. RENDERIZADO
-    // Ya no usamos <Routes> aquí. Le pasamos los datos al AppRouter.
     return (
         <div className="app-wrapper">
             <AppRouter 

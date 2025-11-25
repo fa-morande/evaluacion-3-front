@@ -1,15 +1,20 @@
-/* SeccionCategorias.css - Solo cards centradas */
+/* 1. Contenedor Principal: Full Width y Fondo Blanco */
 .seccion-categorias-container {
-    padding: 4rem 2rem;
+    width: 100%;
     background-color: #FFFFFF;
-    max-width: 1400px;
-    margin: 0 auto;
+    padding: 4rem 0;
+    /* Aseguramos que no haya desbordamiento vertical que rompa el layout */
+    overflow: hidden; 
 }
 
+/* 2. Encabezado: Centrado y limitado para que se vea ordenado */
 .encabezado-categorias {
     text-align: center;
     margin-bottom: 3rem;
     padding: 0 1rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .titulo-seccion-cat {
@@ -25,71 +30,83 @@
     opacity: 0.8;
 }
 
-/* Contenedor horizontal para las cards - CENTRADO */
+/* 3. Grid de Cards - SOLUCIÓN VISUAL */
 .categorias-grid {
     display: flex;
     gap: 2rem;
-    padding: 0 1rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    justify-content: center; /* ← SOLO ESTA LÍNEA AGREGADA */
+    
+    /* Ocupamos el 100% para evitar cortes blancos a los costados */
+    width: 100%; 
+    
+    /* Scroll horizontal habilitado */
+    overflow-x: auto; 
+    
+    /* Centrado inteligente: Si son pocas cards, se centran. Si son muchas, empiezan a la izquierda */
+    /* Usamos 'safe center' si el navegador lo soporta, o un margen automático */
+    justify-content: center; 
+    
+    /* SOLUCIÓN A "SUPERPOSICIÓN": Padding generoso */
+    /* 1rem a los lados para que no pegue al borde */
+    /* 2rem ABAJO para que si hay scrollbar, no tape la card */
+    padding: 0 5% 2rem 5%; 
+    
+    /* Comportamiento suave al scrollear */
+    scroll-behavior: smooth;
 }
 
-/* Ocultar scrollbar en Chrome/Safari */
+/* --- OCULTAR SCROLLBAR (Técnica Agresiva) --- */
+
+/* Firefox */
+.categorias-grid {
+    scrollbar-width: none; 
+}
+
+/* IE y Edge legacy */
+.categorias-grid {
+    -ms-overflow-style: none; 
+}
+
+/* Chrome, Safari, Opera */
 .categorias-grid::-webkit-scrollbar {
-    display: none;
+    display: none; /* Oculta el elemento */
+    height: 0;     /* Fuerza altura 0 */
+    width: 0;      /* Fuerza ancho 0 */
+    background: transparent; /* Fondo transparente */
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
     .seccion-categorias-container {
-        padding: 3rem 1.5rem;
+        padding: 3rem 0;
     }
     
     .titulo-seccion-cat {
         font-size: 2.2rem;
     }
-    
-    .categorias-grid {
-        padding: 0 0.5rem;
-    }
 }
 
 @media (max-width: 768px) {
     .seccion-categorias-container {
-        padding: 3rem 1rem;
+        padding: 3rem 0;
     }
     
     .titulo-seccion-cat {
         font-size: 2rem;
     }
     
-    .subtitulo-seccion-cat {
-        font-size: 1.1rem;
-    }
-    
     .categorias-grid {
-        gap: 1.5rem;
-        padding: 0 0.5rem;
+        gap: 1rem;
+        padding: 0 1rem 2rem 1rem; /* Mantenemos el padding inferior de seguridad */
+        justify-content: flex-start; /* En móviles alineamos a la izquierda para facilitar el scroll */
     }
 }
 
 @media (max-width: 480px) {
     .seccion-categorias-container {
-        padding: 2rem 0.5rem;
-    }
-    
-    .encabezado-categorias {
-        padding: 0 0.5rem;
+        padding: 2rem 0;
     }
     
     .titulo-seccion-cat {
         font-size: 1.8rem;
-    }
-    
-    .categorias-grid {
-        padding: 0 0.25rem;
-        gap: 1rem;
     }
 }

@@ -1,166 +1,124 @@
 import React, { useState } from "react";
-import { createPedido } from "../../../services/api/pedidos";
 import Button from "../../atoms/Button";
-import Input from "../../atoms/Input";
 import Text from "../../atoms/Text";
-import "../../../styles/components/organisms/cart/Checkout.css";
+import { createPedido } from "../../../services/api/pedidos";
+import "../../../styles/components/atoms/Button.css"; // Asegura estilos
 
-function Checkout({ carrito, usuario, onPedidoCreado, onCancel }) {
+const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        direccion: "",
-        ciudad: "",
-        telefono: "",
-        notas: ""
-    });
+    
+    // Datos mínimos requeridos por tu JSON
+    const [direccion, setDireccion] = useState(usuario.direccion || "");
+    const [metodoPago, setMetodoPago] = useState("Transferencia");
+    const [notas, setNotas] = useState("");
 
-    const calcularTotal = () => {
-        return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
-    };
+    const totalCompra = carrito.reduce((acc, item) => acc + (item.precio * item.cantidad), 0);
 
-    const handleSubmit = async (e) => {
+    const handleConfirmarCompra = async (e) => {
         e.preventDefault();
         setLoading(true);
 
         try {
-            // Preparar datos del pedido
-            const pedidoData = {
-                usuarioId: usuario.id,
-                direccionEntrega: `${formData.direccion}, ${formData.ciudad}`,
-                telefono: formData.telefono,
-                notas: formData.notas,
-                productos: carrito.map(item => ({
-                    productoId: item.id,
-                    cantidad: item.cantidad,
-                    precioUnitario: item.precio
-                })),
-                total: calcularTotal(),
-                estado: "PENDIENTE"
+            // 1. TRANSFORMACIÓN DE DATOS (La magia ✨)
+            // Convertimos el formato del carrito al formato del Backend
+            const detallesPedido = carrito.map(item => ({
+                producto: { id: item.id }, // Estructura anidada requerida
+                cantidad: item.cantidad,
+                precioUnitario: item.precio
+            }));
+
+            const payload = {
+                usuario: { id: usuario.id || usuario.usuario?.id }, // ID del usuario logueado
+                total: totalCompra,
+                estado: "PENDIENTE",
+                direccionEnvio: direccion,
+                metodoPago: metodoPago,
+                notas: notas,
+                detalles: detallesPedido
             };
 
-            console.log("Enviando pedido:", pedidoData);
+            console.log("🚀 Enviando pedido:", payload);
 
-            const nuevoPedido = await createPedido(pedidoData);
+            // 2. LLAMADA A LA API
+            const respuesta = await createPedido(payload);
             
-            console.log("Pedido creado exitosamente:", nuevoPedido);
+            alert(`¡Pedido #${respuesta.id || 'creado'} confirmado!`);
             
-            // Limpiar carrito y notificar
-            localStorage.removeItem("carrito");
-            onPedidoCreado(nuevoPedido);
+            // 3. LIMPIEZA
+            onPedidoCreado(respuesta); // Esto vaciará el carrito en el padre
 
         } catch (error) {
-            console.error("Error al crear pedido:", error);
-            alert("Error al procesar el pedido. Intenta nuevamente.");
+            console.error(error);
+            alert("Error al procesar compra: " + error.message);
         } finally {
             setLoading(false);
         }
     };
 
-    const handleInputChange = (field, value) => {
-        setFormData(prev => ({
-            ...prev,
-            [field]: value
-        }));
-    };
-
     return (
-        <div className="checkout-container">
-            <div className="checkout-header">
-                <Text variant="h2">Finalizar Compra</Text>
-                <Text variant="p">Completa tus datos de envío</Text>
+        <div className="checkout-container" style={{ padding: '2rem', maxWidth: '600px', margin: '0 auto' }}>
+            <Text variant="h2">Confirmar Pedido</Text>
+            
+            <div style={{ background: '#f9f9f9', padding: '1rem', borderRadius: '8px', margin: '1rem 0' }}>
+                <Text variant="h4">Resumen</Text>
+                <p>Items: {carrito.length}</p>
+                <p style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>Total a Pagar: ${totalCompra.toLocaleString()}</p>
             </div>
 
-            <div className="checkout-content">
-                {/* Resumen del pedido */}
-                <div className="order-summary">
-                    <Text variant="h3">Resumen del Pedido</Text>
-                    <div className="productos-list">
-                        {carrito.map(item => (
-                            <div key={item.id} className="producto-item">
-                                <img src={item.imagen} alt={item.titulo} className="producto-img" />
-                                <div className="producto-info">
-                                    <Text variant="h4">{item.titulo}</Text>
-                                    <Text variant="p">Cantidad: {item.cantidad}</Text>
-                                </div>
-                                <Text variant="h4" className="producto-precio">
-                                    ${(item.precio * item.cantidad).toLocaleString()}
-                                </Text>
-                            </div>
-                        ))}
-                    </div>
-                    <div className="order-total">
-                        <Text variant="h3">Total: ${calcularTotal().toLocaleString()}</Text>
-                    </div>
+            <form onSubmit={handleConfirmarCompra} style={{ display: 'grid', gap: '1rem' }}>
+                <div>
+                    <label style={{ display: 'block', marginBottom: '5px' }}>Dirección de Envío</label>
+                    <input 
+                        type="text" 
+                        value={direccion} 
+                        onChange={e => setDireccion(e.target.value)} 
+                        required 
+                        style={{ width: '100%', padding: '8px' }}
+                        placeholder="Calle 123, Ciudad"
+                    />
                 </div>
 
-                {/* Formulario de envío */}
-                <form onSubmit={handleSubmit} className="shipping-form">
-                    <Text variant="h3">Datos de Envío</Text>
+                <div>
+                    <label style={{ display: 'block', marginBottom: '5px' }}>Método de Pago</label>
+                    <select 
+                        value={metodoPago} 
+                        onChange={e => setMetodoPago(e.target.value)}
+                        style={{ width: '100%', padding: '8px' }}
+                    >
+                        <option value="Transferencia">Transferencia Bancaria</option>
+                        <option value="Tarjeta">Tarjeta de Crédito/Débito</option>
+                        <option value="Efectivo">Efectivo contra entrega</option>
+                    </select>
+                </div>
 
-                    <div className="form-group">
-                        <Text variant="label">Dirección completa *</Text>
-                        <Input
-                            type="text"
-                            placeholder="Calle, número, departamento"
-                            value={formData.direccion}
-                            onChange={(e) => handleInputChange('direccion', e.target.value)}
-                            required
-                        />
-                    </div>
+                <div>
+                    <label style={{ display: 'block', marginBottom: '5px' }}>Notas (Opcional)</label>
+                    <textarea 
+                        value={notas} 
+                        onChange={e => setNotas(e.target.value)}
+                        rows="2"
+                        style={{ width: '100%', padding: '8px' }}
+                        placeholder="Ej: Dejar en conserjería"
+                    />
+                </div>
 
-                    <div className="form-group">
-                        <Text variant="label">Ciudad *</Text>
-                        <Input
-                            type="text"
-                            placeholder="Tu ciudad"
-                            value={formData.ciudad}
-                            onChange={(e) => handleInputChange('ciudad', e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <Text variant="label">Teléfono de contacto *</Text>
-                        <Input
-                            type="tel"
-                            placeholder="+56 9 1234 5678"
-                            value={formData.telefono}
-                            onChange={(e) => handleInputChange('telefono', e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="form-group">
-                        <Text variant="label">Notas adicionales (opcional)</Text>
-                        <textarea
-                            placeholder="Instrucciones especiales para la entrega..."
-                            value={formData.notas}
-                            onChange={(e) => handleInputChange('notas', e.target.value)}
-                            className="notes-input"
-                            rows="3"
-                        />
-                    </div>
-
-                    <div className="form-actions">
-                        <Button
-                            type="button"
-                            text="Cancelar"
-                            variant="secondary"
-                            onClick={onCancel}
-                            disabled={loading}
-                        />
-                        <Button
-                            type="submit"
-                            text={loading ? "Procesando..." : "Confirmar Pedido"}
-                            variant="primary"
-                            disabled={loading}
-                            className="confirm-button"
-                        />
-                    </div>
-                </form>
-            </div>
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <Button 
+                        text="Cancelar" 
+                        variant="secondary" 
+                        onClick={onCancel} 
+                        type="button"
+                    />
+                    <Button 
+                        text={loading ? "Procesando..." : "Confirmar Compra"} 
+                        variant="primary" 
+                        type="submit"
+                        disabled={loading}
+                    />
+                </div>
+            </form>
         </div>
     );
-}
+};
 
 export default Checkout;

@@ -1,71 +1,85 @@
 import React, { useEffect, useState } from "react";
-import CardBody from "../../molecules/cards/CardBody"; 
+// 1. Importamos la nueva Card
+import CardProductGeneral from "../../molecules/cards/CardProductGeneral"; 
 import Text from "../../atoms/Text";
-import ProductoService from "../../../services/api/productoService";
+// 2. Usamos el servicio actualizado (api/productos)
+import { getProductos } from "../../../services/api/productos"; 
 import "../../../styles/components/organisms/products/SeccionDestacados.css";
 
-// 1. Recibe la función 'agregarAlCarrito' como prop desde App.jsx
 function SeccionDestacados({ agregarAlCarrito }) { 
     
-    /* --> Variables de estado mejoradas */
-    const [data, setData] = useState(null); // Usamos null para diferenciar de [].
+    const [data, setData] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        ProductoService.getAllProductos()
-        .then((res) => {
-            // Aseguramos que la respuesta sea un array antes de usar slice
-            const productosArray = Array.isArray(res.data) ? res.data : [];
+        // Llamamos a la función directa getProductos
+        getProductos()
+        .then((respuesta) => {
+            // El nuevo servicio devuelve el array directo (json), no response.data
+            // Pero por seguridad validamos ambas formas
+            const productosArray = Array.isArray(respuesta) ? respuesta : (respuesta.data || []);
             
-            /* --> Se guardan los 4 primeros*/
+            // Filtramos o cortamos los primeros 4
             setData(productosArray.slice(0, 4));
             setError(null);
         })
         .catch((err) => {
-            console.error("Error de conexión o API:", err);
-            // Mensaje claro si la conexión falla (lo que causa la pantalla azul)
-            setError("No fue posible cargar los productos. Por favor, verifica el Backend.");
-            setData([]); // Previene crashes, ya que data es un array vacío
+            console.error("Error cargando destacados:", err);
+            setError("No se pudieron cargar los productos destacados.");
+            setData([]);
         })
         .finally(() => {
-            setLoading(false); // Deja de cargar, sea cual sea el resultado
+            setLoading(false);
         });
     }, []);
 
-    // 2. RENDERING CONDICIONAL (Manejo de Estados)
     if (loading) {
-        return <section className="seccion-contenedor"><Text variant="p">Cargando productos...</Text></section>;
+        return (
+            <section className="seccion-contenedor">
+                <div style={{textAlign: 'center', padding: '2rem'}}>
+                    <Text variant="p">Cargando favoritos...</Text>
+                </div>
+            </section>
+        );
     }
 
     if (error) {
-        // Muestra el mensaje de error si la API falló
-        return <section className="seccion-contenedor"><Text variant="p" style={{ color: 'red', textAlign: 'center' }}>{error}</Text></section>;
+        return (
+            <section className="seccion-contenedor">
+                <Text variant="p" style={{ color: 'red', textAlign: 'center' }}>{error}</Text>
+            </section>
+        );
     }
     
-    if (data.length === 0) {
-        // Muestra si la API responde correctamente, pero no hay datos en la BD
-        return <section className="seccion-contenedor"><Text variant="p">No hay productos destacados para mostrar.</Text></section>;
+    if (!data || data.length === 0) {
+        return (
+            <section className="seccion-contenedor">
+                <Text variant="p" style={{textAlign: 'center'}}>No hay productos destacados.</Text>
+            </section>
+        );
     }
 
-    // 3. RENDERIZADO FINAL CON DATOS
     return (
         <section className="seccion-contenedor">
-            <Text variant="h2" className="titulo-seccion">Destacados</Text>
-            <Text variant="p" className="subtitulo">Los favoritos de nuestros clientes</Text>
+            <div className="header-seccion">
+                <Text variant="h2" className="titulo-seccion">Destacados</Text>
+                <Text variant="p" className="subtitulo">Los favoritos de nuestros clientes</Text>
+            </div>
 
             <div className="grid-cards">
                 {data.map((item) => (
-                    <CardBody
+                    <CardProductGeneral
                         key={item.id}
+                        // Mapeo de datos del Backend -> Props del Componente
+                        imagen={item.imagenUrl || "/img/placeholder.jpg"} // Fallback de imagen
+                        titulo={item.nombre}
+                        // Si categoria es objeto sacamos nombre, si es null ponemos "General"
+                        categoria={item.categoria?.nombre || "Mascotas"} 
+                        precio={item.precio}
+                        subtitulo={item.descripcion} // Usamos descripción como subtítulo
                         
-                        /* --> Mapeo back items a front props*/
-                        imagen={item.imagenUrl || "https://via.placeholder.com/150"}
-                        title={item.nombre}
-                        price={item.precio}
-                        
-                        onClick={() => console.log("Click en ID:", item.id)}
-                        // 4. Conexión de la función del carrito
+                        // Pasamos la función para el carrito
                         onAddToCart={() => agregarAlCarrito(item)} 
                     />
                 ))}

@@ -1,11 +1,104 @@
-
-.carrito-item{
-    text-align: center;
-    display: inline-table;
-    margin: 1%;
+.carrito-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    gap: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-img{
-    width: 500px;
-    max-width: 60%;
+.carrito-card-img-wrapper {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+
+.carrito-card-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.carrito-card-info {
+    flex: 1;
+}
+
+.carrito-card-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.carrito-card-price {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.cantidad-selector {
+    display: flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.btn-cantidad {
+    background: #f1f5f9;
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cantidad:hover {
+    background: #e2e8f0;
+}
+
+.cantidad-display {
+    padding: 0 10px;
+    font-weight: 600;
+    min-width: 30px;
+    text-align: center;
+}
+
+.carrito-card-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.carrito-card-subtotal {
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* Responsive Móvil */
+@media (max-width: 640px) {
+    .carrito-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .carrito-card-actions {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #eee;
+    }
 }

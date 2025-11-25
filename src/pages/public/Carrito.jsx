@@ -15,13 +15,15 @@ function Carrito() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Cargar carrito desde localStorage
+        // 1. Cargar carrito
         const carritoGuardado = JSON.parse(localStorage.getItem("carrito") || "[]");
         setCarrito(carritoGuardado);
 
-        // Cargar usuario desde localStorage
-        const usuarioData = JSON.parse(localStorage.getItem("usuario") || "null");
-        setUsuario(usuarioData);
+        // 2. CORRECCIÓN: Cargar usuario con la llave correcta ("user")
+        const usuarioData = localStorage.getItem("user");
+        if (usuarioData) {
+            setUsuario(JSON.parse(usuarioData));
+        }
     }, []);
 
     const actualizarCantidad = (productoId, nuevaCantidad) => {
@@ -29,11 +31,9 @@ function Carrito() {
             eliminarProducto(productoId);
             return;
         }
-
         const carritoActualizado = carrito.map(item =>
             item.id === productoId ? { ...item, cantidad: nuevaCantidad } : item
         );
-        
         setCarrito(carritoActualizado);
         localStorage.setItem("carrito", JSON.stringify(carritoActualizado));
     };
@@ -45,7 +45,7 @@ function Carrito() {
     };
 
     const calcularTotal = () => {
-        return carrito.reduce((total, item) => total + (item.precio * item.cantidad), 0);
+        return carrito.reduce((total, item) => total + (Number(item.precio) * Number(item.cantidad)), 0);
     };
 
     const handleIniciarCheckout = () => {
@@ -57,10 +57,12 @@ function Carrito() {
         setShowCheckout(true);
     };
 
+    // Limpia el carrito al terminar
     const handlePedidoCreado = (nuevoPedido) => {
         setPedidoConfirmado(nuevoPedido);
         setShowCheckout(false);
-        setCarrito([]);
+        setCarrito([]); 
+        localStorage.removeItem("carrito"); // Borramos del storage también
     };
 
     const handleCancelCheckout = () => {
@@ -90,11 +92,11 @@ function Carrito() {
                 {carrito.length === 0 ? (
                     <div className="carrito-vacio">
                         <Text variant="h2">Tu carrito está vacío</Text>
-                        <Text variant="p">Agrega algunos productos para comenzar</Text>
+                        <p>Agrega algunos productos para comenzar</p>
                         <Button 
                             text="Ver Productos" 
-                            onClick={() => navigate("/productos")}
-                            variant="primary"
+                            onClick={() => navigate("/productos")} 
+                            variant="primary" 
                         />
                     </div>
                 ) : (
@@ -112,21 +114,21 @@ function Carrito() {
 
                         <div className="carrito-resumen">
                             <div className="resumen-total">
-                                <Text variant="h3">Total: ${calcularTotal().toLocaleString()}</Text>
+                                <Text variant="h3">Total: ${calcularTotal().toLocaleString('es-CL')}</Text>
                             </div>
                             
-                            <Button
-                                text="Finalizar Compra"
-                                onClick={handleIniciarCheckout}
-                                variant="primary"
-                                className="checkout-button"
-                            />
-                            
-                            <Button
-                                text="Seguir Comprando"
-                                onClick={() => navigate("/productos")}
-                                variant="secondary"
-                            />
+                            <div style={{display:'flex', gap:'10px', marginTop:'1rem'}}>
+                                <Button
+                                    text="Seguir Comprando"
+                                    onClick={() => navigate("/productos")}
+                                    variant="secondary"
+                                />
+                                <Button
+                                    text="Finalizar Compra"
+                                    onClick={handleIniciarCheckout}
+                                    variant="primary"
+                                />
+                            </div>
                         </div>
                     </>
                 )}
