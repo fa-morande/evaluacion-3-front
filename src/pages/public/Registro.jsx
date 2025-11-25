@@ -1,24 +1,57 @@
-import React from "react";
-import{ useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../../styles/pages/public/Registro.css";
 import Button from "../../components/atoms/Button";
+import { register } from "../../services/api/usuarios";
 
 const Registro = () => {
+  const navigate = useNavigate();
+  
+  // Estados
   const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState(""); 
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
   const [contrasena2, setContrasena2] = useState("");
   const [region, setRegion] = useState("");
   const [comuna, setComuna] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (contrasena !== contrasena2) {
       alert("Las contraseñas no coinciden");
       return;
     }
-    // Aquí iría la lógica de registro (API, localStorage, etc.)
-    alert(`Registrado: ${nombre}, ${correo}, ${region}, ${comuna}`);
+
+    try {
+      // --- CONSTRUCCIÓN DEL OBJETO EXACTO DE POSTMAN ---
+      const usuarioParaBackend = {
+        nombre: nombre,
+        apellido: apellido,
+        
+        // CORRECCIÓN: Usamos las llaves en inglés según tu Postman
+        email: correo,          // Antes enviábamos 'correo'
+        password: contrasena,   // Antes enviábamos 'contrasenia'
+        
+        // Campos obligatorios extra
+        telefono: "+56911111111", // Dummy para cumplir con el backend
+        direccion: `${comuna}, ${region}`,
+        role: "USER", // Siempre mayúscula
+        activo: true  // Agregado según tu Postman
+      };
+
+      console.log("🚀 Payload idéntico a Postman:", usuarioParaBackend);
+
+      await register(usuarioParaBackend);
+
+      alert("¡Cuenta creada con éxito! Ahora inicia sesión.");
+      navigate("/login");
+
+    } catch (error) {
+      console.error("Error en registro:", error);
+      alert("El servidor dice: " + error.message);
+    }
   };
 
   return (
@@ -27,26 +60,34 @@ const Registro = () => {
         <div className="registro-card">
           <h2>Crear cuenta</h2>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="nombre">Nombre completo</label>
+            
+            <label htmlFor="nombre">Nombre</label>
             <input
               type="text"
               id="nombre"
-              name="nombre"
-              placeholder="Joakooo"
+              placeholder="Ej: Carlos"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              maxLength={100}
+              required
             />
 
-            <label htmlFor="correo">Correo completo</label>
+            <label htmlFor="apellido">Apellido</label>
+            <input
+              type="text"
+              id="apellido"
+              placeholder="Ej: Silva"
+              value={apellido}
+              onChange={(e) => setApellido(e.target.value)}
+              required
+            />
+
+            <label htmlFor="correo">Correo electrónico</label>
             <input
               type="email"
               id="correo"
-              name="correo"
-              placeholder="Correo@gmail.com"
+              placeholder="carlos@example.com"
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
-              maxLength={100}
               required
             />
 
@@ -54,8 +95,7 @@ const Registro = () => {
             <input
               type="password"
               id="contrasena"
-              name="contrasena"
-              placeholder="contraseñaEjemplo"
+              placeholder="password123"
               value={contrasena}
               onChange={(e) => setContrasena(e.target.value)}
               required
@@ -65,7 +105,6 @@ const Registro = () => {
             <input
               type="password"
               id="contrasena2"
-              name="contrasena2"
               placeholder="Repite tu contraseña"
               value={contrasena2}
               onChange={(e) => setContrasena2(e.target.value)}
@@ -75,7 +114,6 @@ const Registro = () => {
             <label htmlFor="region">Región</label>
             <select
               id="region"
-              name="region"
               value={region}
               onChange={(e) => setRegion(e.target.value)}
               required
@@ -89,7 +127,6 @@ const Registro = () => {
             <label htmlFor="comuna">Comuna</label>
             <select
               id="comuna"
-              name="comuna"
               value={comuna}
               onChange={(e) => setComuna(e.target.value)}
               required
@@ -100,13 +137,7 @@ const Registro = () => {
               <option value="Las Condes">Las Condes</option>
             </select>
 
-            <Button
-              text="Registrarse"
-              type="submit"
-              variant="register"
-              onClick={handleSubmit}
-            />
-
+            <Button text="Registrarse" type="submit" variant="register" />
           </form>
         </div>
       </section>

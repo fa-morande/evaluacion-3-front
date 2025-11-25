@@ -1,22 +1,24 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
-import UserMenu from "../../organisms/layout/UserMenu";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext"; // Importamos el contexto
+import UserMenu from "../../organisms/layout/UserMenu"; // Tu menú de usuario existente
 import "../../../styles/components/molecules/navigation/NavBar.css";
+
 const Navbar = ({ carrito = [] }) => {
     const location = useLocation();
+    const navigate = useNavigate();
     
-    // Obtener usuario del localStorage
-    const getUserFromStorage = () => {
-        try {
-            const userData = localStorage.getItem('adminUser') || localStorage.getItem('usuario');
-            return userData ? JSON.parse(userData) : null;
-        } catch (error) {
-            return null;
-        }
-    };
-
-    const user = getUserFromStorage();
+    // USAMOS EL CONTEXTO EN LUGAR DE LEER LOCALSTORAGE MANUALMENTE
+    // Esto hace que el Navbar se actualice solo cuando inicias/cierras sesión.
+    const { user, logoutUser } = useAuth();
+    
     const carritoCount = carrito.length;
+
+    // Función wrapper para el logout si UserMenu la necesita o para uso directo
+    const handleLogout = () => {
+        logoutUser();
+        navigate('/login');
+    };
 
     return (
         <nav className="navbar">
@@ -42,7 +44,12 @@ const Navbar = ({ carrito = [] }) => {
             <div className="navbar-actions">
                 {user ? (
                     // Usuario logueado - Mostrar UserMenu
-                    <UserMenu user={user} carritoCount={carritoCount} />
+                    // Le pasamos onLogout por si UserMenu tiene el botón de salir dentro
+                    <UserMenu 
+                        user={user} 
+                        carritoCount={carritoCount} 
+                        onLogout={handleLogout} 
+                    />
                 ) : (
                     // Usuario no logueado - Mostrar botón de login
                     <Link 
@@ -54,7 +61,7 @@ const Navbar = ({ carrito = [] }) => {
                     </Link>
                 )}
 
-                {/* Carrito independiente (si quieres mantenerlo separado) */}
+                {/* Carrito independiente (Mostrar solo si NO hay usuario, o siempre, según tu lógica original) */}
                 {!user && (
                     <div className="carrito">
                         <Link to="/carrito">

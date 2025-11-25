@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../atoms/Button";
-import Text from "../../atoms/Text";
+import Button from "../../atoms/Button"; // Si no usas Button, puedes quitarlo
+import Text from "../../atoms/Text";     // Si no usas Text, puedes quitarlo
 import "../../../styles/components/organisms/layout/UserMenu.css";
 
-function UserMenu({ user, carritoCount = 0 }) {
+// 1. Aceptamos la prop 'onLogout' que viene del Navbar
+function UserMenu({ user, carritoCount = 0, onLogout }) {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const menuRef = useRef(null);
@@ -24,25 +25,25 @@ function UserMenu({ user, carritoCount = 0 }) {
     }, []);
 
     const handleLogout = () => {
-        // Limpiar localStorage
-        localStorage.removeItem("usuario");
-        localStorage.removeItem("adminUser");
-        
-        // Cerrar menú
+        // 2. Lógica limpia: Cerramos menú y llamamos a la función del padre
         setIsOpen(false);
         
-        // Redirigir al home
-        navigate("/");
-        
-        // Recargar para actualizar estado global
-        window.location.reload();
+        if (onLogout) {
+            onLogout(); 
+        } else {
+            // Fallback por seguridad
+            navigate('/login');
+        }
     };
 
     const handleProfile = () => {
-        if (user.role === "ADMIN") {
+        // Normalizamos a mayúsculas por seguridad
+        const role = user.role ? user.role.toUpperCase() : "USER";
+        
+        if (role === "ADMIN") {
             navigate("/admin");
         } else {
-            navigate("/perfil");
+            navigate("/perfil"); // Asegúrate de que esta ruta exista
         }
         setIsOpen(false);
     };
@@ -52,12 +53,16 @@ function UserMenu({ user, carritoCount = 0 }) {
         setIsOpen(false);
     };
 
+    // Seguridad visual si user es null (aunque el Navbar lo controla)
+    if (!user) return null;
+
     return (
         <div className="user-menu-container" ref={menuRef}>
-            {/* Botón de usuario */}
+            {/* Botón de usuario (Trigger) */}
             <button 
                 className="user-menu-trigger"
                 onClick={() => setIsOpen(!isOpen)}
+                type="button"
             >
                 <div className="user-avatar">
                     <span className="avatar-icon">👤</span>
@@ -67,10 +72,12 @@ function UserMenu({ user, carritoCount = 0 }) {
                 </div>
                 <div className="user-info">
                     <Text variant="span" className="user-name">
-                        {user.nombre || user.email.split('@')[0]}
+                        {/* Mostramos Nombre o la parte inicial del correo */}
+                        {user.nombre || (user.email ? user.email.split('@')[0] : 'Usuario')}
                     </Text>
                     <Text variant="span" className="user-role">
-                        {user.role === "ADMIN" ? "Administrador" : "Usuario"}
+                        {/* Validación segura del rol */}
+                        {(user.role && user.role.toUpperCase() === "ADMIN") ? "Administrador" : "Cliente"}
                     </Text>
                 </div>
                 <span className={`dropdown-arrow ${isOpen ? 'open' : ''}`}>▼</span>
@@ -81,12 +88,12 @@ function UserMenu({ user, carritoCount = 0 }) {
                 <div className="user-menu-dropdown">
                     {/* Header del menú */}
                     <div className="menu-header">
-                        <Text variant="h4" className="menu-title">
+                        <div className="menu-title">
                             Mi Cuenta
-                        </Text>
-                        <Text variant="p" className="menu-subtitle">
-                            {user.email}
-                        </Text>
+                        </div>
+                        <div className="menu-subtitle">
+                            {user.email || user.correo}
+                        </div>
                     </div>
 
                     {/* Items del menú */}
@@ -97,10 +104,10 @@ function UserMenu({ user, carritoCount = 0 }) {
                             onClick={handleProfile}
                         >
                             <span className="menu-icon">
-                                {user.role === "ADMIN" ? "⚙️" : "👤"}
+                                {(user.role && user.role.toUpperCase() === "ADMIN") ? "⚙️" : "👤"}
                             </span>
                             <span className="menu-label">
-                                {user.role === "ADMIN" ? "Panel Admin" : "Mi Perfil"}
+                                {(user.role && user.role.toUpperCase() === "ADMIN") ? "Panel Admin" : "Mi Perfil"}
                             </span>
                         </button>
 

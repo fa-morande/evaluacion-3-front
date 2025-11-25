@@ -1,45 +1,66 @@
-import React, { useEffect } from "react"; // 1. Agrega useEffect
-import LoginForm from "../../components/organisms/auth/LoginForm";
-import { login as apiLogin } from "../../services/api/usuarios";
+// src/pages/public/Login.jsx
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginForm from "../../components/organisms/auth/LoginForm"; 
+import { login } from "../../services/api/usuarios"; // Asegúrate que esta ruta apunte a tu servicio nuevo
 import { useAuth } from "../../context/AuthContext";
-import "../../styles/pages/public/Login.css";
+import "../../styles/pages/public/Login.css"; // Tus estilos
 
 function Login() {
     const navigate = useNavigate();
-    const { login, user } = useAuth(); // 2. Traemos 'user' para verificar si ya existe
+    const { loginUser, user } = useAuth(); 
 
-    // 3. NUEVO: Si ya estoy logueado, sácame de aquí
+    // --- EFECTO DE REDIRECCIÓN ---
     useEffect(() => {
         if (user) {
-            if (user.role === 'admin' || user.role === 'ADMIN') {
-                navigate('/admin', { replace: true });
+            // Verificamos si el rol viene en 'user.role' o anidado en 'user.usuario.role'
+            const userRole = user.role || user.usuario?.role;
+            
+            // Normalizamos a mayúsculas para evitar errores (admin vs ADMIN)
+            if (userRole && userRole.toUpperCase() === 'ADMIN') {
+                navigate("/admin", { replace: true });
             } else {
-                navigate('/inicio', { replace: true });
+                navigate("/inicio", { replace: true });
             }
         }
     }, [user, navigate]);
 
-    const handleLogin = async (email, password) => {
+    // --- MANEJO DEL LOGIN ---
+const handleLogin = async (email, password) => {
         try {
-            // ... (tu lógica de login existente se mantiene igual) ...
-            const usuarioApi = await apiLogin(email, password);
-            login(usuarioApi);
-            // La redirección ya la manejará el useEffect o puedes dejarla aquí también
+            // VOLVEMOS A LO ESTÁNDAR
+            // El backend casi seguro espera "email" y "password".
+            const credentials = {
+                email: email,       
+                password: password
+            };
+
+            console.log("🚀 Enviando:", credentials);
+            const data = await login(credentials);
+            
+
+            
+            console.log("✅ Login exitoso, respuesta recibida:", data);
+
+            // Guardamos la respuesta completa (Token + Datos) en el contexto
+            loginUser(data); 
+
+            // El useEffect de arriba se encargará de redirigir automáticamente
+
         } catch (error) {
-            console.error(error);
-            alert("Error: " + error.message);
+            console.error("❌ Error en Login:", error);
+            // Mostramos el mensaje limpio que viene desde el servicio
+            alert("Error al ingresar: " + error.message);
         }
     };
 
-    // Si ya hay usuario, retornamos null para evitar parpadeos mientras redirige
-    if (user) return null;
+    // Evita parpadeos si ya hay usuario
+    if (user) return null; 
 
     return (
-        <div className="page-container login-page">
-            <main className="main-content">
-                <LoginForm onLogin={handleLogin} />
-            </main>
+        <div className="login-container">
+            {/* El LoginForm no cambia, sigue enviando email/pass y nosotros lo transformamos arriba */}
+            <LoginForm onLogin={handleLogin} />
         </div>
     );
 }

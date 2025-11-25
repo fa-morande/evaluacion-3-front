@@ -1,16 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext'; // Para el logout
-// IMPORTANTE: Aquí conectamos el CSS
+import { useAuth } from '../../context/AuthContext'; 
 import '../../styles/components/admin/AdminSidebar.css'; 
 
 const AdminSidebar = () => {
-    const { logout } = useAuth();
+    // CORRECCIÓN: Desestructuramos 'logoutUser', que es el nombre real en tu Contexto
+    const { logoutUser } = useAuth();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        logout();
-        // CAMBIO: Redirigir al login general
+        // CORRECCIÓN: Llamamos a la función correcta
+        logoutUser();
         navigate('/login'); 
     };
 
@@ -19,7 +19,6 @@ const AdminSidebar = () => {
             <h2>Panel Admin</h2>
             <nav>
                 <ul>
-                    {/* Ajusta las rutas según tu Router */}
                     <li>
                         <Link to="/admin">Dashboard</Link>
                     </li>

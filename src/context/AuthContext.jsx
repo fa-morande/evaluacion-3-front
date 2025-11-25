@@ -1,48 +1,41 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from "react";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+export function AuthProvider({ children }) {
+  // Inicializamos leyendo el localStorage
+    const [user, setUser] = useState(() => {
+        const storedUser = localStorage.getItem("user"); // Usamos 'user' consistente con tu login
+        return storedUser ? JSON.parse(storedUser) : null;
+    });
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch (e) {
-                console.error("Error parseando usuario", e);
-                localStorage.removeItem('user');
-            }
-        }
-        setLoading(false);
-    }, []);
-
-    const login = (userData) => {
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
+    const loginUser = (data) => {
+        setUser(data);
+        localStorage.setItem("user", JSON.stringify(data));
     };
 
-    const logout = () => {
+    const logoutUser = () => {
         setUser(null);
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
     };
 
-    // CORRECCIÓN: Validación insensible a mayúsculas/minúsculas
+    // --- CORRECCIÓN AQUÍ ---
+    // Convertimos esto en FUNCIÓN para que AdminLayout no se rompa al llamarla isAdmin()
     const isAdmin = () => {
-        if (!user || !user.role) return false;
-        return user.role.toUpperCase() === 'ADMIN';
-    };
+        if (!user) return false;
 
-    const value = { user, login, logout, isAdmin, loading };
+        // Buscamos el rol en user.role (login directo) o user.usuario.role (login anidado)
+        const role = user.role || user.usuario?.role;
+        
+        // Validamos normalizando a mayúsculas
+        return role && role.toUpperCase() === "ADMIN";
+    };
 
     return (
-        <AuthContext.Provider value={value}>
-            {/* CORRECCIÓN VISUAL: Si está cargando, mostramos algo simple en vez de blanco */}
-            {loading ? <div>Cargando...</div> : children}
+        <AuthContext.Provider value={{ user, loginUser, logoutUser, isAdmin }}>
+        {children}
         </AuthContext.Provider>
     );
-};
+}
 
 export const useAuth = () => useContext(AuthContext);

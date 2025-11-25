@@ -1,28 +1,95 @@
-const API_URL = "https://back-m41x.onrender.com/api/usuarios";
+// 1. Usamos ruta relativa para el Proxy de Vite (Evita CORS)
+const API_URL = "/api"; 
 
-export async function login(email, password) {
+// --- LOGIN ---
+export async function login(credentials) {
+    console.log("🚀 Enviando credenciales:", credentials);
+
+    const res = await fetch(`${API_URL}/usuarios/login`, {
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify(credentials),
+    });
+
+    const responseText = await res.text();
+    let data;
     try {
-        const response = await fetch(`${API_URL}/login`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-        });
-
-        console.log("Response status:", response.status); // Para debug
-        
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || "Credenciales incorrectas");
-        }
-
-        const usuario = await response.json();
-        console.log("Usuario recibido:", usuario); // Para debug
-        return usuario;
-
+        data = JSON.parse(responseText);
     } catch (error) {
-        console.error("Error en login:", error);
-        throw error;
+        console.warn("⚠️ Backend devolvió texto plano:", responseText);
+        data = { message: responseText }; 
     }
+
+    if (!res.ok) {
+        throw new Error(data.message || "Error de credenciales");
+    }
+
+    return data;
+}
+
+// --- REGISTRO (Con depuración mejorada) ---
+export async function register(userData) {
+    console.log("🚀 Enviando registro al backend:", userData);
+
+    const res = await fetch(`${API_URL}/usuarios`, { 
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json" 
+        },
+        body: JSON.stringify(userData),
+    });
+
+    // Leemos la respuesta para ver el ERROR REAL del 400
+    const responseText = await res.text();
+    console.log("🔥 RESPUESTA DEL BACKEND:", responseText);
+
+    let data;
+    try {
+        data = JSON.parse(responseText);
+    } catch (error) {
+        data = { message: responseText };
+    }
+
+    if (!res.ok) {
+        // Si el backend dice "Falta el campo apellido", esto te lo mostrará en el alert
+        throw new Error(data.message || data.error || "Error al registrar usuario");
+    }
+
+    return data;
+}
+
+// --- GET USUARIOS (Admin) ---
+export async function getUsuarios() {
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    const token = user.token || user.accessToken || user.usuario?.token; 
+
+    if (!token) console.warn("⚠️ Sin token para getUsuarios");
+
+    const res = await fetch(`${API_URL}/usuarios`, {
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` 
+        }
+    });
+
+    if (!res.ok) throw new Error("Error al cargar usuarios");
+    return res.json();
+}
+
+// --- DELETE USUARIO (Admin) ---
+export async function deleteUsuario(id) {
+    const storedUser = localStorage.getItem("user");
+    const user = storedUser ? JSON.parse(storedUser) : {};
+    const token = user.token || user.accessToken || user.usuario?.token;
+
+    const res = await fetch(`${API_URL}/usuarios/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    if (!res.ok) throw new Error("Error al eliminar usuario");
+    return res.json();
 }

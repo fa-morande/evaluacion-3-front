@@ -1,19 +1,16 @@
+// src/components/organisms/layout/MainLayout.jsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import NavBar from '../../molecules/navigation/NavBar';
-import Footer from './Footer';
+import Navbar from '../../molecules/navigation/NavBar'; // <--- Aquí se importa el Navbar que acabamos de hacer
 
-// Recibimos 'carrito' para pasárselo al NavBar
-const MainLayout = ({ carrito }) => {
+const MainLayout = () => {
     return (
         <div className="main-layout">
-            <NavBar carrito={carrito} />
-            
-            <main style={{ minHeight: '80vh' }}>
+            <Navbar />
+            <main>
                 <Outlet />
             </main>
-
-            <Footer />
+            {/* Footer aquí si tienes */}
         </div>
     );
 };
