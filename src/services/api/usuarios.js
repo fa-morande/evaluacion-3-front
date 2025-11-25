@@ -1,9 +1,8 @@
-// 1. Usamos ruta relativa para el Proxy de Vite (Evita CORS)
 const API_URL = "/api"; 
 
 // --- LOGIN ---
 export async function login(credentials) {
-    console.log("🚀 Enviando credenciales:", credentials);
+    console.log(" Enviando credenciales:", credentials);
 
     const res = await fetch(`${API_URL}/usuarios/login`, {
         method: "POST",
@@ -18,7 +17,7 @@ export async function login(credentials) {
     try {
         data = JSON.parse(responseText);
     } catch (error) {
-        console.warn("⚠️ Backend devolvió texto plano:", responseText);
+        console.warn(" Backend devolvió texto plano:", responseText);
         data = { message: responseText }; 
     }
 
@@ -31,7 +30,7 @@ export async function login(credentials) {
 
 // --- REGISTRO (Con depuración mejorada) ---
 export async function register(userData) {
-    console.log("🚀 Enviando registro al backend:", userData);
+    console.log(" Enviando registro al backend:", userData);
 
     const res = await fetch(`${API_URL}/usuarios`, { 
         method: "POST",
@@ -41,9 +40,8 @@ export async function register(userData) {
         body: JSON.stringify(userData),
     });
 
-    // Leemos la respuesta para ver el ERROR REAL del 400
     const responseText = await res.text();
-    console.log("🔥 RESPUESTA DEL BACKEND:", responseText);
+    console.log(" RESPUESTA DEL BACKEND:", responseText);
 
     let data;
     try {
@@ -53,7 +51,6 @@ export async function register(userData) {
     }
 
     if (!res.ok) {
-        // Si el backend dice "Falta el campo apellido", esto te lo mostrará en el alert
         throw new Error(data.message || data.error || "Error al registrar usuario");
     }
 
@@ -66,7 +63,7 @@ export async function getUsuarios() {
     const user = storedUser ? JSON.parse(storedUser) : {};
     const token = user.token || user.accessToken || user.usuario?.token; 
 
-    if (!token) console.warn("⚠️ Sin token para getUsuarios");
+    if (!token) console.warn(" Sin token para getUsuarios");
 
     const res = await fetch(`${API_URL}/usuarios`, {
         headers: { 

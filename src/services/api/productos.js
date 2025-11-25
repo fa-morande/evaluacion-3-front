@@ -1,6 +1,5 @@
 const API_URL = "/api";
 
-
 const getToken = () => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) return null;
@@ -15,7 +14,6 @@ const getToken = () => {
 };
 
 export async function getProductos() {
-    // credentials: 'include' es vital si tu backend usa Cookies
     const res = await fetch(`${API_URL}/productos`, {
         credentials: 'include' 
     });
@@ -34,7 +32,7 @@ export async function createProducto(data) {
     if (token) {
         headers["Authorization"] = `Bearer ${token}`;
     } else {
-        console.warn("⚠️ No se detectó token manual. Enviando petición con Cookies...");
+        console.warn(" No se detectó token manual. Enviando petición con Cookies...");
     }
 
     const res = await fetch(`${API_URL}/productos`, {
