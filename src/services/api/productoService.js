@@ -5,14 +5,11 @@ const BASE_URL = `${API_URL}/productos`;
 
 class ProductoService {
     
-    // GET: Listar todos
     getAllProductos() {
         return axios.get(BASE_URL);
     }
 
-    // POST: Crear producto (Importante para lo que quieres hacer ahora)
     createProducto(producto) {
-        // Axios envía automáticamente el header Content-Type: application/json
         return axios.post(BASE_URL, producto);
     }
 
