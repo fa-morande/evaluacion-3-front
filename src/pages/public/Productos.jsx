@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom'; // 1. Para leer la URL
+import { useSearchParams } from 'react-router-dom';
 import BodyFiltro from '../../components/organisms/products/BodyFiltro';
 import CardProductGeneral from '../../components/molecules/cards/CardProductGeneral';
-import { getProductos } from '../../services/api/productos'; // 2. Servicio real
+import { getProductos } from '../../services/api/productos';
 import '../../styles/pages/public/Productos.css'; 
 
 function Productos({ agregarAlCarrito }) {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [searchParams] = useSearchParams(); // Hook de parámetros
+    const [searchParams] = useSearchParams();
 
     const [filtros, setFiltros] = useState({
         categoria: '',
         busqueda: ''
     });
 
-    // Carga de productos y lectura de URL
     useEffect(() => {
         const fetchProductos = async () => {
             try {
@@ -23,7 +22,6 @@ function Productos({ agregarAlCarrito }) {
                 const lista = Array.isArray(data) ? data : (data.productos || []);
                 setProductos(lista);
 
-                // 3. Si venimos de Inicio con ?categoria=Perros, aplicamos el filtro
                 const categoriaUrl = searchParams.get('categoria');
                 if (categoriaUrl) {
                     setFiltros(prev => ({ ...prev, categoria: categoriaUrl }));
@@ -47,11 +45,9 @@ function Productos({ agregarAlCarrito }) {
         setFiltros(prev => ({ ...prev, categoria }));
     };
 
-    // Lógica de filtrado (Adaptada a tu Backend: categoria es un objeto)
     const productosFiltrados = productos.filter(producto => {
         const catNombre = producto.categoria?.nombre || 'General';
         
-        // Comparación flexible
         const coincideCategoria = !filtros.categoria || 
             catNombre.toLowerCase() === filtros.categoria.toLowerCase();
         

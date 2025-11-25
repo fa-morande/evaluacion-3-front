@@ -8,10 +8,8 @@ import '../../../styles/components/organisms/products/BodyFiltro.css';
 function BodyFiltro({ onSearch, onFilterChange }) {
     const [filtroActivo, setFiltroActivo] = useState("todos");
 
-    // Extraer categorías dinámicamente de productos.js
     const categorias = Object.keys(productos.categoria);
     
-    // Crear array de filtros con "Todos" primero
     const FILTROS_CATEGORIAS = [
         { key: "todos", label: "Todos", categoria: "" }
     ].concat(
@@ -32,7 +30,7 @@ function BodyFiltro({ onSearch, onFilterChange }) {
         <div className="seccion-filtro"> 
             <div className="controles-filtro">
                 
-                {/* Sección de Búsqueda */}
+                {/*--> Seccion de Busqueda */}
                 <div className="seccion-busqueda">
                     <Text variant="h3" className="titulo-seccion">
                         Buscar Productos
@@ -45,7 +43,7 @@ function BodyFiltro({ onSearch, onFilterChange }) {
                         />
                     </div>
                 </div>
-                {/* Sección de Categorías */}
+                {/*--> Seccion de Categorias */}
                 <div className="seccion-categorias">
                     <Text variant="h3" className="titulo-seccion">
                         Categorías

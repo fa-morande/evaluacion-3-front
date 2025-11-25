@@ -14,12 +14,10 @@ function Carrito() {
     const [pedidoConfirmado, setPedidoConfirmado] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // 1. Cargar carrito
+    useEffect(() => {o
         const carritoGuardado = JSON.parse(localStorage.getItem("carrito") || "[]");
         setCarrito(carritoGuardado);
 
-        // 2. CORRECCIÓN: Cargar usuario con la llave correcta ("user")
         const usuarioData = localStorage.getItem("user");
         if (usuarioData) {
             setUsuario(JSON.parse(usuarioData));
@@ -62,7 +60,7 @@ function Carrito() {
         setPedidoConfirmado(nuevoPedido);
         setShowCheckout(false);
         setCarrito([]); 
-        localStorage.removeItem("carrito"); // Borramos del storage también
+        localStorage.removeItem("carrito");
     };
 
     const handleCancelCheckout = () => {

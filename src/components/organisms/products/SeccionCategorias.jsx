@@ -10,13 +10,11 @@ function SeccionCategorias() {
     const navigate = useNavigate();
 
     const handleCategoriaClick = (nombreCategoria) => {
-        // Navegamos pasando el nombre de la categoría en la URL
         navigate(`/productos?categoria=${encodeURIComponent(nombreCategoria)}`);
     };
 
     return (
         <section className="seccion-categorias-container">
-            {/* El contenido interno ahora es el que se centra con max-width */}
             <div className="encabezado-categorias">
                 <Text variant="h2" className="titulo-seccion-cat">Explora por Categoría</Text>
                 <Text variant="p" className="subtitulo-seccion-cat">Encuentra rápidamente lo que buscas</Text>

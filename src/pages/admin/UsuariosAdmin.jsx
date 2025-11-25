@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// CORRECCIÓN CRÍTICA: Importamos desde el mismo directorio, igual que en ProductosAdmin
 import AdminTable from '../../components/organisms/AdminTable'; 
 import { adminService } from '../../services/api/adminService';
 import '../../styles/components/admin/AdminGlobal.css';
@@ -29,8 +28,7 @@ const UsuariosAdmin = () => {
             header: 'Rol', 
             accessor: 'role',
             render: (row) => {
-                const role = row.role || row.rol || 'user';
-                // Convertimos a string por seguridad antes de usar toLowerCase
+                const role = row.role || row.rol || 'user';rCase
                 const roleStr = String(role); 
                 const isAdmin = roleStr.toLowerCase().includes('admin');
                 
@@ -52,7 +50,6 @@ const UsuariosAdmin = () => {
         try {
             const data = await adminService.usuarios.getAll();
             
-            // Lógica robusta para encontrar el array venga como venga
             let rawUsers = [];
             if (Array.isArray(data)) rawUsers = data;
             else if (data && Array.isArray(data.users)) rawUsers = data.users;

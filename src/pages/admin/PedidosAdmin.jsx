@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPedidos } from '../../services/api/pedidos'; // Importamos servicio real
+import { getPedidos } from '../../services/api/pedidos';
 import Button from '../../components/atoms/Button'; 
 import '../../styles/components/admin/AdminGlobal.css';
 
@@ -7,7 +7,7 @@ function PedidosAdmin() {
     const [pedidos, setPedidos] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Cargar datos reales al montar
+r
     useEffect(() => {
         cargarPedidos();
     }, []);
@@ -15,10 +15,10 @@ function PedidosAdmin() {
     const cargarPedidos = async () => {
         try {
             const data = await getPedidos();
-            // Validamos que sea array por si el backend devuelve un objeto paginado
+
             const lista = Array.isArray(data) ? data : [];
             
-            // Ordenamos por ID descendente (el más nuevo primero) si tienen ID numérico
+
             setPedidos(lista.sort((a, b) => b.id - a.id));
         } catch (error) {
             console.error("Error cargando pedidos:", error);
@@ -28,7 +28,6 @@ function PedidosAdmin() {
     };
 
     const getStatusBadge = (status) => {
-        // Normalizamos a mayúsculas por si acaso
         const s = (status || '').toUpperCase();
         switch(s) {
             case 'COMPLETADO': return 'badge badge-success';
@@ -66,12 +65,10 @@ function PedidosAdmin() {
                                     <tr key={pedido.id}>
                                         <td>#{pedido.id}</td>
                                         <td>
-                                            {/* Accedemos de forma segura a los datos anidados */}
                                             {pedido.usuario?.nombre || 'Anónimo'} <br/>
                                             <span style={{fontSize:'0.8rem', color:'#666'}}>{pedido.usuario?.email}</span>
                                         </td>
                                         <td>
-                                            {/* Formateo de fecha simple */}
                                             {new Date(pedido.fechaCreacion || Date.now()).toLocaleDateString()}
                                         </td>
                                         <td style={{ fontWeight: 'bold' }}>
@@ -83,7 +80,6 @@ function PedidosAdmin() {
                                             </span>
                                         </td>
                                         <td>
-                                            {/* Cantidad de productos distintos */}
                                             {pedido.detalles ? pedido.detalles.length : 0} productos
                                         </td>
                                     </tr>

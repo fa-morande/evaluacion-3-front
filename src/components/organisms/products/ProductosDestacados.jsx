@@ -1,6 +1,6 @@
 import React from "react";
 import CardProductGeneral from "../../molecules/cards/CardProductGeneral";
-import { products } from "../../../services/data/productos"; //
+import { products } from "../../../services/data/productos"; 
 import "../../../styles/components/organisms/products/ProductosDestacados.css";
 import Text from "../../atoms/Text";
 
@@ -15,7 +15,7 @@ const ProductosDestacados = ({ agregarAlCarrito }) => {
           <CardProductGeneral 
             key={p.id} 
             product={p} 
-            agregarAlCarrito={agregarAlCarrito}  // ← Pasa la función
+            agregarAlCarrito={agregarAlCarrito} 
           />
         ))}
       </div>

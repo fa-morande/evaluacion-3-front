@@ -8,14 +8,14 @@ function OrderConfirmation({ pedido }) {
     return (
         <div className="order-confirmation">
             <div className="confirmation-header">
-                <div className="success-icon">✅</div>
+                <div className="success-icon"></div>
                 <Text variant="h1">¡Pedido Confirmado!</Text>
                 <Text variant="p">Tu pedido ha sido procesado exitosamente</Text>
             </div>
 
             <div className="order-details">
                 <div className="detail-card">
-                    <Text variant="h3">Número de Pedido</Text>
+                    <Text variant="h3">Numero de Pedido</Text>
                     <Text variant="h2" className="order-number">#{pedido.id}</Text>
                 </div>
 
@@ -30,7 +30,7 @@ function OrderConfirmation({ pedido }) {
                 </div>
 
                 <div className="detail-card">
-                    <Text variant="h3">Dirección de Envío</Text>
+                    <Text variant="h3">Dirección de Envio</Text>
                     <Text variant="p" className="order-address">{pedido.direccionEntrega}</Text>
                 </div>
             </div>
@@ -46,7 +46,7 @@ function OrderConfirmation({ pedido }) {
 
             <div className="confirmation-footer">
                 <Text variant="p">
-                    Recibirás un correo de confirmación con los detalles de tu pedido.
+                    Recibiras un correo de confirmación con los detalles de tu pedido.
                 </Text>
             </div>
         </div>

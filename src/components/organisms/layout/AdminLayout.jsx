@@ -7,9 +7,6 @@ import { useAuth } from '../../../context/AuthContext';
 const AdminLayout = () => {
     const { user, isAdmin } = useAuth();
 
-    // CAMBIO CLAVE:
-    // Si no es admin, lo mandamos al Login General (/login)
-    // Opcional: Si está logueado pero no es admin, podrías mandarlo a "/" para que no se frustre.
     if (!user || !isAdmin()) {
         return <Navigate to="/login" replace />;
     }

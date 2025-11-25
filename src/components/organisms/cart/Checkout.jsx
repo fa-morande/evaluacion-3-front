@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
 import { createPedido } from "../../../services/api/pedidos";
-import "../../../styles/components/atoms/Button.css"; // Asegura estilos
+import "../../../styles/components/atoms/Button.css";
 
 const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
     const [loading, setLoading] = useState(false);
     
-    // Datos mínimos requeridos por tu JSON
+    /*--> Datos minimos requeridos el JSON*/
     const [direccion, setDireccion] = useState(usuario.direccion || "");
     const [metodoPago, setMetodoPago] = useState("Transferencia");
     const [notas, setNotas] = useState("");
@@ -19,16 +19,14 @@ const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
         setLoading(true);
 
         try {
-            // 1. TRANSFORMACIÓN DE DATOS (La magia ✨)
-            // Convertimos el formato del carrito al formato del Backend
             const detallesPedido = carrito.map(item => ({
-                producto: { id: item.id }, // Estructura anidada requerida
+                producto: { id: item.id },
                 cantidad: item.cantidad,
                 precioUnitario: item.precio
             }));
 
             const payload = {
-                usuario: { id: usuario.id || usuario.usuario?.id }, // ID del usuario logueado
+                usuario: { id: usuario.id || usuario.usuario?.id },
                 total: totalCompra,
                 estado: "PENDIENTE",
                 direccionEnvio: direccion,
@@ -37,15 +35,15 @@ const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
                 detalles: detallesPedido
             };
 
-            console.log("🚀 Enviando pedido:", payload);
+            console.log(" Enviando pedido:", payload);
 
-            // 2. LLAMADA A LA API
+            /*-->LLAMADA A LA API*/
             const respuesta = await createPedido(payload);
             
             alert(`¡Pedido #${respuesta.id || 'creado'} confirmado!`);
             
-            // 3. LIMPIEZA
-            onPedidoCreado(respuesta); // Esto vaciará el carrito en el padre
+            /*--> LIMPIEZA*/
+            onPedidoCreado(respuesta); 
 
         } catch (error) {
             console.error(error);

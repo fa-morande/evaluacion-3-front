@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-// 1. Importamos la nueva Card
 import CardProductGeneral from "../../molecules/cards/CardProductGeneral"; 
 import Text from "../../atoms/Text";
-// 2. Usamos el servicio actualizado (api/productos)
 import { getProductos } from "../../../services/api/productos"; 
 import "../../../styles/components/organisms/products/SeccionDestacados.css";
 
@@ -13,14 +11,10 @@ function SeccionDestacados({ agregarAlCarrito }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Llamamos a la función directa getProductos
+        /*--> GetProductos*/
         getProductos()
         .then((respuesta) => {
-            // El nuevo servicio devuelve el array directo (json), no response.data
-            // Pero por seguridad validamos ambas formas
             const productosArray = Array.isArray(respuesta) ? respuesta : (respuesta.data || []);
-            
-            // Filtramos o cortamos los primeros 4
             setData(productosArray.slice(0, 4));
             setError(null);
         })
@@ -71,15 +65,11 @@ function SeccionDestacados({ agregarAlCarrito }) {
                 {data.map((item) => (
                     <CardProductGeneral
                         key={item.id}
-                        // Mapeo de datos del Backend -> Props del Componente
-                        imagen={item.imagenUrl || "/img/placeholder.jpg"} // Fallback de imagen
+                        imagen={item.imagenUrl || "/img/placeholder.jpg"}
                         titulo={item.nombre}
-                        // Si categoria es objeto sacamos nombre, si es null ponemos "General"
                         categoria={item.categoria?.nombre || "Mascotas"} 
                         precio={item.precio}
-                        subtitulo={item.descripcion} // Usamos descripción como subtítulo
-                        
-                        // Pasamos la función para el carrito
+                        subtitulo={item.descripcion}
                         onAddToCart={() => agregarAlCarrito(item)} 
                     />
                 ))}

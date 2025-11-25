@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../atoms/Button';
-import '../../styles/components/admin/AdminGlobal.css'; // Usamos los estilos globales
+import '../../styles/components/admin/AdminGlobal.css';
 
 const AdminTable = ({ columns, data, onDelete }) => {
     if (!data || data.length === 0) {
@@ -20,7 +20,6 @@ const AdminTable = ({ columns, data, onDelete }) => {
                 </thead>
                 <tbody>
                     {data.map((row, rowIndex) => {
-                        // CORRECCIÓN DE KEY: Usamos row.id si existe, si no, un string único con index
                         const uniqueKey = row.id ? `prod-${row.id}` : `row-${rowIndex}`;
                         
                         return (

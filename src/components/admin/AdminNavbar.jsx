@@ -1,6 +1,5 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
-// IMPORTANTE: Aquí conectamos el CSS
 import '../../styles/components/admin/AdminNavbar.css'; 
 
 const AdminNavbar = () => {

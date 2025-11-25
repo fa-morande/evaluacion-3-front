@@ -6,7 +6,6 @@ let categoriasMock = [
     { id: 4, nombre: 'Alimentos', descripcion: 'Comida premium', activa: true }
 ];
 
-// Simula un retraso de red
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getCategorias = async () => {

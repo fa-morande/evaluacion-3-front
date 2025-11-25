@@ -6,12 +6,12 @@ import "../../../styles/components/molecules/forms/Formulario.css";
 function Formulario({ subtitulo, type = "text", placeholder, value, onChange }) {
     return (
         <div className="molecula-formulario">
-            {/* Subtítulo del campo */}
+            {/*--> Subtítulo del campo */}
             <Text variant="h6" className="form-subtitulo">
                 {subtitulo}
             </Text>
 
-            {/* Input del campo */}
+            {/*--> Input del campo */}
             <Input 
                 type={type}
                 placeholder={placeholder}

@@ -1,16 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../../atoms/Button"; // Si no usas Button, puedes quitarlo
-import Text from "../../atoms/Text";     // Si no usas Text, puedes quitarlo
+import Text from "../../atoms/Text";     
 import "../../../styles/components/organisms/layout/UserMenu.css";
 
-// 1. Aceptamos la prop 'onLogout' que viene del Navbar
 function UserMenu({ user, carritoCount = 0, onLogout }) {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
     const menuRef = useRef(null);
 
-    // Cerrar menú al hacer click fuera
     useEffect(() => {
         function handleClickOutside(event) {
             if (menuRef.current && !menuRef.current.contains(event.target)) {
@@ -25,25 +22,22 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
     }, []);
 
     const handleLogout = () => {
-        // 2. Lógica limpia: Cerramos menú y llamamos a la función del padre
         setIsOpen(false);
         
         if (onLogout) {
             onLogout(); 
         } else {
-            // Fallback por seguridad
             navigate('/login');
         }
     };
 
     const handleProfile = () => {
-        // Normalizamos a mayúsculas por seguridad
         const role = user.role ? user.role.toUpperCase() : "USER";
         
         if (role === "ADMIN") {
             navigate("/admin");
         } else {
-            navigate("/perfil"); // Asegúrate de que esta ruta exista
+            navigate("/perfil");
         }
         setIsOpen(false);
     };
@@ -53,12 +47,11 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
         setIsOpen(false);
     };
 
-    // Seguridad visual si user es null (aunque el Navbar lo controla)
     if (!user) return null;
 
     return (
         <div className="user-menu-container" ref={menuRef}>
-            {/* Botón de usuario (Trigger) */}
+            {/*--> Boton de usuario*/}
             <button 
                 className="user-menu-trigger"
                 onClick={() => setIsOpen(!isOpen)}
@@ -72,21 +65,21 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
                 </div>
                 <div className="user-info">
                     <Text variant="span" className="user-name">
-                        {/* Mostramos Nombre o la parte inicial del correo */}
+                        {/*--> Mostramos Nombre o la parte inicial del correo */}
                         {user.nombre || (user.email ? user.email.split('@')[0] : 'Usuario')}
                     </Text>
                     <Text variant="span" className="user-role">
-                        {/* Validación segura del rol */}
+                        {/*--> Validacion segura del rol */}
                         {(user.role && user.role.toUpperCase() === "ADMIN") ? "Administrador" : "Cliente"}
                     </Text>
                 </div>
                 <span className={`dropdown-arrow ${isOpen ? 'open' : ''}`}>▼</span>
             </button>
 
-            {/* Menú desplegable */}
+            {/*--> Menu desplegable */}
             {isOpen && (
                 <div className="user-menu-dropdown">
-                    {/* Header del menú */}
+                    {/*--> Header del menu */}
                     <div className="menu-header">
                         <div className="menu-title">
                             Mi Cuenta
@@ -96,9 +89,9 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
                         </div>
                     </div>
 
-                    {/* Items del menú */}
+                    {/*--> Items del menú */}
                     <div className="menu-items">
-                        {/* Perfil/Admin */}
+                        {/*--> Perfil/Admin */}
                         <button 
                             className="menu-item"
                             onClick={handleProfile}
@@ -111,7 +104,7 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
                             </span>
                         </button>
 
-                        {/* Carrito */}
+                        {/*--> Carrito */}
                         <button 
                             className="menu-item"
                             onClick={handleCarrito}
@@ -122,10 +115,10 @@ function UserMenu({ user, carritoCount = 0, onLogout }) {
                             </span>
                         </button>
 
-                        {/* Separador */}
+                        {/*--> Separador */}
                         <div className="menu-divider"></div>
 
-                        {/* Cerrar Sesión */}
+                        {/*--> Cerrar Sesion */}
                         <button 
                             className="menu-item logout-item"
                             onClick={handleLogout}

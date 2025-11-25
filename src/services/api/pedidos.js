@@ -47,8 +47,6 @@ export async function createPedido(pedidoData) {
 
     return jsonData;
 }
-
-// --- OBTENER TODOS (Admin) ---
 export async function getPedidos() {
     const token = getToken();
     const headers = { "Content-Type": "application/json" };
@@ -71,11 +69,10 @@ export async function getPedidosPorUsuario(idUsuario) {
     
     if (token) headers["Authorization"] = `Bearer ${token}`;
 
-    // Si no pasamos ID, intentamos deducirlo del token/session en el backend
-    // Ojo: Ajusta la URL si tu backend requiere el ID explícito en la ruta
+
     const url = idUsuario 
         ? `${API_URL}/pedidos/usuario/${idUsuario}` 
-        : `${API_URL}/pedidos/mis-pedidos`; // Ruta alternativa común
+        : `${API_URL}/pedidos/mis-pedidos`; 
 
     const res = await fetch(url, {
         headers: headers,

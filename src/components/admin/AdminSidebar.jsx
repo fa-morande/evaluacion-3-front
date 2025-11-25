@@ -4,12 +4,9 @@ import { useAuth } from '../../context/AuthContext';
 import '../../styles/components/admin/AdminSidebar.css'; 
 
 const AdminSidebar = () => {
-    // CORRECCIÓN: Desestructuramos 'logoutUser', que es el nombre real en tu Contexto
     const { logoutUser } = useAuth();
     const navigate = useNavigate();
-
     const handleLogout = () => {
-        // CORRECCIÓN: Llamamos a la función correcta
         logoutUser();
         navigate('/login'); 
     };
@@ -33,7 +30,6 @@ const AdminSidebar = () => {
                     </li>
                 </ul>
             </nav>
-
             <button onClick={handleLogout} className="admin-logout">
                 Cerrar Sesión
             </button>

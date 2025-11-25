@@ -9,7 +9,6 @@ const ProductosAdmin = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     
-    // Estados simples
     const [nombre, setNombre] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [precio, setPrecio] = useState("");
@@ -36,21 +35,20 @@ const ProductosAdmin = () => {
         e.preventDefault();
 
         try {
-            // CONSTRUIMOS EL OBJETO EXACTO QUE FUNCIONA EN TU POSTMAN
             const payload = {
                 nombre: nombre,
                 descripcion: descripcion,
                 precio: Number(precio),
                 stock: Number(stock),
-                imagenUrl: imagenUrl, // Enviamos el link de la foto
+                imagenUrl: imagenUrl,
                 destacado: false,
                 activo: true,
                 categoria: {
-                    id: Number(categoriaId) // Estructura anidada obligatoria
+                    id: Number(categoriaId) 
                 }
             };
 
-            console.log("🚀 Enviando:", payload);
+            console.log(" Enviando:", payload);
 
             await createProducto(payload);
 
@@ -64,7 +62,7 @@ const ProductosAdmin = () => {
 
         } catch (error) {
             console.error(error);
-            // Si dice "No hay token", es porque hay que reloguearse
+
             if (error.message.includes("token")) {
                 alert("Tu sesión expiró. Por favor sal y vuelve a entrar.");
             } else {
@@ -84,13 +82,12 @@ const ProductosAdmin = () => {
         }
     };
 
-    // Columnas de la tabla
     const columns = [
         { header: 'ID', accessor: 'id' },
         { 
             header: 'Imagen', 
             accessor: 'imagenUrl', 
-            render: (row) => row.imagenUrl ? <img src={row.imagenUrl} alt="img" style={{width:40, height:40, objectFit:'cover'}}/> : '🚫'
+            render: (row) => row.imagenUrl ? <img src={row.imagenUrl} alt="img" style={{width:40, height:40, objectFit:'cover'}}/> : 'X'
         },
         { header: 'Nombre', accessor: 'nombre' },
         { header: 'Precio', render: (row) => `$${row.precio}` },
@@ -126,7 +123,6 @@ const ProductosAdmin = () => {
                                 <option value="3">Accesorios</option>
                             </select>
 
-                            {/* INPUT DE TEXTO PARA URL (Método Seguro) */}
                             <input 
                                 type="text" 
                                 placeholder="URL de la imagen (http://...)" 

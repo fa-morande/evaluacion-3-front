@@ -1,15 +1,13 @@
-// src/services/api/productos.js
+const API_URL = "/api";
 
-const API_URL = "/api"; // Proxy configurado en vite.config.js
 
-// Helper para intentar obtener token (si existe explícitamente)
 const getToken = () => {
     const storedUser = localStorage.getItem("user");
     if (!storedUser) return null;
     
     try {
         const user = JSON.parse(storedUser);
-        // Intentamos encontrar el token, pero si no está, devolvemos null sin explotar
+
         return user.token || user.accessToken || user.usuario?.token || null;
     } catch (e) {
         return null;
@@ -33,10 +31,6 @@ export async function createProducto(data) {
         "Content-Type": "application/json"
     };
 
-    // LÓGICA HÍBRIDA:
-    // 1. Si encontramos token manual, lo ponemos.
-    // 2. Si NO encontramos token, NO lanzamos error. Dejamos pasar la petición
-    //    confiando en que la Cookie de sesión ('include') hará el trabajo.
     if (token) {
         headers["Authorization"] = `Bearer ${token}`;
     } else {
@@ -47,7 +41,7 @@ export async function createProducto(data) {
         method: "POST",
         headers: headers,
         body: JSON.stringify(data),
-        credentials: 'include' // <--- ESTO ES LA CLAVE PARA COOKIES
+        credentials: 'include'
     });
 
     // Manejo robusto de respuesta
@@ -60,7 +54,6 @@ export async function createProducto(data) {
     }
 
     if (!res.ok) {
-        // Si el servidor responde 401/403, entonces sí avisamos que falló la sesión
         if (res.status === 401 || res.status === 403) {
             throw new Error("Tu sesión ha expirado o no tienes permisos. Por favor, loguéate de nuevo.");
         }

@@ -1,7 +1,6 @@
-// src/components/organisms/layout/MainLayout.jsx
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Navbar from '../../molecules/navigation/NavBar'; // <--- Aquí se importa el Navbar que acabamos de hacer
+import Navbar from '../../molecules/navigation/NavBar';
 
 const MainLayout = () => {
     return (
@@ -10,7 +9,6 @@ const MainLayout = () => {
             <main>
                 <Outlet />
             </main>
-            {/* Footer aquí si tienes */}
         </div>
     );
 };

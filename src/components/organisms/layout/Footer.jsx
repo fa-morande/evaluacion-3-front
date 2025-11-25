@@ -3,7 +3,6 @@ import Text from "../../atoms/Text";
 import Image from "../../atoms/Image";
 import "../../../styles/components/organisms/layout/Footer.css";
 
-// Datos estáticos (que podríamos traer del API de Categorías)
 const ENLACES = [
     { label: "Inicio", url: "/" },
     { label: "Productos", url: "/productos" },
@@ -17,14 +16,14 @@ function Footer() {
     return (
         <footer className="footer-principal">
             <div className="contenedor-columnas">
-                {/* 1. Logo y Texto */}
+                {/*--> Logo y Texto */}
                 <div className="columna logo-col">
-                    {/* Reemplaza con tu logo */}
+                    {/*--> Reemplaza con tu logo */}
                     <Image src="/img/logo-mascotas.webp" alt="Logo Tienda" className="logo-footer" /> 
                     <Text variant="p" className="texto-generico">La tienda de tu mejor amigo.</Text>
                 </div>
 
-                {/* 2. Enlaces Rápidos */}
+                {/*--> Enlaces Rapidos */}
                 <div className="columna">
                     <Text variant="h5" className="titulo">Enlaces Rápidos</Text>
                     <ul>
@@ -34,7 +33,7 @@ function Footer() {
                     </ul>
                 </div>
 
-                {/* 3. Categorías */}
+                {/*--> Categorias */}
                 <div className="columna">
                     <Text variant="h5" className="titulo">Categorías</Text>
                     <ul>
@@ -44,7 +43,7 @@ function Footer() {
                     </ul>
                 </div>
 
-                {/* 4. Contacto */}
+                {/*--> Contacto */}
                 <div className="columna">
                     <Text variant="h5" className="titulo">Contacto</Text>
                     <Text variant="p">Email: contacto@tienda.cl</Text>
@@ -54,7 +53,7 @@ function Footer() {
 
             <hr className="separador" /> 
             
-            {/* Derechos Reservados */}
+            {/*--> Derechos Reservados */}
             <div className="copyright">
                 <Text variant="p">© {new Date().getFullYear()} Todos los derechos reservados.</Text>
             </div>

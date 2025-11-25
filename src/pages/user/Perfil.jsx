@@ -1,13 +1,11 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Navigate } from 'react-router-dom';
-// IMPORTANTE: La ruta del CSS corregida
 import '../../styles/pages/user/Perfil.css';
 
 const Perfil = () => {
     const { user } = useAuth();
 
-    // Si por alguna razón entra aquí sin usuario, lo mandamos al login
     if (!user) {
         return <Navigate to="/login" replace />;
     }

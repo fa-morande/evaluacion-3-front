@@ -25,23 +25,18 @@ const Registro = () => {
     }
 
     try {
-      // --- CONSTRUCCIÓN DEL OBJETO EXACTO DE POSTMAN ---
       const usuarioParaBackend = {
         nombre: nombre,
         apellido: apellido,
-        
-        // CORRECCIÓN: Usamos las llaves en inglés según tu Postman
-        email: correo,          // Antes enviábamos 'correo'
-        password: contrasena,   // Antes enviábamos 'contrasenia'
-        
-        // Campos obligatorios extra
-        telefono: "+56911111111", // Dummy para cumplir con el backend
+        email: correo,          
+        password: contrasena,   
+        telefono: "+56911111111", 
         direccion: `${comuna}, ${region}`,
-        role: "USER", // Siempre mayúscula
-        activo: true  // Agregado según tu Postman
+        role: "USER",
+        activo: true 
       };
 
-      console.log("🚀 Payload idéntico a Postman:", usuarioParaBackend);
+      console.log(" Payload idéntico a Postman:", usuarioParaBackend);
 
       await register(usuarioParaBackend);
 
