@@ -1,237 +1,158 @@
 import React, { useState, useEffect } from 'react';
-import { adminService } from '../../services/api/adminService';
+import { getProductos, createProducto, deleteProducto } from '../../services/api/productos';
+import AdminTable from '../../components/organisms/AdminTable'; 
 import Button from '../../components/atoms/Button';
-import Input from '../../components/atoms/Input';
-import Text from '../../components/atoms/Text';
-import AdminTable from '../../components/organisms/AdminTable';
-
 import '../../styles/components/admin/AdminGlobal.css';
 
-function ProductosAdmin() {
+const ProductosAdmin = () => {
     const [productos, setProductos] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showForm, setShowForm] = useState(false);
-    const [productoEdit, setProductoEdit] = useState(null);
-
-    const [formData, setFormData] = useState({
-        nombre: '',
-        descripcion: '',
-        precio: '',
-        stock: '',
-        categoriaId: '',
-        destacado: false,
-        activo: true
-    });
+    const [showModal, setShowModal] = useState(false);
+    
+    // Estados simples
+    const [nombre, setNombre] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [precio, setPrecio] = useState("");
+    const [stock, setStock] = useState("");
+    const [imagenUrl, setImagenUrl] = useState(""); // URL de texto
+    const [categoriaId, setCategoriaId] = useState("");
 
     useEffect(() => {
-        cargarProductos();
+        cargarData();
     }, []);
 
-    const cargarProductos = async () => {
+    const cargarData = async () => {
         try {
-            const data = await adminService.productos.getAll();
-            setProductos(data);
+            const data = await getProductos();
+            setProductos(Array.isArray(data) ? data : []);
         } catch (error) {
-            console.error('Error cargando productos:', error);
+            console.error(error);
         } finally {
             setLoading(false);
         }
     };
 
-    // --- LÓGICA DE FORMULARIO (Rellena, no vacía) ---
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        // Convertimos a números para que la API no falle
-        const productoParaEnviar = {
-            ...formData,
-            precio: Number(formData.precio),
-            stock: Number(formData.stock),
-            categoriaId: formData.categoriaId ? Number(formData.categoriaId) : null 
-        };
 
         try {
-            if (productoEdit) {
-                await adminService.productos.update(productoEdit.id, productoParaEnviar);
-                alert("Producto actualizado correctamente");
-            } else {
-                await adminService.productos.create(productoParaEnviar);
-                alert("Producto creado correctamente");
-            }
+            // CONSTRUIMOS EL OBJETO EXACTO QUE FUNCIONA EN TU POSTMAN
+            const payload = {
+                nombre: nombre,
+                descripcion: descripcion,
+                precio: Number(precio),
+                stock: Number(stock),
+                imagenUrl: imagenUrl, // Enviamos el link de la foto
+                destacado: false,
+                activo: true,
+                categoria: {
+                    id: Number(categoriaId) // Estructura anidada obligatoria
+                }
+            };
+
+            console.log("🚀 Enviando:", payload);
+
+            await createProducto(payload);
+
+            alert("¡Producto creado correctamente!");
+            setShowModal(false);
             
-            await cargarProductos();
-            resetForm();
+            // Reset
+            setNombre(""); setDescripcion(""); setPrecio(""); setStock(""); setImagenUrl(""); setCategoriaId("");
             
+            cargarData();
+
         } catch (error) {
-            console.error('Error guardando producto:', error);
-            alert("Error al guardar: " + (error.response?.data?.message || error.message));
+            console.error(error);
+            // Si dice "No hay token", es porque hay que reloguearse
+            if (error.message.includes("token")) {
+                alert("Tu sesión expiró. Por favor sal y vuelve a entrar.");
+            } else {
+                alert("Error: " + error.message);
+            }
         }
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('¿Estás seguro de eliminar este producto?')) {
+        if (window.confirm("¿Eliminar?")) {
             try {
-                await adminService.productos.delete(id);
-                await cargarProductos();
+                await deleteProducto(id);
+                setProductos(prev => prev.filter(p => p.id !== id));
             } catch (error) {
-                console.error('Error eliminando producto:', error);
+                alert("Error al eliminar");
             }
         }
     };
 
-    const handleEdit = (producto) => {
-        setProductoEdit(producto);
-        setFormData({
-            nombre: producto.nombre,
-            descripcion: producto.descripcion,
-            precio: producto.precio,
-            stock: producto.stock,
-            categoriaId: producto.categoriaId || '',
-            destacado: producto.destacado,
-            activo: producto.activo
-        });
-        setShowForm(true);
-    };
-
-    const resetForm = () => {
-        setFormData({
-            nombre: '', descripcion: '', precio: '', stock: '', 
-            categoriaId: '', destacado: false, activo: true
-        });
-        setProductoEdit(null);
-        setShowForm(false);
-    };
-
-    // --- DEFINICIÓN DE COLUMNAS (Corrección de Pantalla Blanca) ---
+    // Columnas de la tabla
     const columns = [
+        { header: 'ID', accessor: 'id' },
         { 
-            header: 'Producto', 
-            accessor: 'nombre',
-            render: (row) => (
-                <div>
-                    <strong>{row.nombre}</strong>
-                    <div style={{fontSize: '0.8rem', color: '#888'}}>ID: {row.id}</div>
-                </div>
-            )
+            header: 'Imagen', 
+            accessor: 'imagenUrl', 
+            render: (row) => row.imagenUrl ? <img src={row.imagenUrl} alt="img" style={{width:40, height:40, objectFit:'cover'}}/> : '🚫'
         },
-        { 
-            header: 'Categoría', 
-            // CLAVE: Verificamos si es objeto o texto para evitar el error de React
-            render: (row) => row.categoria?.nombre || row.categoria || 'Sin Categoría'
-        },
-        { 
-            header: 'Precio', 
-            render: (row) => `$${row.precio}`
-        },
-        { 
-            header: 'Stock', 
-            render: (row) => (
-                <span className={row.stock < 5 ? 'badge badge-danger' : 'badge badge-info'}>
-                    {row.stock} un.
-                </span>
-            )
-        },
-        { 
-            header: 'Estado', 
-            render: (row) => (
-                <>
-                    <span className={`badge ${row.activo ? 'badge-success' : 'badge-danger'}`}>
-                        {row.activo ? 'Activo' : 'Inactivo'}
-                    </span>
-                    {row.destacado && <span className="badge badge-warning" style={{marginLeft:'5px'}}>⭐</span>}
-                </>
-            )
-        }
+        { header: 'Nombre', accessor: 'nombre' },
+        { header: 'Precio', render: (row) => `$${row.precio}` },
+        { header: 'Stock', accessor: 'stock' },
+        { header: 'Cat', render: (row) => row.categoria?.nombre || row.categoria?.id }
     ];
-
-    if (loading) return <div>Cargando productos...</div>;
 
     return (
         <div className="admin-page">
-            <div className="admin-section-header">
-                <div>
-                    <h1>Inventario de Productos</h1>
-                    <p style={{ color: '#64748b', fontSize: '0.9rem' }}>Gestiona tu catálogo completo</p>
-                </div>
-                <Button 
-                    text="+ Nuevo Producto" 
-                    onClick={() => setShowForm(true)}
-                    variant="primary"
-                />
+            <div className="admin-section-header" style={{display:'flex', justifyContent:'space-between'}}>
+                <h1>Productos</h1>
+                <Button text="+ Nuevo" onClick={() => setShowModal(true)} variant="primary" />
             </div>
 
-            {/* --- FORMULARIO MODAL COMPLETO --- */}
-            {showForm && (
-                <div className="form-modal">
-                    <form onSubmit={handleSubmit} className="producto-form">
-                        <Text variant="h3">
-                            {productoEdit ? 'Editar Producto' : 'Nuevo Producto'}
-                        </Text>
-                        
-                        <Input
-                            placeholder="Nombre del producto"
-                            value={formData.nombre}
-                            onChange={(e) => setFormData({...formData, nombre: e.target.value})}
-                            required
-                        />
-                        
-                        <Input
-                            placeholder="Descripción"
-                            value={formData.descripcion}
-                            onChange={(e) => setFormData({...formData, descripcion: e.target.value})}
-                            required
-                        />
-                        
-                        <div style={{ display: 'flex', gap: '10px' }}>
-                            <Input
-                                type="number"
-                                placeholder="Precio"
-                                value={formData.precio}
-                                onChange={(e) => setFormData({...formData, precio: e.target.value})}
-                                required
-                            />
-                            <Input
-                                type="number"
-                                placeholder="Stock"
-                                value={formData.stock}
-                                onChange={(e) => setFormData({...formData, stock: e.target.value})}
-                                required
-                            />
-                        </div>
+            {/* MODAL */}
+            {showModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Nuevo Producto</h3>
+                        <form onSubmit={handleSubmit} style={{display:'grid', gap:'10px'}}>
+                            <input placeholder="Nombre" value={nombre} onChange={e=>setNombre(e.target.value)} required className="input-form"/>
+                            <textarea placeholder="Descripción" value={descripcion} onChange={e=>setDescripcion(e.target.value)} required className="input-form"/>
+                            
+                            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px'}}>
+                                <input type="number" placeholder="Precio" value={precio} onChange={e=>setPrecio(e.target.value)} required className="input-form"/>
+                                <input type="number" placeholder="Stock" value={stock} onChange={e=>setStock(e.target.value)} required className="input-form"/>
+                            </div>
 
-                        {/* SELECTOR DE CATEGORÍA CORRECTAMENTE UBICADO */}
-                        <select
-                            className="input-select"
-                            value={formData.categoriaId}
-                            onChange={(e) => setFormData({...formData, categoriaId: e.target.value})}
-                            style={{ width: '100%', padding: '10px', borderRadius: '6px', border: '1px solid #cbd5e1' }}
-                            required
-                        >
-                            <option value="">Selecciona una categoría</option>
-                            {/* Ajusta estos valores según tus IDs reales de categoría */}
-                            <option value="1">Perros</option>
-                            <option value="2">Gatos</option>
-                            <option value="3">Accesorios</option>
-                            <option value="4">Alimentos</option>
-                        </select>
+                            <select value={categoriaId} onChange={e=>setCategoriaId(e.target.value)} required className="input-form">
+                                <option value="">Categoría...</option>
+                                <option value="1">Perros</option>
+                                <option value="2">Gatos</option>
+                                <option value="3">Accesorios</option>
+                            </select>
 
-                        <div className="form-actions">
-                            <Button type="button" text="Cancelar" onClick={resetForm} variant="secondary"/>
-                            <Button type="submit" text="Guardar" variant="primary" />
-                        </div>
-                    </form>
+                            {/* INPUT DE TEXTO PARA URL (Método Seguro) */}
+                            <input 
+                                type="text" 
+                                placeholder="URL de la imagen (http://...)" 
+                                value={imagenUrl} 
+                                onChange={e=>setImagenUrl(e.target.value)} 
+                                required 
+                                className="input-form"
+                            />
+                            <p style={{fontSize:'0.8rem', color:'#666'}}>
+                                Tip: Copia una dirección de imagen de Google o Unsplash.
+                            </p>
+
+                            <div style={{display:'flex', gap:'10px', marginTop:'10px'}}>
+                                <Button text="Cancelar" onClick={()=>setShowModal(false)} variant="secondary" type="button"/>
+                                <Button text="Guardar" type="submit" variant="primary"/>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             )}
 
-            {/* --- TABLA DE DATOS MODULAR --- */}
-            <AdminTable 
-                columns={columns} 
-                data={productos} 
-                onEdit={handleEdit} 
-                onDelete={handleDelete} 
-            />
+            <div className="admin-table-wrapper">
+                {loading ? <p>Cargando...</p> : <AdminTable columns={columns} data={productos} onDelete={handleDelete} />}
+            </div>
         </div>
     );
-}
+};
 
 export default ProductosAdmin;
