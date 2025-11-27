@@ -1,14 +1,10 @@
-const API_URL = "/api"; 
+const API_URL = "https://back-m41x.onrender.com/api";
 
 // --- LOGIN ---
 export async function login(credentials) {
-    console.log(" Enviando credenciales:", credentials);
-
     const res = await fetch(`${API_URL}/usuarios/login`, {
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
     });
 
@@ -17,32 +13,25 @@ export async function login(credentials) {
     try {
         data = JSON.parse(responseText);
     } catch (error) {
-        console.warn(" Backend devolvió texto plano:", responseText);
         data = { message: responseText }; 
     }
 
     if (!res.ok) {
-        throw new Error(data.message || "Error de credenciales");
+        throw new Error(data.message || "Error al conectar con el servidor");
     }
 
     return data;
 }
 
-// --- REGISTRO (Con depuración mejorada) ---
+// --- REGISTRO ---
 export async function register(userData) {
-    console.log(" Enviando registro al backend:", userData);
-
     const res = await fetch(`${API_URL}/usuarios`, { 
         method: "POST",
-        headers: { 
-            "Content-Type": "application/json" 
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
     });
 
     const responseText = await res.text();
-    console.log(" RESPUESTA DEL BACKEND:", responseText);
-
     let data;
     try {
         data = JSON.parse(responseText);
@@ -51,19 +40,17 @@ export async function register(userData) {
     }
 
     if (!res.ok) {
-        throw new Error(data.message || data.error || "Error al registrar usuario");
+        throw new Error(data.message || "Error al registrar usuario");
     }
 
     return data;
 }
 
-// --- GET USUARIOS (Admin) ---
+// --- OBTENER USUARIOS (Admin) ---
 export async function getUsuarios() {
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : {};
     const token = user.token || user.accessToken || user.usuario?.token; 
-
-    if (!token) console.warn(" Sin token para getUsuarios");
 
     const res = await fetch(`${API_URL}/usuarios`, {
         headers: { 
@@ -76,7 +63,7 @@ export async function getUsuarios() {
     return res.json();
 }
 
-// --- DELETE USUARIO (Admin) ---
+// --- ELIMINAR USUARIO (Admin) ---
 export async function deleteUsuario(id) {
     const storedUser = localStorage.getItem("user");
     const user = storedUser ? JSON.parse(storedUser) : {};
