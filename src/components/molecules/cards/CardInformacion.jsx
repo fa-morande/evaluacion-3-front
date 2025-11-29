@@ -18,8 +18,15 @@ function CardInformacion({ icono, imagenUrl, titulo, descripcion, cargo }) {
             )}
             <div className="card-contenido">
                 <Text variant="h4" className="card-titulo">{titulo}</Text>
+                
                 {cargo && <Text variant="span" className="card-cargo">{cargo}</Text>}
-                {descripcion && <Text variant="p" className="card-descripcion">{descripcion}</Text>}
+                
+                {/* CORRECCIÓN: Usamos div en lugar de Text(p) para permitir contenido HTML dentro */}
+                {descripcion && (
+                    <div className="card-descripcion">
+                        {descripcion}
+                    </div>
+                )}
             </div>
         </div>
     );

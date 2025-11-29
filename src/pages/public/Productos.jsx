@@ -68,6 +68,7 @@ function Productos({ agregarAlCarrito }) {
             <BodyFiltro 
                 onSearch={handleSearch}
                 onFilterChange={handleFilter}
+                categoriaActiva={filtros.categoria}
             />
             
             {/* Contenedor centrado solo para productos */}

@@ -9,8 +9,21 @@ function SeccionCategorias() {
     const listaCategorias = nosotrosData.categorias;
     const navigate = useNavigate();
 
+    // Helper para traducir de la UI (Plural) a la BD (Singular)
+    const mapearCategoriaParaBD = (nombreUI) => {
+        const mapa = {
+            "Perros": "Perro", // UI: Perros -> BD: Perro
+            "Gatos": "Gato",   // UI: Gatos -> BD: Gato
+            "Accesorios": "Accesorios"
+        };
+        // Si no está en el mapa, usamos el nombre original
+        return mapa[nombreUI] || nombreUI;
+    };
+
     const handleCategoriaClick = (nombreCategoria) => {
-        navigate(`/productos?categoria=${encodeURIComponent(nombreCategoria)}`);
+        const nombreParaFiltro = mapearCategoriaParaBD(nombreCategoria);
+        // Navegamos con el nombre corregido
+        navigate(`/productos?categoria=${encodeURIComponent(nombreParaFiltro)}`);
     };
 
     return (
@@ -26,6 +39,7 @@ function SeccionCategorias() {
                         key={index} 
                         onClick={() => handleCategoriaClick(cat.nombre)}
                         style={{ cursor: 'pointer' }}
+                        className="card-wrapper" // Clase opcional para selectores
                     >
                         <CardCategoria 
                             titulo={cat.nombre}

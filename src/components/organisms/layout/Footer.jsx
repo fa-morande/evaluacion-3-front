@@ -18,7 +18,6 @@ function Footer() {
             <div className="contenedor-columnas">
                 {/*--> Logo y Texto */}
                 <div className="columna logo-col">
-                    {/*--> Reemplaza con tu logo */}
                     <Image src="/img/logo-mascotas.webp" alt="Logo Tienda" className="logo-footer" /> 
                     <Text variant="p" className="texto-generico">La tienda de tu mejor amigo.</Text>
                 </div>

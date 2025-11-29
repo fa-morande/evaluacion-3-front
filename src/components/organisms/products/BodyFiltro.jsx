@@ -1,29 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import Input from "../../atoms/Input";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import productos from "../../../services/data/productos";
 import '../../../styles/components/organisms/products/BodyFiltro.css';
 
-function BodyFiltro({ onSearch, onFilterChange }) {
-    const [filtroActivo, setFiltroActivo] = useState("todos");
-
-    const categorias = Object.keys(productos.categoria);
+// 1. Recibimos 'categoriaActiva' para pintar el botón correcto
+function BodyFiltro({ onSearch, onFilterChange, categoriaActiva }) {
     
+    // Definimos las categorías que coinciden con tu base de datos
     const FILTROS_CATEGORIAS = [
-        { key: "todos", label: "Todos", categoria: "" }
-    ].concat(
-        categorias.map(cat => ({
-            key: cat.toLowerCase(),
-            label: cat,
-            categoria: cat
-        }))
-    );
+        { key: "todos", label: "Todos", categoria: "" },
+        { key: "perros", label: "Perros", categoria: "Perro" },
+        { key: "gatos", label: "Gatos", categoria: "Gato" },
+        { key: "accesorios", label: "Accesorios", categoria: "Accesorios" }
+    ];
 
-    const handleFiltroClick = (filtroKey) => {
-        const filtroSeleccionado = FILTROS_CATEGORIAS.find(f => f.key === filtroKey);
-        setFiltroActivo(filtroKey);
-        onFilterChange(filtroSeleccionado.categoria);
+    const handleFiltroClick = (filtro) => {
+        onFilterChange(filtro.categoria);
+    };
+
+    // Helper para saber si un botón está activo
+    const isActive = (filtro) => {
+        if (!categoriaActiva && filtro.key === "todos") return true;
+        return categoriaActiva === filtro.categoria;
     };
 
     return (
@@ -43,6 +42,7 @@ function BodyFiltro({ onSearch, onFilterChange }) {
                         />
                     </div>
                 </div>
+
                 {/*--> Seccion de Categorias */}
                 <div className="seccion-categorias">
                     <Text variant="h3" className="titulo-seccion">
@@ -53,8 +53,9 @@ function BodyFiltro({ onSearch, onFilterChange }) {
                             <Button 
                                 key={filtro.key}
                                 text={filtro.label}
-                                variant={filtroActivo === filtro.key ? 'primary' : 'secondary'}
-                                onClick={() => handleFiltroClick(filtro.key)}
+                                // 2. Lógica visual corregida usando la prop recibida
+                                variant={isActive(filtro) ? 'primary' : 'secondary'}
+                                onClick={() => handleFiltroClick(filtro)}
                                 size="small"
                             />
                         ))}

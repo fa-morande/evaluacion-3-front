@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getPedidos } from '../../services/api/pedidos';
+import AdminTable from '../../components/organisms/AdminTable'; 
 import Button from '../../components/atoms/Button'; 
 import '../../styles/components/admin/AdminGlobal.css';
 
-function PedidosAdmin() {
+const PedidosAdmin = () => {
     const [pedidos, setPedidos] = useState([]);
     const [loading, setLoading] = useState(true);
 
-r
     useEffect(() => {
         cargarPedidos();
     }, []);
@@ -15,10 +15,8 @@ r
     const cargarPedidos = async () => {
         try {
             const data = await getPedidos();
-
             const lista = Array.isArray(data) ? data : [];
-            
-
+            // Ordenar descendente por ID
             setPedidos(lista.sort((a, b) => b.id - a.id));
         } catch (error) {
             console.error("Error cargando pedidos:", error);
@@ -27,70 +25,95 @@ r
         }
     };
 
-    const getStatusBadge = (status) => {
-        const s = (status || '').toUpperCase();
-        switch(s) {
-            case 'COMPLETADO': return 'badge badge-success';
-            case 'PENDIENTE': return 'badge badge-warning';
-            case 'CANCELADO': return 'badge badge-danger';
-            default: return 'badge badge-info';
+    // Definición de columnas
+    const columns = [
+        { 
+            header: 'ID', 
+            accessor: 'id', 
+            render: (row) => <span style={{fontFamily:'monospace'}}>#{row.id}</span> 
+        },
+        { 
+            header: 'Cliente', 
+            accessor: 'usuario',
+            render: (row) => (
+                <div>
+                    <strong>{row.usuario?.nombre || 'Anónimo'}</strong>
+                    <br/>
+                    <span style={{fontSize:'0.8rem', color:'#666'}}>
+                        {row.usuario?.email || row.usuario?.correo}
+                    </span>
+                </div>
+            )
+        },
+        { 
+            header: 'Fecha', 
+            accessor: 'fechaCreacion',
+            render: (row) => {
+                // Manejo de fecha robusto
+                const fecha = row.fechaCreacion ? new Date(row.fechaCreacion) : new Date();
+                return fecha.toLocaleDateString('es-CL');
+            }
+        },
+        { 
+            header: 'Total', 
+            accessor: 'total',
+            render: (row) => <strong>${Number(row.total).toLocaleString('es-CL')}</strong>
+        },
+        { 
+            header: 'Estado', 
+            accessor: 'estado',
+            render: (row) => {
+                const estado = (row.estado || 'PENDIENTE').toUpperCase();
+                
+                // Definimos los colores AQUÍ MISMO, simple y directo
+                let color = '#3b82f6'; // Azul default
+                let bg = '#eff6ff';
+
+                if (estado === 'COMPLETADO') { color = '#22c55e'; bg = '#f0fdf4'; }
+                else if (estado === 'PENDIENTE') { color = '#eab308'; bg = '#fefce8'; }
+                else if (estado === 'CANCELADO') { color = '#ef4444'; bg = '#fef2f2'; }
+
+                return (
+                    <span style={{
+                        color: color,
+                        backgroundColor: bg,
+                        padding: '4px 8px', 
+                        borderRadius: '12px', 
+                        fontSize: '0.75rem', 
+                        fontWeight: 'bold'
+                    }}>
+                        {estado}
+                    </span>
+                );
+            }
+        },
+        {
+            header: 'Detalles',
+            render: (row) => (
+                <span style={{fontSize:'0.9rem'}}>
+                    {row.detalles ? row.detalles.length : 0} items
+                </span>
+            )
         }
-    };
+    ];
 
     return (
         <div className="admin-page">
-            <div className="admin-section-header">
+            <div className="admin-section-header" style={{display:'flex', justifyContent:'space-between'}}>
                 <h1>Gestión de Pedidos</h1>
-                <Button text="Recargar Datos" onClick={cargarPedidos} variant="secondary" size="small"/>
+                <Button text="Recargar" onClick={cargarPedidos} variant="secondary" size="small"/>
             </div>
 
-            <div className="table-container">
-                {loading ? <p>Cargando pedidos...</p> : (
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Items</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pedidos.length === 0 ? (
-                                <tr><td colSpan="6" style={{textAlign:'center'}}>No hay pedidos registrados</td></tr>
-                            ) : (
-                                pedidos.map((pedido) => (
-                                    <tr key={pedido.id}>
-                                        <td>#{pedido.id}</td>
-                                        <td>
-                                            {pedido.usuario?.nombre || 'Anónimo'} <br/>
-                                            <span style={{fontSize:'0.8rem', color:'#666'}}>{pedido.usuario?.email}</span>
-                                        </td>
-                                        <td>
-                                            {new Date(pedido.fechaCreacion || Date.now()).toLocaleDateString()}
-                                        </td>
-                                        <td style={{ fontWeight: 'bold' }}>
-                                            ${pedido.total?.toLocaleString('es-CL')}
-                                        </td>
-                                        <td>
-                                            <span className={getStatusBadge(pedido.estado)}>
-                                                {pedido.estado}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {pedido.detalles ? pedido.detalles.length : 0} productos
-                                        </td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
+            <div className="admin-table-wrapper">
+                {loading ? <p>Cargando...</p> : (
+                    <AdminTable 
+                        columns={columns} 
+                        data={pedidos} 
+                    />
                 )}
             </div>
         </div>
     );
-}
+};
 
 export default PedidosAdmin;
