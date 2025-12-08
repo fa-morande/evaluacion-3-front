@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../atoms/Button";
 import Text from "../../atoms/Text";
-import { createPedido } from "../../../services/api/pedidos";
+import pedidoService from "../../../services/api/pedidos"; // IMPORT CORREGIDO
 import "../../../styles/components/atoms/Button.css";
 
 const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
@@ -38,16 +38,20 @@ const Checkout = ({ carrito, usuario, onPedidoCreado, onCancel }) => {
             console.log(" Enviando pedido:", payload);
 
             /*-->LLAMADA A LA API*/
-            const respuesta = await createPedido(payload);
+            // Axios devuelve un objeto response completo
+            const response = await pedidoService.createPedido(payload);
+            const data = response.data; // Los datos reales están aquí
             
-            alert(`¡Pedido #${respuesta.id || 'creado'} confirmado!`);
+            alert(`¡Pedido #${data.id || 'creado'} confirmado!`);
             
             /*--> LIMPIEZA*/
-            onPedidoCreado(respuesta); 
+            onPedidoCreado(data); 
 
         } catch (error) {
             console.error(error);
-            alert("Error al procesar compra: " + error.message);
+            // Manejo de error de Axios
+            const mensaje = error.response?.data?.message || error.message || "Error desconocido";
+            alert("Error al procesar compra: " + mensaje);
         } finally {
             setLoading(false);
         }

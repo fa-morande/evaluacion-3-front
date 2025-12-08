@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProductGeneral from "../../molecules/cards/CardProductGeneral"; 
 import Text from "../../atoms/Text";
-import { getProductos } from "../../../services/api/productos"; 
+import productoService from "../../../services/api/productos"; // IMPORT CORREGIDO
 import "../../../styles/components/organisms/products/SeccionDestacados.css";
 
 function SeccionDestacados({ agregarAlCarrito }) { 
@@ -11,10 +11,11 @@ function SeccionDestacados({ agregarAlCarrito }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        /*--> GetProductos*/
-        getProductos()
+        /*--> Usamos el método de la instancia */
+        productoService.getAllProductos()
         .then((respuesta) => {
-            const productosArray = Array.isArray(respuesta) ? respuesta : (respuesta.data || []);
+            // Con axios, la data real viene en respuesta.data
+            const productosArray = respuesta.data || [];
             setData(productosArray.slice(0, 4));
             setError(null);
         })

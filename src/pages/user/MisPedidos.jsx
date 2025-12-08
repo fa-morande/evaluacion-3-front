@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPedidosPorUsuario } from "../../services/api/pedidos";
+import pedidoService from "../../services/api/pedidos"; // IMPORT CORREGIDO
 import Text from "../../components/atoms/Text";
 import "../../styles/pages/user/MisPedidos.css";
 
@@ -9,18 +9,23 @@ function MisPedidos() {
     const [usuario, setUsuario] = useState(null);
 
     useEffect(() => {
-        const usuarioData = JSON.parse(localStorage.getItem("usuario") || "null");
+        // OJO: En AuthContext usas "user", aquí decías "usuario". Lo corregí a "user".
+        const usuarioData = JSON.parse(localStorage.getItem("user") || "null");
         setUsuario(usuarioData);
 
         if (usuarioData) {
-            cargarPedidos(usuarioData.id);
+            const id = usuarioData.id || usuarioData.usuario?.id;
+            cargarPedidos(id);
+        } else {
+            setLoading(false);
         }
     }, []);
 
     const cargarPedidos = async (usuarioId) => {
         try {
-            const pedidosData = await getPedidosPorUsuario(usuarioId);
-            setPedidos(pedidosData);
+            // Axios response
+            const response = await pedidoService.getPedidosPorUsuario(usuarioId);
+            setPedidos(response.data || []);
         } catch (error) {
             console.error("Error cargando pedidos:", error);
         } finally {
@@ -67,16 +72,19 @@ function MisPedidos() {
                                 
                                 <div className="pedido-info">
                                     <Text variant="p"><strong>Fecha:</strong> {new Date(pedido.fechaCreacion).toLocaleDateString()}</Text>
-                                    <Text variant="p"><strong>Total:</strong> ${pedido.total?.toLocaleString()}</Text>
-                                    <Text variant="p"><strong>Dirección:</strong> {pedido.direccionEntrega}</Text>
+                                    <Text variant="p"><strong>Total:</strong> ${Number(pedido.total).toLocaleString()}</Text>
+                                    <Text variant="p"><strong>Dirección:</strong> {pedido.direccionEntrega || pedido.direccionEnvio}</Text>
                                 </div>
 
-                                {pedido.productos && (
+                                {pedido.detalles && (
                                     <div className="productos-pedido">
                                         <Text variant="h4">Productos:</Text>
-                                        {pedido.productos.map((producto, index) => (
+                                        {pedido.detalles.map((detalle, index) => (
                                             <div key={index} className="producto-pedido">
-                                                <Text variant="p">{producto.nombre} x {producto.cantidad}</Text>
+                                                {/* Ajuste según estructura típica de detalle pedido */}
+                                                <Text variant="p">
+                                                    {detalle.producto?.nombre || "Producto"} x {detalle.cantidad}
+                                                </Text>
                                             </div>
                                         ))}
                                     </div>

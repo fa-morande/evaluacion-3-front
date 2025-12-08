@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getPedidos } from '../../services/api/pedidos';
+import pedidoService from '../../services/api/pedidos'; // IMPORT CORREGIDO
 import AdminTable from '../../components/organisms/AdminTable'; 
 import Button from '../../components/atoms/Button'; 
 import '../../styles/components/admin/AdminGlobal.css';
@@ -14,8 +14,11 @@ const PedidosAdmin = () => {
 
     const cargarPedidos = async () => {
         try {
-            const data = await getPedidos();
-            const lista = Array.isArray(data) ? data : [];
+            // Axios response
+            const response = await pedidoService.getPedidos();
+            // Data en .data
+            const lista = Array.isArray(response.data) ? response.data : (response.data?.pedidos || []);
+            
             // Ordenar descendente por ID
             setPedidos(lista.sort((a, b) => b.id - a.id));
         } catch (error) {
@@ -49,7 +52,6 @@ const PedidosAdmin = () => {
             header: 'Fecha', 
             accessor: 'fechaCreacion',
             render: (row) => {
-                // Manejo de fecha robusto
                 const fecha = row.fechaCreacion ? new Date(row.fechaCreacion) : new Date();
                 return fecha.toLocaleDateString('es-CL');
             }
@@ -65,11 +67,10 @@ const PedidosAdmin = () => {
             render: (row) => {
                 const estado = (row.estado || 'PENDIENTE').toUpperCase();
                 
-                // Definimos los colores AQUÍ MISMO, simple y directo
-                let color = '#3b82f6'; // Azul default
+                let color = '#3b82f6';
                 let bg = '#eff6ff';
 
-                if (estado === 'COMPLETADO') { color = '#22c55e'; bg = '#f0fdf4'; }
+                if (estado === 'COMPLETADO' || estado === 'ENTREGADO' || estado === 'CONFIRMADO') { color = '#22c55e'; bg = '#f0fdf4'; }
                 else if (estado === 'PENDIENTE') { color = '#eab308'; bg = '#fefce8'; }
                 else if (estado === 'CANCELADO') { color = '#ef4444'; bg = '#fef2f2'; }
 

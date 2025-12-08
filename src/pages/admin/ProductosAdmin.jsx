@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getProductos, createProducto, deleteProducto } from '../../services/api/productos';
+import productoService from '../../services/api/productos'; // IMPORT CORREGIDO
 import AdminTable from '../../components/organisms/AdminTable'; 
 import Button from '../../components/atoms/Button';
 import '../../styles/components/admin/AdminGlobal.css';
@@ -13,7 +13,7 @@ const ProductosAdmin = () => {
     const [descripcion, setDescripcion] = useState("");
     const [precio, setPrecio] = useState("");
     const [stock, setStock] = useState("");
-    const [imagenUrl, setImagenUrl] = useState(""); // URL de texto
+    const [imagenUrl, setImagenUrl] = useState(""); 
     const [categoriaId, setCategoriaId] = useState("");
 
     useEffect(() => {
@@ -22,8 +22,10 @@ const ProductosAdmin = () => {
 
     const cargarData = async () => {
         try {
-            const data = await getProductos();
-            setProductos(Array.isArray(data) ? data : []);
+            // Llamada al servicio
+            const response = await productoService.getAllProductos();
+            // Data en .data
+            setProductos(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error(error);
         } finally {
@@ -50,7 +52,8 @@ const ProductosAdmin = () => {
 
             console.log(" Enviando:", payload);
 
-            await createProducto(payload);
+            // Llamada al servicio
+            await productoService.createProducto(payload);
 
             alert("¡Producto creado correctamente!");
             setShowModal(false);
@@ -62,11 +65,11 @@ const ProductosAdmin = () => {
 
         } catch (error) {
             console.error(error);
-
-            if (error.message.includes("token")) {
-                alert("Tu sesión expiró. Por favor sal y vuelve a entrar.");
+            // Manejo de errores de Axios
+            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+                alert("Tu sesión expiró o no tienes permisos. Por favor inicia sesión.");
             } else {
-                alert("Error: " + error.message);
+                alert("Error: " + (error.response?.data?.message || error.message));
             }
         }
     };
@@ -74,7 +77,8 @@ const ProductosAdmin = () => {
     const handleDelete = async (id) => {
         if (window.confirm("¿Eliminar?")) {
             try {
-                await deleteProducto(id);
+                // Llamada al servicio
+                await productoService.deleteProducto(id);
                 setProductos(prev => prev.filter(p => p.id !== id));
             } catch (error) {
                 alert("Error al eliminar");

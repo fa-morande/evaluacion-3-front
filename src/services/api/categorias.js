@@ -1,42 +1,43 @@
-// Simulación de datos (MOCK)
-let categoriasMock = [
-    { id: 1, nombre: 'Perros', descripcion: 'Todo para perros', activa: true },
-    { id: 2, nombre: 'Gatos', descripcion: 'Todo para gatos', activa: true },
-    { id: 3, nombre: 'Accesorios', descripcion: 'Correas y juguetes', activa: true },
-    { id: 4, nombre: 'Alimentos', descripcion: 'Comida premium', activa: true }
-];
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 
-const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+const BASE_URL = `${API_URL}/categorias`;
 
-export const getCategorias = async () => {
-    await delay(500);
-    return [...categoriasMock];
-};
-
-export const getCategoriasActivas = async () => {
-    await delay(500);
-    return categoriasMock.filter(c => c.activa);
-};
-
-export const createCategoria = async (data) => {
-    await delay(500);
-    const newCat = { ...data, id: Date.now(), activa: true };
-    categoriasMock.push(newCat);
-    return newCat;
-};
-
-export const updateCategoria = async (id, data) => {
-    await delay(500);
-    const index = categoriasMock.findIndex(c => c.id === id);
-    if (index !== -1) {
-        categoriasMock[index] = { ...categoriasMock[index], ...data };
-        return categoriasMock[index];
+// Si el backend no requiere token para ver categorías, no usamos getAuthHeaders en los GET
+const getAuthHeaders = () => {
+    const storedUser = localStorage.getItem("user");
+    if (!storedUser) return {};
+    try {
+        const user = JSON.parse(storedUser);
+        const token = user.token || user.accessToken || user.usuario?.token;
+        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+    } catch (e) {
+        return {};
     }
-    throw new Error("Categoría no encontrada");
 };
 
-export const deleteCategoria = async (id) => {
-    await delay(500);
-    categoriasMock = categoriasMock.filter(c => c.id !== id);
-    return true;
-};
+class CategoriaService {
+    
+    getAllCategorias() {
+        return axios.get(BASE_URL);
+    }
+
+    getCategoriasActivas() {
+        // Asumiendo que existe un endpoint filtro o filtrando en el cliente
+        return axios.get(`${BASE_URL}?activa=true`);
+    }
+
+    createCategoria(data) {
+        return axios.post(BASE_URL, data, getAuthHeaders());
+    }
+
+    updateCategoria(id, data) {
+        return axios.put(`${BASE_URL}/${id}`, data, getAuthHeaders());
+    }
+
+    deleteCategoria(id) {
+        return axios.delete(`${BASE_URL}/${id}`, getAuthHeaders());
+    }
+}
+
+export default new CategoriaService();

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// 1. IMPORTANTE: Usamos el servicio individual 'api/usuarios', no adminService
-import { getUsuarios, deleteUsuario } from '../../services/api/usuarios';
+import usuarioService from '../../services/api/usuarios'; // IMPORT CORREGIDO
 import AdminTable from '../../components/organisms/AdminTable'; 
 import Button from '../../components/atoms/Button'; 
 import '../../styles/components/admin/AdminGlobal.css';
@@ -17,9 +16,12 @@ const UsuariosAdmin = () => {
         setLoading(true);
         try {
             // Llamada al servicio corregido
-            const data = await getUsuarios();
-            // Validación de array
-            const lista = Array.isArray(data) ? data : [];
+            const response = await usuarioService.getUsuarios();
+            
+            // Axios response.data
+            const data = response.data;
+            const lista = Array.isArray(data) ? data : (data.usuarios || []);
+            
             setUsers(lista);
         } catch (err) {
             console.error("Error cargando usuarios:", err);
@@ -31,7 +33,7 @@ const UsuariosAdmin = () => {
     const handleDelete = async (id) => {
         if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
             try {
-                await deleteUsuario(id);
+                await usuarioService.deleteUsuario(id);
                 // Actualizamos la tabla visualmente
                 setUsers(prev => prev.filter(u => u.id !== id));
                 alert("Usuario eliminado correctamente");
@@ -42,7 +44,7 @@ const UsuariosAdmin = () => {
         }
     };
 
-    // --- DEFINICIÓN DE COLUMNAS (Limpia y sin errores) ---
+    // --- DEFINICIÓN DE COLUMNAS (Sin cambios) ---
     const columns = [
         { 
             header: 'ID', 
@@ -61,16 +63,14 @@ const UsuariosAdmin = () => {
         { 
             header: 'Email', 
             accessor: 'email',
-            render: (row) => row.email || row.correo // Soporte para ambos nombres
+            render: (row) => row.email || row.correo 
         },
         { 
             header: 'Rol', 
             accessor: 'role',
             render: (row) => {
-                // Normalizamos el rol
                 const role = (row.role || 'USER').toUpperCase();
                 
-                // Asignamos color según rol
                 let style = { background: '#e0f2fe', color: '#075985' }; // Default (User)
                 
                 if (role === 'ADMIN') {

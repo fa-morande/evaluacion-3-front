@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../styles/pages/public/Registro.css";
 import Button from "../../components/atoms/Button";
-import { register } from "../../services/api/usuarios";
+import usuarioService from "../../services/api/usuarios"; // IMPORT CORREGIDO
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -38,14 +38,16 @@ const Registro = () => {
 
       console.log(" Payload idéntico a Postman:", usuarioParaBackend);
 
-      await register(usuarioParaBackend);
+      // Usamos el servicio instanciado
+      await usuarioService.register(usuarioParaBackend);
 
       alert("¡Cuenta creada con éxito! Ahora inicia sesión.");
       navigate("/login");
 
     } catch (error) {
       console.error("Error en registro:", error);
-      alert("El servidor dice: " + error.message);
+      const mensaje = error.response?.data?.message || error.message || "Error desconocido";
+      alert("El servidor dice: " + mensaje);
     }
   };
 

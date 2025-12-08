@@ -1,68 +1,38 @@
-const API_URL = "https://back-m41x.onrender.com/api";
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 
-// Helper para obtener token
-const getToken = () => {
+const BASE_URL = `${API_URL}/productos`;
+
+// Helper para headers
+const getAuthHeaders = () => {
     const storedUser = localStorage.getItem("user");
-    if (!storedUser) return null;
+    if (!storedUser) return {};
     try {
         const user = JSON.parse(storedUser);
-        return user.token || user.accessToken || user.usuario?.token || null;
+        const token = user.token || user.accessToken || user.usuario?.token;
+        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     } catch (e) {
-        return null;
+        return {};
     }
 };
 
-// --- OBTENER PRODUCTOS ---
-export async function getProductos() {
-    const res = await fetch(`${API_URL}/productos`);
-    if (!res.ok) throw new Error("Error al cargar productos");
-    return res.json();
-}
-
-// --- CREAR PRODUCTO ---
-export async function createProducto(data) {
-    const token = getToken();
-    const headers = { "Content-Type": "application/json" };
-
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    const res = await fetch(`${API_URL}/productos`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(data)
-    });
-
-    const responseText = await res.text();
-    let jsonData;
-    try {
-        jsonData = JSON.parse(responseText);
-    } catch (e) {
-        jsonData = { message: responseText };
-    }
-
-    if (!res.ok) {
-        // Si falla por auth, avisamos
-        if (res.status === 401 || res.status === 403) {
-            throw new Error("Sesión expirada o sin permisos.");
-        }
-        throw new Error(jsonData.message || "Error al crear producto");
-    }
-
-    return jsonData;
-}
-
-// --- ELIMINAR PRODUCTO ---
-export async function deleteProducto(id) {
-    const token = getToken();
-    const headers = {};
+class ProductoService {
     
-    if (token) headers["Authorization"] = `Bearer ${token}`;
+    getAllProductos() {
+        return axios.get(BASE_URL);
+    }
 
-    const res = await fetch(`${API_URL}/productos/${id}`, {
-        method: "DELETE",
-        headers: headers
-    });
+    createProducto(producto) {
+        return axios.post(BASE_URL, producto, getAuthHeaders());
+    }
 
-    if (!res.ok) throw new Error("Error al eliminar");
-    return true;
+    updateProducto(id, producto) {
+        return axios.put(`${BASE_URL}/${id}`, producto, getAuthHeaders());
+    }
+
+    deleteProducto(id) {
+        return axios.delete(`${BASE_URL}/${id}`, getAuthHeaders());
+    }
 }
+
+export default new ProductoService();

@@ -1,78 +1,52 @@
-const API_URL = "https://back-m41x.onrender.com/api";
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 
-const getToken = () => {
+const BASE_URL = `${API_URL}/pedidos`;
+
+const getAuthHeaders = () => {
     const storedUser = localStorage.getItem("user");
-    if (!storedUser) return null;
+    if (!storedUser) return {};
     try {
         const user = JSON.parse(storedUser);
-        return user.token || user.accessToken || user.usuario?.token || null;
+        const token = user.token || user.accessToken || user.usuario?.token;
+        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
     } catch (e) {
-        return null;
+        return {};
     }
 };
 
-// Helper ID usuario
 const getUserId = () => {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) return null;
     try {
-        const data = JSON.parse(storedUser);
-        return data.id || data.usuario?.id; 
+        const user = JSON.parse(localStorage.getItem("user"));
+        return user.id || user.usuario?.id; 
     } catch (e) {
         return null;
     }
 };
 
-// --- CREAR PEDIDO ---
-export async function createPedido(pedidoData) {
-    const token = getToken();
-    const headers = { "Content-Type": "application/json" };
+class PedidoService {
 
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    const res = await fetch(`${API_URL}/pedidos`, {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(pedidoData),
-    });
-
-    if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || "Error al crear el pedido");
+    createPedido(pedidoData) {
+        return axios.post(BASE_URL, pedidoData, getAuthHeaders());
     }
 
-    return res.json();
-}
+    // Obtener todos (Admin)
+    getPedidos() {
+        return axios.get(BASE_URL, getAuthHeaders());
+    }
 
-// --- OBTENER TODOS LOS PEDIDOS (Admin) ---
-export async function getPedidos() {
-    const token = getToken();
-    const headers = { "Content-Type": "application/json" };
+    // Obtener por usuario
+    getPedidosPorUsuario(idUsuario) {
+        const id = idUsuario || getUserId();
+        if (!id) return Promise.reject("Usuario no identificado");
+        
+        return axios.get(`${BASE_URL}/usuario/${id}`, getAuthHeaders());
+    }
     
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    const res = await fetch(`${API_URL}/pedidos`, {
-        headers: headers
-    });
-
-    if (!res.ok) throw new Error("Error al cargar pedidos");
-    return res.json();
+    // Cambiar estado (Admin)
+    cambiarEstado(id, estado) {
+        return axios.put(`${BASE_URL}/${id}/estado?estado=${estado}`, {}, getAuthHeaders());
+    }
 }
 
-// --- OBTENER PEDIDOS POR USUARIO ---
-export async function getPedidosPorUsuario(idUsuario) {
-    const token = getToken();
-    const headers = { "Content-Type": "application/json" };
-    
-    if (token) headers["Authorization"] = `Bearer ${token}`;
-
-    const id = idUsuario || getUserId();
-    if (!id) throw new Error("Usuario no identificado");
-
-    const res = await fetch(`${API_URL}/pedidos/usuario/${id}`, {
-        headers: headers
-    });
-
-    if (!res.ok) throw new Error("Error al cargar tus pedidos");
-    return res.json();
-}
+export default new PedidoService();

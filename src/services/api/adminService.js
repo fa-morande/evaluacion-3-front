@@ -1,20 +1,17 @@
 import axios from 'axios';
-import productoService from './productoService'; 
 import * as categoriasRepo from './categorias'; 
+import { API_URL } from '../../utils/constants'; // Importamos la constante
 
-const API_URL = 'https://back-m41x.onrender.com/api';
-
+// Helper local para headers (se podría centralizar en un futuro)
 const getAuthHeaders = () => {
     const storedUser = localStorage.getItem('user'); 
-    
     if (!storedUser) return {};
 
     try {
         const parsedUser = JSON.parse(storedUser);
-        
-        const token = parsedUser.token; 
+        const token = parsedUser.token || parsedUser.accessToken || parsedUser.usuario?.token; 
 
-        if (!token) console.warn("⚠️ No se encontró token en el objeto user guardado");
+        if (!token) return {};
 
         return { 
             headers: { 
@@ -49,12 +46,13 @@ export const adminService = {
         }
     },
     
+    // Conectamos con el nuevo CategoriaService (ver archivo categorias.js más abajo)
     categorias: {
-        getAll: categoriasRepo.getCategorias,
-        getActivas: categoriasRepo.getCategoriasActivas,
-        create: categoriasRepo.createCategoria,
-        update: categoriasRepo.updateCategoria,
-        delete: categoriasRepo.deleteCategoria
+        getAll: () => categoriasRepo.default.getAllCategorias(),
+        getActivas: () => categoriasRepo.default.getCategoriasActivas(),
+        create: (data) => categoriasRepo.default.createCategoria(data),
+        update: (id, data) => categoriasRepo.default.updateCategoria(id, data),
+        delete: (id) => categoriasRepo.default.deleteCategoria(id)
     },
 
     // --- USUARIOS ---
@@ -99,7 +97,7 @@ export const adminService = {
         }
     },
 
-    // --- DASHBOARD (Cálculos Frontend) ---
+    // --- DASHBOARD ---
     dashboard: {
         getStats: async () => {
             try {
@@ -113,7 +111,7 @@ export const adminService = {
                 const pedidos = Array.isArray(ped.data) ? ped.data : (ped.data.pedidos || []);
 
                 return {
-                    ventas: pedidos.length * 15000,
+                    ventas: pedidos.length * 15000, // Lógica de ejemplo
                     pedidosPendientes: pedidos.filter(p => p.estado === 'pendiente').length,
                     usuarios: usuarios.length,
                     productos: productos.length

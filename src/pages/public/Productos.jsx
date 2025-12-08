@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import BodyFiltro from '../../components/organisms/products/BodyFiltro';
 import CardProductGeneral from '../../components/molecules/cards/CardProductGeneral';
-import { getProductos } from '../../services/api/productos';
+import productoService from '../../services/api/productos'; // IMPORT CORREGIDO
 import '../../styles/pages/public/Productos.css'; 
 
 function Productos({ agregarAlCarrito }) {
@@ -18,8 +18,13 @@ function Productos({ agregarAlCarrito }) {
     useEffect(() => {
         const fetchProductos = async () => {
             try {
-                const data = await getProductos();
+                // Axios devuelve un objeto response, la data está adentro
+                const response = await productoService.getAllProductos();
+                
+                // Manejo robusto: Si response.data es el array lo usamos, si no buscamos .productos
+                const data = response.data; 
                 const lista = Array.isArray(data) ? data : (data.productos || []);
+                
                 setProductos(lista);
 
                 const categoriaUrl = searchParams.get('categoria');
@@ -64,14 +69,12 @@ function Productos({ agregarAlCarrito }) {
 
     return (
         <div className="productos-page">
-            {/* BodyFiltro ocupa todo el ancho */}
             <BodyFiltro 
                 onSearch={handleSearch}
                 onFilterChange={handleFilter}
                 categoriaActiva={filtros.categoria}
             />
             
-            {/* Contenedor centrado solo para productos */}
             <div className="productos-container">
                 <h2>
                     {filtros.categoria ? `Categoría: ${filtros.categoria}` : "Nuestros Productos"}
@@ -93,7 +96,6 @@ function Productos({ agregarAlCarrito }) {
                             {productosFiltrados.map((producto) => (
                                 <CardProductGeneral
                                     key={producto.id}
-                                    // Mapeo Backend -> Props
                                     imagen={producto.imagenUrl || "https://via.placeholder.com/300"}
                                     titulo={producto.nombre}
                                     subtitulo={producto.descripcion}

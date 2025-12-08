@@ -1,79 +1,47 @@
-const API_URL = "https://back-m41x.onrender.com/api";
+import axios from 'axios';
+import { API_URL } from '../../utils/constants';
 
-// --- LOGIN ---
-export async function login(credentials) {
-    const res = await fetch(`${API_URL}/usuarios/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
-    });
+const BASE_URL = `${API_URL}/usuarios`;
 
-    const responseText = await res.text();
-    let data;
-    try {
-        data = JSON.parse(responseText);
-    } catch (error) {
-        data = { message: responseText }; 
-    }
-
-    if (!res.ok) {
-        throw new Error(data.message || "Error al conectar con el servidor");
-    }
-
-    return data;
-}
-
-// --- REGISTRO ---
-export async function register(userData) {
-    const res = await fetch(`${API_URL}/usuarios`, { 
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-    });
-
-    const responseText = await res.text();
-    let data;
-    try {
-        data = JSON.parse(responseText);
-    } catch (error) {
-        data = { message: responseText };
-    }
-
-    if (!res.ok) {
-        throw new Error(data.message || "Error al registrar usuario");
-    }
-
-    return data;
-}
-
-// --- OBTENER USUARIOS (Admin) ---
-export async function getUsuarios() {
+// Helper para headers (reutilizable)
+const getAuthHeaders = () => {
     const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : {};
-    const token = user.token || user.accessToken || user.usuario?.token; 
+    if (!storedUser) return {};
+    try {
+        const user = JSON.parse(storedUser);
+        const token = user.token || user.accessToken || user.usuario?.token;
+        return token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+    } catch (e) {
+        return {};
+    }
+};
 
-    const res = await fetch(`${API_URL}/usuarios`, {
-        headers: { 
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}` 
-        }
-    });
+class UsuarioService {
 
-    if (!res.ok) throw new Error("Error al cargar usuarios");
-    return res.json();
+    // Login (POST público)
+    login(credentials) {
+        return axios.post(`${BASE_URL}/login`, credentials);
+    }
+
+    // Registro (POST público)
+    register(userData) {
+        return axios.post(BASE_URL, userData);
+    }
+
+    // Obtener todos (GET privado - Admin)
+    getUsuarios() {
+        return axios.get(BASE_URL, getAuthHeaders());
+    }
+
+    // Eliminar (DELETE privado - Admin)
+    deleteUsuario(id) {
+        return axios.delete(`${BASE_URL}/${id}`, getAuthHeaders());
+    }
+
+    // Cambiar rol (PUT privado - Admin) - Agregado por utilidad
+    cambiarRol(id, role) {
+        return axios.put(`${BASE_URL}/${id}/role`, { role }, getAuthHeaders());
+    }
 }
 
-// --- ELIMINAR USUARIO (Admin) ---
-export async function deleteUsuario(id) {
-    const storedUser = localStorage.getItem("user");
-    const user = storedUser ? JSON.parse(storedUser) : {};
-    const token = user.token || user.accessToken || user.usuario?.token;
-
-    const res = await fetch(`${API_URL}/usuarios/${id}`, {
-        method: "DELETE",
-        headers: { "Authorization": `Bearer ${token}` }
-    });
-
-    if (!res.ok) throw new Error("Error al eliminar usuario");
-    return res.json();
-}
+export default new UsuarioService();
